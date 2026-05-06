@@ -1,0 +1,42 @@
+import type { Metadata } from 'next'
+
+import { RenderParams } from '@/components/RenderParams'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import React from 'react'
+import { headers as getHeaders } from 'next/headers'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+
+import { CreateAccountForm } from '@/components/forms/CreateAccountForm'
+import { redirect } from 'next/navigation'
+
+export default async function CreateAccount() {
+  const headers = await getHeaders()
+  const payload = await getPayload({ config: configPromise })
+  const { user } = await payload.auth({ headers })
+
+  if (user) {
+    redirect(`/account?warning=${encodeURIComponent('You are already logged in.')}`)
+  }
+
+  return (
+    <div className="min-h-screen text-[#eee6d8]"  style={{margin: "80px 40px 80px 40px"}}>
+      <div className="container flex min-h-screen items-center justify-end py-16">
+        <div className="w-full max-w-md">
+          <h1 className="text-xl mb-4 font-medium text-[#eee6d8]">Create Account</h1>
+          <RenderParams />
+          <CreateAccountForm />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const metadata: Metadata = {
+  description: 'Create an account or log in to your existing account.',
+  openGraph: mergeOpenGraph({
+    title: 'Account',
+    url: '/account',
+  }),
+  title: 'Account',
+}

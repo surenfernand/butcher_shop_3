@@ -1,0 +1,10 @@
+{
+  "name": "payload-multi-location-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "peerDependencies": {
+    "payload": "^3.83.0",
+    "react": "^19.0.0"
+  }
+}
