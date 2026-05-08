@@ -92,12 +92,12 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
   }
 
   return (
-    <aside className="w-full max-w-[260px] bg-black text-white">
+    <aside className="w-full rounded-2xl border border-[#e8dfcd] bg-[#fffdf9] p-6 text-[#2a2721] shadow-[0_10px_30px_rgba(36,30,22,0.06)] lg:max-w-[270px]">
       <div className="space-y-8">
         <div>
           <SectionTitle>{labels?.cutTypeLabel || 'Meat Type'}</SectionTitle>
           <select
-            className="w-full border border-[#2a2a2a] bg-[#111] px-4 py-3 text-sm text-white outline-none"
+            className="w-full rounded-xl border border-[#e3d7bf] bg-white px-4 py-3 text-sm text-[#2f2a22] outline-none focus:border-[#bea067]"
             value={currentMeatType}
             onChange={(e) => updateParam('meatType', e.target.value)}
           >
@@ -122,10 +122,10 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
                   type="button"
                   onClick={() => updateParam('storageType', active ? '' : item.value)}
                   className={clsx(
-                    'border px-4 py-2 text-xs uppercase tracking-[0.2em] transition',
+                    'rounded-full border px-4 py-2 text-xs uppercase tracking-[0.16em] transition',
                     active
-                      ? 'border-[#c8a24d] bg-[#c8a24d] text-black'
-                      : 'border-[#2a2a2a] text-white hover:border-[#c8a24d]',
+                      ? 'border-[#c8a24d] bg-[#f5e8cb] text-[#4d3d20]'
+                      : 'border-[#e3d7bf] text-[#4c463d] hover:border-[#c8a24d]',
                   )}
                 >
                   {item.label}
@@ -138,7 +138,7 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
         <div>
           <SectionTitle>{labels?.originLabel || 'Preparation Style'}</SectionTitle>
           <select
-            className="w-full border border-[#2a2a2a] bg-[#111] px-4 py-3 text-sm text-white outline-none"
+            className="w-full rounded-xl border border-[#e3d7bf] bg-white px-4 py-3 text-sm text-[#2f2a22] outline-none focus:border-[#bea067]"
             value={currentPreparationStyle}
             onChange={(e) => updateParam('preparationStyle', e.target.value)}
           >
@@ -153,7 +153,7 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
 
         <div>
           <SectionTitle>Availability</SectionTitle>
-          <label className="flex cursor-pointer items-center gap-3 text-sm">
+          <label className="flex cursor-pointer items-center gap-3 text-sm text-[#4f4a40]">
             <input
               type="checkbox"
               checked={currentInStock === 'true'}
@@ -168,7 +168,7 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
           <SectionTitle>{labels?.priceRangeLabel || 'Price Range'}</SectionTitle>
           <div className="grid grid-cols-2 gap-3">
             <input
-              className="border border-[#2a2a2a] bg-[#111] px-3 py-2 text-sm text-white outline-none"
+              className="rounded-xl border border-[#e3d7bf] bg-white px-3 py-2 text-sm text-[#2f2a22] outline-none focus:border-[#bea067]"
               value={currentMinPrice}
               placeholder="Min"
               type="number"
@@ -180,7 +180,7 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
               }
             />
             <input
-              className="border border-[#2a2a2a] bg-[#111] px-3 py-2 text-sm text-white outline-none"
+              className="rounded-xl border border-[#e3d7bf] bg-white px-3 py-2 text-sm text-[#2f2a22] outline-none focus:border-[#bea067]"
               value={currentMaxPrice}
               placeholder="Max"
               type="number"
@@ -197,7 +197,7 @@ export const ShopFilters = ({ labels, sortLabel }: ShopFiltersProps) => {
         <div>
           <SectionTitle>{sortLabel || 'Sort by'}</SectionTitle>
           <select
-            className="w-full border border-[#2a2a2a] bg-[#111] px-4 py-3 text-sm text-white outline-none"
+            className="w-full rounded-xl border border-[#e3d7bf] bg-white px-4 py-3 text-sm text-[#2f2a22] outline-none focus:border-[#bea067]"
             value={currentSort}
             onChange={(e) => updateParam('sort', e.target.value)}
           >
