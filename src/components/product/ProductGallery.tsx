@@ -16,11 +16,10 @@ export default function ProductGallery({ product }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
 
   const mainImage = gallery[activeIndex] ?? gallery[0]
-  const thumbSlots = [1, 2, 3] as const
 
   return (
-    <div className="flex flex-col gap-3 md:gap-4">
-      <div className="relative aspect-[4/3] w-full max-h-[420px] overflow-hidden border border-white/10 bg-[#111] md:max-h-[480px]">
+    <div className="flex flex-col gap-4 md:gap-5">
+      <div className="relative aspect-[4/4.5] w-full overflow-hidden rounded-3xl border border-[#e8ddc9] bg-[#f5efe3] shadow-[0_22px_44px_rgba(36,29,20,0.12)]">
         {mainImage?.url ? (
           <Image
             src={mainImage.url}
@@ -28,17 +27,17 @@ export default function ProductGallery({ product }: Props) {
             fill
             sizes="(max-width: 1024px) 100vw, 58vw"
             priority
-            className="object-cover"
+            className="object-cover transition-transform duration-700 hover:scale-[1.04]"
           />
         ) : (
-          <div className="flex h-full min-h-[200px] items-center justify-center text-sm text-white/40">
-            No image
+          <div className="flex h-full min-h-[280px] items-center justify-center text-xs font-medium uppercase tracking-[0.14em] text-[#8f7a52]">
+            Product main image placeholder
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        {thumbSlots.map((slotIndex) => {
+      <div className="grid grid-cols-4 gap-3 sm:gap-4">
+        {Array.from({ length: Math.max(4, gallery.length) }).map((_, slotIndex) => {
           const img = gallery[slotIndex]
           const isActive = activeIndex === slotIndex
 
@@ -49,9 +48,11 @@ export default function ProductGallery({ product }: Props) {
               disabled={!img?.url}
               onClick={() => img?.url && setActiveIndex(slotIndex)}
               className={[
-                'relative aspect-square w-full overflow-hidden border bg-[#111] transition',
+                'relative aspect-square w-full overflow-hidden rounded-xl border bg-[#f2ecde] transition',
                 img?.url ? 'cursor-pointer hover:opacity-95' : 'cursor-default',
-                isActive ? 'border-[#d4af5f]/80 ring-1 ring-[#d4af5f]/40' : 'border-white/10',
+                isActive
+                  ? 'border-[#caa866] ring-2 ring-[#ddc79b]'
+                  : 'border-[#e8dfce] hover:border-[#caa866]',
               ].join(' ')}
               aria-label={img?.url ? `View image ${slotIndex + 1}` : 'Empty gallery slot'}
             >
@@ -60,11 +61,11 @@ export default function ProductGallery({ product }: Props) {
                   src={img.url}
                   alt={img.alt || `Product image ${slotIndex + 1}`}
                   fill
-                  sizes="(max-width: 1024px) 33vw, 20vw"
+                  sizes="(max-width: 1024px) 25vw, 10vw"
                   className="object-cover"
                 />
               ) : (
-                <div className="h-full w-full bg-[#1a1a1a]" aria-hidden />
+                <div className="h-full w-full bg-[#f3ede2]" aria-hidden />
               )}
             </button>
           )

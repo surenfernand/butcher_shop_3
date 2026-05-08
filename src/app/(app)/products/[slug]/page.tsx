@@ -1,6 +1,8 @@
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs'
+import { LuxuryProductCard } from '@/components/Shop/LuxuryProductCard'
 import ProductDetails from '@/components/product/ProductDetails'
 import ProductGallery from '@/components/product/ProductGallery'
+import ProductInfoAccordion from '@/components/product/ProductInfoAccordion'
 import ProductReviews from '@/components/product/ProductReviews'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
@@ -35,8 +37,32 @@ export default async function ProductPage({ params }: Args) {
 
   if (!product) return notFound()
 
+  const relatedProducts = await payload.find({
+    collection: 'products',
+    limit: 3,
+    depth: 2,
+    where: {
+      and: [
+        {
+          id: {
+            not_equals: product.id,
+          },
+        },
+        ...(product.meatType
+          ? [
+              {
+                meatType: {
+                  equals: product.meatType,
+                },
+              },
+            ]
+          : []),
+      ],
+    },
+  })
+
   return (
-    <main className="bg-background pt-32 pb-20 text-foreground">
+    <main className="bg-[#f8f6f2] pb-20 pt-30 text-[#2a2721]">
       <div className="container">
         <Breadcrumbs
           items={[
@@ -45,9 +71,11 @@ export default async function ProductPage({ params }: Args) {
             { label: product.title || 'Product' },
           ]}
         />
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7 lg:pr-4">
             <ProductGallery product={product} />
+            <ProductInfoAccordion product={product} />
           </div>
 
           <div className="lg:col-span-5">
@@ -56,6 +84,20 @@ export default async function ProductPage({ params }: Args) {
         </div>
 
         <ProductReviews product={product} />
+
+        {relatedProducts.docs.length ? (
+          <section className="mt-20 border-t border-[#ece2cf] pt-14">
+            <div className="mb-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9d7c39]">You May Also Like</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#23201b]">Related Products</h2>
+            </div>
+            <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
+              {relatedProducts.docs.map((relatedProduct) => (
+                <LuxuryProductCard key={relatedProduct.id} product={relatedProduct} />
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   )

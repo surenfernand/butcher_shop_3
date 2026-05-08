@@ -1,7 +1,11 @@
-import type { Media, Order, Product } from '@/payload-types'
-
+import { BillingSummaryBlock } from '@/components/account/BillingSummaryBlock'
+import { DashboardCard } from '@/components/account/DashboardCard'
+import { ProductThumbnailRow } from '@/components/account/ProductThumbnailRow'
+import { SubscriptionStatusBadge } from '@/components/account/SubscriptionStatusBadge'
+import type { Order } from '@/payload-types'
 import { getPurchaseUnitPriceInCents } from '@/utilities/purchasePricing'
 import configPromise from '@payload-config'
+import { CalendarDays, CreditCard, PauseCircle, SkipForward, Truck } from 'lucide-react'
 import { headers as getHeaders } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -25,11 +29,6 @@ const formatDate = (date?: string | null) =>
         year: 'numeric',
       }).format(new Date(date))
     : '—'
-
-const getProductImage = (product?: Product | null): Media | undefined => {
-  const image = product?.productGallery?.[0]?.image
-  return image && typeof image === 'object' ? image : undefined
-}
 
 const getID = (value: unknown) => {
   if (typeof value === 'object' && value && 'id' in value) {
@@ -112,115 +111,187 @@ export default async function SubscriptionsPage() {
       .filter(Boolean),
   )
 
+  const nextShipment = subscriptionItems[0] as (typeof subscriptionItems)[number] | undefined
+
   return (
-    <div className="space-y-12 text-foreground">
-      <div className="mt-3">
-        <h1 className="text-5xl font-bold tracking-tight">My Subscriptions</h1>
-        <p className="mt-3 text-muted-foreground">View your all Subscriptions</p>
+    <div className="space-y-8 text-[#2f2a24]">
+      <div className="rounded-lg border border-[#e8dfd0] bg-[#fafaf8] px-6 py-3">
+        <p className="text-xs uppercase tracking-[0.15em] text-[#7a6b52]">
+          Subscription support:{' '}
+          <a className="text-[#8f7442] underline" href="mailto:info@filetgourmet.ca">
+            info@filetgourmet.ca
+          </a>
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-[#e5dac8] bg-[#fffdfa] p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
+        <p className="text-xs uppercase tracking-[0.2em] text-[#8f7a58]">Subscription Management</p>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#2f2a24]">Manage Your Deliveries</h1>
+        <p className="mt-3 max-w-3xl text-sm text-[#746a5a]">
+          Control schedule, billing, and product selections for your recurring premium orders.
+        </p>
       </div>
 
       {subscriptionItems.length === 0 ? (
-        <div className="border border-border bg-card p-10 text-muted-foreground">
-          You do not have any active subscriptions yet.
-        </div>
+        <DashboardCard title="Active Subscriptions" subtitle="No recurring plans found.">
+          <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-[#746a5a]">
+            You do not have any active subscriptions yet.
+          </p>
+        </DashboardCard>
       ) : (
-        <div className="space-y-8">
-          {subscriptionItems.map((subscription: any) => {
-            const { order, item, index, product, purchaseType, amount } = subscription
-            const image = getProductImage(product)
-            const fulfillment = order.fulfillment as any
-            const address = order.shippingAddress
+        <div className="grid gap-6 xl:grid-cols-12">
+          <div className="space-y-6 xl:col-span-8">
+            <DashboardCard title="Active Subscription Cards" subtitle="Your recurring seafood and gourmet boxes.">
+              <div className="space-y-6">
+                {subscriptionItems.map((subscription: any) => {
+                  const { order, item, index, product, purchaseType, amount } = subscription
+                  const fulfillment = order.fulfillment as any
+                  const address = order.shippingAddress
+                  const cadenceLabel = purchaseType === 'monthly' ? 'Monthly delivery' : 'Weekly delivery'
 
-            return (
-              <section
-                key={`${order.id}-${index}`}
-                className="grid overflow-hidden border border-border bg-card lg:grid-cols-[320px_1fr]"
-              >
-                <div className="relative bg-muted">
-                  <div className="flex h-full min-h-[300px] items-center justify-center">
-                    {image?.url ? (
-                      <img
-                        src={image.url}
-                        alt={image.alt || product?.title || 'Subscription product'}
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="text-center text-muted-foreground">No product image</div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="p-10">
-                  <div className="flex flex-col gap-6 border-b border-border/40 pb-8 md:flex-row md:items-start md:justify-between">
-                    <div>
-                      <h2 className="text-xl font-bold uppercase">
-                        {product?.title || 'Subscription Box'}
-                      </h2>
-
-                      <p className="mt-2 text-muted-foreground">Quantity: {item.quantity || 1}</p>
-
-                      <p className="mt-2 text-muted-foreground">
-                        Subscription ID: {order.stripeSubscriptionID || `#${order.id}`}
-                      </p>
-                    </div>
-
-                    <div className="text-left md:text-right">
-                      <p className="text-xl font-bold text-[#E2B84F]">
-                        {formatMoney(amount)}
-                        <span className="text-sm font-normal text-muted-foreground">
-                          /{purchaseType === 'monthly' ? 'mo' : 'wk'}
-                        </span>
-                      </p>
-
-                      <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                        {purchaseType === 'monthly'
-                          ? 'Monthly Subscription'
-                          : 'Weekly Subscription'}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-8 border-b border-border/40 py-8 md:grid-cols-2">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                        Next Delivery
-                      </p>
-                      <p className="mt-3 font-semibold">{formatDate(fulfillment?.date)}</p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                        Shipping To
-                      </p>
-                      <p className="mt-3 font-semibold">
-                        {address?.addressLine1
-                          ? `${address.addressLine1}, ${address.city || ''}`
-                          : '—'}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                    <Link
-                      href={`/orders/${order.id}`}
-                      className="bg-[#E2B84F] px-8 py-4 text-center text-xs font-black uppercase tracking-[0.25em] text-black"
+                  return (
+                    <section
+                      key={`${order.id}-${index}`}
+                      className="rounded-xl border border-[#eadfce] bg-white p-5 shadow-[0_10px_22px_rgba(42,34,22,0.05)]"
                     >
-                      Manage Selection
-                    </Link>
+                      <div className="flex flex-col justify-between gap-4 border-b border-[#efe6d8] pb-5 sm:flex-row sm:items-start">
+                        <div>
+                          <div className="mb-2 flex items-center gap-2">
+                            <SubscriptionStatusBadge status={order.status} />
+                            <p className="text-xs uppercase tracking-[0.14em] text-[#8f7a58]">
+                              Subscription #{order.stripeSubscriptionID || order.id}
+                            </p>
+                          </div>
+                          <h2 className="text-xl font-bold uppercase text-[#2f2a24]">
+                            {product?.title || 'Subscription Box'}
+                          </h2>
+                          <p className="mt-2 text-sm text-[#746a5a]">Quantity: {item.quantity || 1}</p>
+                        </div>
+                        <div className="text-left sm:text-right">
+                          <p className="text-2xl font-semibold text-[#8f7442]">{formatMoney(amount)}</p>
+                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#8f7a58]">{cadenceLabel}</p>
+                        </div>
+                      </div>
 
-                    <button
-                      type="button"
-                      className="border border-border/60 px-8 py-4 text-xs font-black uppercase tracking-[0.25em] text-muted-foreground"
-                    >
-                      Pause Subscription
-                    </button>
-                  </div>
+                      <div className="grid gap-4 border-b border-[#efe6d8] py-5 md:grid-cols-3">
+                        <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">
+                            <CalendarDays className="h-4 w-4" />
+                            Upcoming Shipment
+                          </p>
+                          <p className="mt-2 text-sm font-semibold text-[#2f2a24]">{formatDate(fulfillment?.date)}</p>
+                        </div>
+                        <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">
+                            <Truck className="h-4 w-4" />
+                            Delivery Address
+                          </p>
+                          <p className="mt-2 text-sm text-[#2f2a24]">
+                            {address?.addressLine1
+                              ? `${address.addressLine1}, ${address.city || ''}`
+                              : 'Not available'}
+                          </p>
+                        </div>
+                        <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                          <p className="text-xs uppercase tracking-[0.12em] text-[#8f7a58]">Delivery Frequency</p>
+                          <select
+                            defaultValue={purchaseType}
+                            className="mt-2 w-full rounded-md border border-[#ddcfb4] bg-[#fffaf1] px-3 py-2 text-sm text-[#2f2a24]"
+                          >
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 flex flex-wrap items-center gap-3">
+                        <Link
+                          href={`/orders/${order.id}`}
+                          className="rounded-md bg-[#c5a46a] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#17130f] hover:bg-[#b99658]"
+                        >
+                          Manage Subscription
+                        </Link>
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-2 rounded-md border border-[#d9c7a7] bg-[#faf4e8] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-[#efe2cb]"
+                        >
+                          <PauseCircle className="h-3.5 w-3.5" />
+                          Pause
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-2 rounded-md border border-[#d9c7a7] bg-[#faf4e8] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-[#efe2cb]"
+                        >
+                          <SkipForward className="h-3.5 w-3.5" />
+                          Skip Next
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded-md border border-[#e4d2ca] bg-[#f9f2ef] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#8b6359] hover:bg-[#f3e5e0]"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </section>
+                  )
+                })}
+              </div>
+            </DashboardCard>
+          </div>
+
+          <div className="space-y-6 xl:col-span-4">
+            <DashboardCard title="Upcoming Shipment" subtitle="Next recurring delivery preview.">
+              {nextShipment ? (
+                <div className="space-y-3">
+                  <ProductThumbnailRow product={nextShipment.product} fallbackLabel="Monthly Menu Box" />
+                  <p className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4 text-sm text-[#746a5a]">
+                    Scheduled for {formatDate((nextShipment.order.fulfillment as any)?.date)}.
+                  </p>
                 </div>
-              </section>
-            )
-          })}
+              ) : (
+                <p className="text-sm text-[#746a5a]">No upcoming shipments.</p>
+              )}
+            </DashboardCard>
+
+            <DashboardCard title="Billing Information" subtitle="Subscription billing and payment summary.">
+              <div className="space-y-3">
+                <BillingSummaryBlock
+                  amountLabel={nextShipment ? formatMoney(nextShipment.amount) : '$0.00'}
+                  cadenceLabel={nextShipment?.purchaseType === 'monthly' ? 'Charged monthly' : 'Charged weekly'}
+                />
+                <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                  <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">
+                    <CreditCard className="h-4 w-4" />
+                    Payment Method
+                  </p>
+                  <p className="mt-2 text-sm text-[#2f2a24]">Card on file via Stripe (managed securely)</p>
+                </div>
+              </div>
+            </DashboardCard>
+          </div>
         </div>
       )}
+
+      {subscriptionItems.length > 0 && (
+        <DashboardCard title="Shipment/Product Summary" subtitle="All recurring products in this account.">
+          <div className="grid gap-3 md:grid-cols-2">
+            {subscriptionItems.map((subscription: any) => (
+              <ProductThumbnailRow
+                key={`thumb-${subscription.order.id}-${subscription.index}`}
+                product={subscription.product}
+                fallbackLabel="Subscription Product"
+              />
+            ))}
+          </div>
+        </DashboardCard>
+      )}
+
+      <footer className="rounded-xl bg-[#1f1a14] px-6 py-6 text-[#e9decb]">
+        <p className="text-xs uppercase tracking-[0.16em]">Subscription Terms</p>
+        <p className="mt-2 text-sm text-[#d6c9b2]">
+          Renewal and plan changes are subject to account terms. For custom requests, contact support.
+        </p>
+      </footer>
     </div>
   )
 }

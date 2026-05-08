@@ -15,6 +15,7 @@ type Props = {
   product: Product
   className?: string
   purchaseType?: PurchaseType
+  quantity?: number
 }
 
 type BranchStock = {
@@ -26,6 +27,7 @@ export function AddToCart({
   product,
   className,
   purchaseType = 'one_time',
+  quantity = 1,
 }: Props) {
   const { addItem, cart, isLoading } = useCart()
   const searchParams = useSearchParams()
@@ -115,7 +117,7 @@ export function AddToCart({
   }, [product.id, product.enableVariants, selectedVariant])
 
   const addToCart = useCallback(
-    (e: React.FormEvent<HTMLButtonElement>) => {
+    async (e: React.FormEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       // if (branchStock.stockStatus === 'outofstock' || branchStock.stockQuantity <= 0) {
@@ -133,17 +135,26 @@ export function AddToCart({
       localStorage.setItem(`${cartItemKey}:price`, String(selectedPrice))
 
 
-      addItem({
+      const itemPayload = {
         product: product.id,
         variant: selectedVariant?.id ?? undefined,
         price: selectedPrice,
-      }).then(() => {
-        toast.success(
-          purchaseType === 'one_time'
-            ? 'Item added to cart.'
-            : `${purchaseType === 'weekly' ? 'Weekly' : 'Monthly'} subscription added to cart.`,
-        )
-      })
+      } as {
+        product: number
+        variant?: number
+        price?: number
+      }
+
+      for (let i = 0; i < quantity; i += 1) {
+        // Keep the custom pricing payload while retaining compatibility with plugin typings.
+        await (addItem as unknown as (payload: typeof itemPayload) => Promise<unknown>)(itemPayload)
+      }
+
+      toast.success(
+        purchaseType === 'one_time'
+          ? `${quantity} item${quantity > 1 ? 's' : ''} added to cart.`
+          : `${purchaseType === 'weekly' ? 'Weekly' : 'Monthly'} subscription added to cart.`,
+      )
     },
     [
       addItem,
@@ -153,6 +164,7 @@ export function AddToCart({
       branchStock.stockStatus,
       purchaseType,
       cartItemKey,
+      quantity,
     ],
   )
 
@@ -179,7 +191,6 @@ export function AddToCart({
 
       if (productID === product.id) {
         if (product.enableVariants) {
-          console.log("3");
           return variantID === selectedVariant?.id
         }
 
@@ -190,7 +201,6 @@ export function AddToCart({
     })
 
     if (existingItem) {
-      console.log("4");
       return existingItem.quantity >= branchStock.stockQuantity
     }
 
@@ -208,8 +218,10 @@ export function AddToCart({
     <Button
       aria-label="Add to cart"
       variant="outline"
-      // className={className}
-      className="w-full rounded-none border border-[#c8a24d] bg-[#c8a24d] px-5 py-6 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-black transition-all duration-300 ease-out hover:bg-transparent hover:text-[#c8a24d] hover:scale-[1.03] active:scale-[0.97]"
+      className={
+        className ||
+        'w-full rounded-none border border-[#c8a24d] bg-[#c8a24d] px-5 py-6 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-black transition-all duration-300 ease-out hover:bg-transparent hover:text-[#c8a24d] hover:scale-[1.03] active:scale-[0.97]'
+      }
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"

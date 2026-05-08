@@ -10,13 +10,13 @@ type Props = {
 }
 
 const linkBase =
-  'w-full justify-start rounded-none px-5 py-4 text-sm font-medium tracking-wide hover:no-underline transition-colors'
+  'w-full justify-start rounded-md px-5 py-4 text-sm font-medium tracking-wide hover:no-underline transition-colors'
 
 const linkInactive =
-  'text-muted-foreground hover:text-[#E2B84F] hover:bg-muted/40'
+  'text-[#7a6b52] hover:text-[#8f7442] hover:bg-[#f7efdf]'
 
 const linkActive =
-  'border-r-2 border-[#E2B84F] bg-muted/60 text-[#E2B84F]'
+  'bg-[#efe2cb] text-[#6d5631]'
 
 export const AccountNav: React.FC<Props> = ({ className }) => {
   const pathname = usePathname()
@@ -24,20 +24,20 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'flex min-h-full flex-col justify-between text-white',
-        'text-foreground',
+        'flex min-h-full flex-col justify-between',
+        'text-[#2f2a24]',
         className,
       )}
     >
       <div>
-        <div className="border-b border-border/40 px-5 py-6">
-          <p className="text-lg font-bold uppercase tracking-[0.18em] text-[#E2B84F]">
-            THE BUTCHER'S CRAFT
+        <div className="border-b border-[#eadfcf] px-5 py-6">
+          <p className="text-lg font-bold uppercase tracking-[0.18em] text-[#8f7442]">
+            FILET GOURMET
           </p>
-          <p className="mt-1 text-xs text-muted-foreground">Artisan Butchery</p>
+          <p className="mt-1 text-xs text-[#8f7a58]">Customer Dashboard</p>
         </div>
 
-        <ul className="mt-6 flex flex-col">
+        <ul className="mt-6 flex flex-col gap-1 px-3">
           <li>
             <Button asChild variant="link" className="h-auto w-full p-0">
               <Link
@@ -101,7 +101,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
         </ul>
       </div>
 
-      <div className="border-t border-border/40">
+      <div className="border-t border-[#eadfcf] px-3 pb-3">
         <Button
           asChild
           variant="link"
@@ -111,8 +111,8 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
             href="/logout"
             className={clsx(
               linkBase,
-              'text-[#F2B8A8] hover:bg-muted/40 hover:text-[#FFD1C7]',
-              pathname === '/logout' && 'bg-muted/60',
+              'text-[#9b5f52] hover:bg-[#f7e7e4] hover:text-[#7f463a]',
+              pathname === '/logout' && 'bg-[#f7e7e4]',
             )}
           >
             Log out

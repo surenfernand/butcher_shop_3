@@ -1281,6 +1281,9 @@ export interface ProductGridBlock {
  * via the `definition` "ContactPageBlock".
  */
 export interface ContactPageBlock {
+  heroEyebrow?: string | null;
+  heroTitle?: string | null;
+  heroDescription?: string | null;
   formTitle?: string | null;
   cards?:
     | {
@@ -1300,6 +1303,20 @@ export interface ContactPageBlock {
     | null;
   storeNote?: string | null;
   form: number | Form;
+  faqTitle?: string | null;
+  faqItems?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  supportTitle?: string | null;
+  supportDescription?: string | null;
+  supportPrimaryLabel?: string | null;
+  supportPrimaryUrl?: string | null;
+  supportSecondaryLabel?: string | null;
+  supportSecondaryUrl?: string | null;
   mapImage?: (number | null) | Media;
   mapTitle?: string | null;
   mapLabel?: string | null;
@@ -1958,6 +1975,9 @@ export interface ProductGridBlockSelect<T extends boolean = true> {
  * via the `definition` "ContactPageBlock_select".
  */
 export interface ContactPageBlockSelect<T extends boolean = true> {
+  heroEyebrow?: T;
+  heroTitle?: T;
+  heroDescription?: T;
   formTitle?: T;
   cards?:
     | T
@@ -1977,6 +1997,20 @@ export interface ContactPageBlockSelect<T extends boolean = true> {
       };
   storeNote?: T;
   form?: T;
+  faqTitle?: T;
+  faqItems?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  supportTitle?: T;
+  supportDescription?: T;
+  supportPrimaryLabel?: T;
+  supportPrimaryUrl?: T;
+  supportSecondaryLabel?: T;
+  supportSecondaryUrl?: T;
   mapImage?: T;
   mapTitle?: T;
   mapLabel?: T;
