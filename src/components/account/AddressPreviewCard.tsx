@@ -8,8 +8,8 @@ export function AddressPreviewCard({ address }: Props) {
   const heading = [address.firstName, address.lastName].filter(Boolean).join(' ') || address.title || 'Saved Address'
 
   return (
-    <article className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
-      <p className="text-sm font-semibold text-foreground">{heading}</p>
+    <article className="rounded-lg border border-border bg-muted/40 p-4">
+      <p className="text-sm font-semibold">{heading}</p>
       <p className="mt-2 text-sm leading-6 text-muted-foreground">
         {address.addressLine1 || 'No address line'}
         {address.addressLine2 ? `, ${address.addressLine2}` : ''}

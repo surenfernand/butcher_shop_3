@@ -13,10 +13,10 @@ const linkBase =
   'w-full justify-start rounded-md px-5 py-4 text-sm font-medium tracking-wide hover:no-underline transition-colors'
 
 const linkInactive =
-  'text-muted-foreground hover:text-primary hover:bg-accent'
+  'text-muted-foreground hover:bg-muted hover:text-primary'
 
 const linkActive =
-  'bg-accent text-primary'
+  'border border-primary/25 bg-primary/10 font-semibold text-primary'
 
 export const AccountNav: React.FC<Props> = ({ className }) => {
   const pathname = usePathname()
@@ -30,9 +30,9 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
       )}
     >
       <div>
-        <div className="border-b border-[#eadfcf] px-5 py-6">
-          <p className="text-lg font-bold uppercase tracking-[0.18em] text-primary">
-            FILET GOURMET
+        <div className="border-b border-border px-5 py-6">
+          <p className="font-serif text-lg font-semibold tracking-tight text-primary">
+            The Butcher&apos;s Craft
           </p>
           <p className="mt-1 text-xs text-muted-foreground">Customer Dashboard</p>
         </div>
@@ -101,7 +101,7 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
         </ul>
       </div>
 
-      <div className="border-t border-[#eadfcf] px-3 pb-3">
+      <div className="border-t border-border px-3 pb-3">
         <Button
           asChild
           variant="link"
@@ -111,8 +111,8 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
             href="/logout"
             className={clsx(
               linkBase,
-              'text-[#9b5f52] hover:bg-[#f7e7e4] hover:text-[#7f463a]',
-              pathname === '/logout' && 'bg-[#f7e7e4]',
+              'text-muted-foreground hover:bg-muted hover:text-foreground',
+              pathname === '/logout' && 'bg-muted',
             )}
           >
             Log out

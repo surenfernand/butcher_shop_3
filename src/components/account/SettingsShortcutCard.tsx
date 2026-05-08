@@ -17,9 +17,9 @@ export function SettingsShortcutCard({ shortcuts }: Props) {
         <Link
           key={shortcut.href}
           href={shortcut.href}
-          className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4 transition-colors hover:bg-accent"
+          className="rounded-lg border border-border bg-muted/40 p-4 transition-colors hover:bg-muted"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-foreground">
+          <p className="text-sm font-semibold uppercase tracking-[0.12em]">
             {shortcut.label}
           </p>
           <p className="mt-2 text-sm text-muted-foreground">{shortcut.description}</p>

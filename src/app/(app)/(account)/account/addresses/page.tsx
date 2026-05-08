@@ -20,7 +20,7 @@ export default async function AddressesPage() {
   }
 
   return (
-    <div className="mt-5 space-y-10 text-foreground">
+    <div className="mt-5 space-y-10">
 
       {/* HEADER */}
       <div>
@@ -36,7 +36,7 @@ export default async function AddressesPage() {
       {/* GRID */}
       <div className="grid">
 
-        <h2 className="text-xl font-bold uppercase tracking-wide text-[#E2B84F] mb-5">
+        <h2 className="mb-5 text-xl font-bold uppercase tracking-wide text-primary">
            Shipping Address
         </h2>
 

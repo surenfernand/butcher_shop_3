@@ -43,7 +43,7 @@ export const ContactCardsBlock: React.FC<Props> = ({ title, subtitle, items, cla
             <h2 className="text-5xl font-bold uppercase tracking-[0.12em] text-foreground">{title}</h2>
           )}
           {subtitle && (
-            <p className="mt-4 text-sm uppercase tracking-[0.3em] text-[#d3a84b]">{subtitle}</p>
+            <p className="mt-4 text-sm uppercase tracking-[0.3em] text-primary">{subtitle}</p>
           )}
         </div>
 
@@ -54,9 +54,9 @@ export const ContactCardsBlock: React.FC<Props> = ({ title, subtitle, items, cla
             return (
               <div
                 key={index}
-                className="border border-border bg-card p-10 text-center shadow-sm transition hover:border-[#d3a84b]/40"
+                className="border border-border bg-card p-10 text-center shadow-sm transition hover:border-primary/40"
               >
-                <Icon className="mx-auto mb-6 h-10 w-10 text-[#d3a84b]" strokeWidth={1.5} />
+                <Icon className="mx-auto mb-6 h-10 w-10 text-primary" strokeWidth={1.5} />
                 {item.title && (
                   <h3 className="mb-3 text-2xl uppercase tracking-[0.08em] text-foreground">{item.title}</h3>
                 )}

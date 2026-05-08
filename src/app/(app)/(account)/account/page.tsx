@@ -53,19 +53,19 @@ export default async function AccountPage() {
   ).length
 
   return (
-    <div className="space-y-8 text-foreground">
-      <div className="rounded-lg border border-border bg-background px-6 py-3">
+    <div className="space-y-8">
+      <div className="rounded-lg border border-border bg-muted/40 px-6 py-3">
         <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
           Need help with your account? Contact support at{' '}
-          <a className="text-primary underline" href="mailto:info@filetgourmet.ca">
+          <a className="font-medium text-primary underline underline-offset-2 hover:text-primary/90" href="mailto:info@filetgourmet.ca">
             info@filetgourmet.ca
           </a>
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
+      <div className="rounded-xl border border-border bg-card p-7 text-card-foreground shadow-sm">
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">My Account Dashboard</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground">Welcome back, {user.name || 'Guest'}</h1>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight">Welcome back, {user.name || 'Guest'}</h1>
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
           Review your profile, track recent orders, manage saved addresses, and access subscription details from one place.
         </p>
@@ -81,7 +81,7 @@ export default async function AccountPage() {
               <ProfileSummaryCard user={user} />
               <div className="rounded-lg border border-border bg-muted/50 p-5">
                 <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Rewards & Loyalty</p>
-                <p className="mt-3 text-2xl font-semibold text-foreground">Gold Member</p>
+                <p className="mt-3 text-2xl font-semibold">Gold Member</p>
                 <p className="mt-2 text-sm text-muted-foreground">Earn points on every premium order. Redeem perks soon.</p>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default async function AccountPage() {
           <DashboardCard title="Subscriptions" subtitle="Recurring order overview.">
             <div className="rounded-lg border border-border bg-muted/50 p-5">
               <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Active Plans</p>
-              <p className="mt-2 text-2xl font-semibold text-foreground">{activeSubscriptions}</p>
+              <p className="mt-2 text-2xl font-semibold">{activeSubscriptions}</p>
               <Link href="/account/subscriptions" className="mt-4 inline-block text-xs uppercase tracking-[0.14em] text-primary hover:text-primary/90">
                 Manage subscriptions
               </Link>

@@ -30,7 +30,7 @@ export function OrderPreviewCard({ order }: Props) {
   const status = statusLabel[order.status || 'processing'] || 'Processing'
 
   return (
-    <article className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+    <article className="rounded-lg border border-border bg-muted/40 p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2 text-primary">
           <Package className="h-4 w-4" />
@@ -41,9 +41,9 @@ export function OrderPreviewCard({ order }: Props) {
       <p className="mt-2 text-sm text-muted-foreground">{date}</p>
       <p className="mt-3 text-sm text-muted-foreground">{itemCount} items</p>
       <div className="mt-4 flex items-center justify-between">
-        <p className="text-base font-semibold text-foreground">{formatMoney(order.amount)}</p>
+        <p className="text-base font-semibold">{formatMoney(order.amount)}</p>
         <Link
-          className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.14em] text-primary hover:text-[#6f5933]"
+          className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.14em] text-primary hover:text-primary/80"
           href={`/orders/${order.id}`}
         >
           View <ChevronRight className="h-3.5 w-3.5" />

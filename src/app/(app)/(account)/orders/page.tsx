@@ -81,7 +81,7 @@ function StatusBadge({ status }: { status: Order['status'] }) {
     s === 'completed'
       ? 'border-primary/30 bg-primary/10 text-primary'
       : s === 'processing'
-        ? 'border-border bg-muted text-foreground'
+        ? 'border-border bg-muted text-card-foreground'
         : 'border-border bg-muted text-muted-foreground'
 
   return (
@@ -128,7 +128,7 @@ export default async function Orders() {
   const visibleOrders = orders || []
 
   return (
-    <div className="w-full space-y-8 text-foreground">
+    <div className="w-full space-y-8">
       <div className="rounded-lg border border-border bg-muted/40 px-6 py-3">
         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
           Order support:{' '}
@@ -138,9 +138,9 @@ export default async function Orders() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-7 shadow-[0_14px_28px_rgba(26,28,28,0.06)]">
+      <div className="rounded-xl border border-border bg-card p-7 text-card-foreground shadow-sm">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Order Management</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-neutral-950">Order History</h1>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight">Order History</h1>
         <p className="mt-3 text-sm text-muted-foreground">
           Track, review, and manage all your premium orders.
         </p>
@@ -196,7 +196,7 @@ export default async function Orders() {
                       <td className="border-b border-border px-5 py-5 align-middle lg:px-7">
                         <Link
                           href={href}
-                          className="font-medium text-foreground underline-offset-4 hover:text-primary"
+                          className="font-medium text-card-foreground underline-offset-4 hover:text-primary"
                         >
                           {formatOrderRef(order.id)}
                         </Link>
@@ -222,7 +222,7 @@ export default async function Orders() {
                         )}
                       </td>
                       <td className="max-w-[280px] border-b border-border px-5 py-5 align-middle lg:max-w-[320px] lg:px-6">
-                        <div className="text-sm font-medium text-foreground">{primary}</div>
+                        <div className="text-sm font-medium text-card-foreground">{primary}</div>
                         <div className="mt-1 text-xs text-muted-foreground">{secondary}</div>
                       </td>
                       <td className="border-b border-border px-5 py-5 align-middle lg:px-6">
@@ -250,7 +250,7 @@ export default async function Orders() {
         )}
       </DashboardCard>
 
-      <footer className="rounded-xl border border-border bg-muted/50 px-6 py-6 text-foreground">
+      <footer className="rounded-xl border border-border bg-muted/50 px-6 py-6">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
           Need order assistance?
         </p>

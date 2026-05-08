@@ -114,19 +114,19 @@ export default async function SubscriptionsPage() {
   const nextShipment = subscriptionItems[0] as (typeof subscriptionItems)[number] | undefined
 
   return (
-    <div className="space-y-8 text-foreground">
-      <div className="rounded-lg border border-[#e8dfd0] bg-background px-6 py-3">
+    <div className="space-y-8">
+      <div className="rounded-lg border border-border bg-muted/40 px-6 py-3">
         <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
           Subscription support:{' '}
-          <a className="text-primary underline" href="mailto:info@filetgourmet.ca">
+          <a className="font-medium text-primary underline underline-offset-2 hover:text-primary/90" href="mailto:info@filetgourmet.ca">
             info@filetgourmet.ca
           </a>
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
+      <div className="rounded-xl border border-border bg-card p-7 text-card-foreground shadow-sm">
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Subscription Management</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground">Manage Your Deliveries</h1>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight">Manage Your Deliveries</h1>
         <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
           Control schedule, billing, and product selections for your recurring premium orders.
         </p>
@@ -134,7 +134,7 @@ export default async function SubscriptionsPage() {
 
       {subscriptionItems.length === 0 ? (
         <DashboardCard title="Active Subscriptions" subtitle="No recurring plans found.">
-          <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-muted-foreground">
+          <p className="rounded-lg border border-dashed border-border bg-muted/30 p-5 text-sm text-muted-foreground">
             You do not have any active subscriptions yet.
           </p>
         </DashboardCard>
@@ -152,9 +152,9 @@ export default async function SubscriptionsPage() {
                   return (
                     <section
                       key={`${order.id}-${index}`}
-                      className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_22px_rgba(42,34,22,0.05)]"
+                      className="rounded-xl border border-border bg-card p-5 text-card-foreground shadow-sm"
                     >
-                      <div className="flex flex-col justify-between gap-4 border-b border-[#efe6d8] pb-5 sm:flex-row sm:items-start">
+                      <div className="flex flex-col justify-between gap-4 border-b border-border pb-5 sm:flex-row sm:items-start">
                         <div>
                           <div className="mb-2 flex items-center gap-2">
                             <SubscriptionStatusBadge status={order.status} />
@@ -162,7 +162,7 @@ export default async function SubscriptionsPage() {
                               Subscription #{order.stripeSubscriptionID || order.id}
                             </p>
                           </div>
-                          <h2 className="text-xl font-bold uppercase text-foreground">
+                          <h2 className="text-xl font-bold uppercase">
                             {product?.title || 'Subscription Box'}
                           </h2>
                           <p className="mt-2 text-sm text-muted-foreground">Quantity: {item.quantity || 1}</p>
@@ -173,30 +173,30 @@ export default async function SubscriptionsPage() {
                         </div>
                       </div>
 
-                      <div className="grid gap-4 border-b border-[#efe6d8] py-5 md:grid-cols-3">
-                        <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                      <div className="grid gap-4 border-b border-border py-5 md:grid-cols-3">
+                        <div className="rounded-lg border border-border bg-muted/40 p-4">
                           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                             <CalendarDays className="h-4 w-4" />
                             Upcoming Shipment
                           </p>
-                          <p className="mt-2 text-sm font-semibold text-foreground">{formatDate(fulfillment?.date)}</p>
+                          <p className="mt-2 text-sm font-semibold">{formatDate(fulfillment?.date)}</p>
                         </div>
-                        <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                        <div className="rounded-lg border border-border bg-muted/40 p-4">
                           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                             <Truck className="h-4 w-4" />
                             Delivery Address
                           </p>
-                          <p className="mt-2 text-sm text-foreground">
+                          <p className="mt-2 text-sm">
                             {address?.addressLine1
                               ? `${address.addressLine1}, ${address.city || ''}`
                               : 'Not available'}
                           </p>
                         </div>
-                        <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                        <div className="rounded-lg border border-border bg-muted/40 p-4">
                           <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Delivery Frequency</p>
                           <select
                             defaultValue={purchaseType}
-                            className="mt-2 w-full rounded-md border border-input bg-[#fffaf1] px-3 py-2 text-sm text-foreground"
+                            className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-card-foreground"
                           >
                             <option value="weekly">Weekly</option>
                             <option value="monthly">Monthly</option>
@@ -213,21 +213,21 @@ export default async function SubscriptionsPage() {
                         </Link>
                         <button
                           type="button"
-                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-accent"
+                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-secondary-foreground hover:bg-secondary/80"
                         >
                           <PauseCircle className="h-3.5 w-3.5" />
                           Pause
                         </button>
                         <button
                           type="button"
-                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-accent"
+                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-secondary-foreground hover:bg-secondary/80"
                         >
                           <SkipForward className="h-3.5 w-3.5" />
                           Skip Next
                         </button>
                         <button
                           type="button"
-                          className="rounded-md border border-[#e4d2ca] bg-[#f9f2ef] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#8b6359] hover:bg-[#f3e5e0]"
+                          className="rounded-md border border-border bg-muted px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground hover:bg-muted/80"
                         >
                           Cancel
                         </button>
@@ -244,7 +244,7 @@ export default async function SubscriptionsPage() {
               {nextShipment ? (
                 <div className="space-y-3">
                   <ProductThumbnailRow product={nextShipment.product} fallbackLabel="Monthly Menu Box" />
-                  <p className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4 text-sm text-muted-foreground">
+                  <p className="rounded-lg border border-border bg-muted/40 p-4 text-sm text-muted-foreground">
                     Scheduled for {formatDate((nextShipment.order.fulfillment as any)?.date)}.
                   </p>
                 </div>
@@ -259,12 +259,12 @@ export default async function SubscriptionsPage() {
                   amountLabel={nextShipment ? formatMoney(nextShipment.amount) : '$0.00'}
                   cadenceLabel={nextShipment?.purchaseType === 'monthly' ? 'Charged monthly' : 'Charged weekly'}
                 />
-                <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
+                <div className="rounded-lg border border-border bg-muted/40 p-4">
                   <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                     <CreditCard className="h-4 w-4" />
                     Payment Method
                   </p>
-                  <p className="mt-2 text-sm text-foreground">Card on file via Stripe (managed securely)</p>
+                  <p className="mt-2 text-sm">Card on file via Stripe (managed securely)</p>
                 </div>
               </div>
             </DashboardCard>
@@ -286,9 +286,9 @@ export default async function SubscriptionsPage() {
         </DashboardCard>
       )}
 
-      <footer className="rounded-xl bg-foreground px-6 py-6 text-background">
-        <p className="text-xs uppercase tracking-[0.16em]">Subscription Terms</p>
-        <p className="mt-2 text-sm text-background/80">
+      <footer className="rounded-xl border border-border bg-muted/50 px-6 py-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Subscription Terms</p>
+        <p className="mt-2 text-sm text-muted-foreground">
           Renewal and plan changes are subject to account terms. For custom requests, contact support.
         </p>
       </footer>

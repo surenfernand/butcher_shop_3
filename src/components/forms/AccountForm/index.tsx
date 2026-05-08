@@ -93,8 +93,8 @@ export const AccountForm: React.FC = () => {
     <form className="max-w-xl" onSubmit={handleSubmit(onSubmit)}>
       {!changePassword ? (
         <Fragment>
-          <div className="prose dark:prose-invert mb-8">
-            <p className="">
+          <div className="mb-8 text-sm text-card-foreground">
+            <p>
               {'Change your account details below, or '}
               <Button
                 className="px-0 text-inherit underline hover:cursor-pointer"
@@ -136,7 +136,7 @@ export const AccountForm: React.FC = () => {
         </Fragment>
       ) : (
         <Fragment>
-          <div className="prose dark:prose-invert mb-8">
+          <div className="mb-8 text-sm text-card-foreground">
             <p>
               {'Change your password below, or '}
               <Button
