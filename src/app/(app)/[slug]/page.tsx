@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { LuxuryHomePage } from '@/components/home/LuxuryHomePage'
 import { RenderHero } from '@/heros/RenderHero'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { generateMeta } from '@/utilities/generateMeta'
@@ -49,8 +50,6 @@ export default async function Page({ params, searchParams }: Args) {
   const { slug = 'home' } = await params
   const resolvedSearchParams = await searchParams
 
-  const url = '/' + slug
-
   let page = await queryPageBySlug({
     slug,
   })
@@ -64,6 +63,25 @@ export default async function Page({ params, searchParams }: Args) {
   }
 
   const headerGlobal = await getCachedGlobal('header', 1)()
+  const footerGlobal = await getCachedGlobal('footer', 1)()
+
+  if (slug === 'home') {
+    const [featuredProducts, newsPages] = await Promise.all([
+      queryFeaturedProducts(),
+      queryNewsPages(),
+    ])
+
+    return (
+      <LuxuryHomePage
+        page={page}
+        header={headerGlobal}
+        footer={footerGlobal}
+        featuredProducts={featuredProducts}
+        newsPages={newsPages}
+      />
+    )
+  }
+
   const { hero, layout } = page
 
   return (
@@ -115,4 +133,48 @@ const queryPageBySlug = async ({ slug }: { slug: string }) => {
   })
 
   return result.docs?.[0] || null
+}
+
+const queryFeaturedProducts = async () => {
+  const payload = await getPayload({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'products',
+    depth: 2,
+    limit: 8,
+    where: {
+      _status: {
+        equals: 'published',
+      },
+    },
+  })
+
+  return result.docs
+}
+
+const queryNewsPages = async () => {
+  const payload = await getPayload({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'pages',
+    depth: 0,
+    limit: 3,
+    sort: '-updatedAt',
+    where: {
+      and: [
+        {
+          slug: {
+            not_equals: 'home',
+          },
+        },
+        {
+          _status: {
+            equals: 'published',
+          },
+        },
+      ],
+    },
+  })
+
+  return result.docs
 }
