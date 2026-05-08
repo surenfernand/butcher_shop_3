@@ -27,8 +27,9 @@ import {
   getPurchaseUnitPriceInCents,
   type PurchaseType,
 } from '@/utilities/purchasePricing'
+import { cn } from '@/utilities/cn'
 import { useAddresses, useCart, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
-import { DayPicker } from 'react-day-picker'
+import { DayPicker, getDefaultClassNames, type ClassNames } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 import { toast } from 'sonner'
 
@@ -52,6 +53,32 @@ const getPurchasePrice = (
   variant: any,
   purchaseType: PurchaseType,
 ) => getPurchaseUnitPriceInCents(product, variant, purchaseType)
+
+/** react-day-picker v9 uses `rdp-day_button` / `rdp-selected`; legacy `.rdp-day` overrides never applied. */
+function checkoutDayPickerClassNames(): ClassNames {
+  const base = getDefaultClassNames()
+  return {
+    ...base,
+    root: cn(base.root, 'w-full'),
+    caption_label: cn(base.caption_label, 'font-black uppercase tracking-[0.12em] text-primary'),
+    weekday: cn(base.weekday, 'text-[0.7rem] font-semibold uppercase text-muted-foreground'),
+    day_button: cn(
+      base.day_button,
+      'rounded-md font-medium text-card-foreground hover:bg-accent hover:text-accent-foreground',
+    ),
+    selected: cn(
+      base.selected,
+      'rounded-md bg-primary [&_.rdp-day_button]:bg-transparent [&_.rdp-day_button]:text-primary-foreground [&_.rdp-day_button]:hover:bg-transparent [&_.rdp-day_button]:hover:text-primary-foreground',
+    ),
+    disabled: cn(base.disabled, 'opacity-45'),
+    outside: cn(base.outside, '[&_.rdp-day_button]:text-muted-foreground/55'),
+    today: cn(base.today, 'font-semibold text-primary [&_.rdp-day_button]:ring-1 [&_.rdp-day_button]:ring-primary/45 [&_.rdp-day_button]:ring-offset-1'),
+    button_previous: cn(base.button_previous, 'rounded-md text-primary hover:bg-muted'),
+    button_next: cn(base.button_next, 'rounded-md text-primary hover:bg-muted'),
+    chevron: cn(base.chevron, 'fill-primary'),
+    nav: cn(base.nav, 'flex items-center gap-1'),
+  }
+}
 
 export const CheckoutPage: React.FC = () => {
   const { user } = useAuth()
@@ -396,8 +423,8 @@ export const CheckoutPage: React.FC = () => {
 
   if (cartIsEmpty && isProcessingPayment) {
     return (
-      <div className="min-h-[60vh] bg-[#f8f6f2] py-20 text-center text-[#2f2a24]">
-        <p className="mb-8 font-sans text-lg tracking-[0.2em] text-[#8f7442]">Processing your payment...</p>
+      <div className="min-h-[60vh] bg-background py-20 text-center text-foreground">
+        <p className="mb-8 font-sans text-lg tracking-[0.2em] text-primary">Processing your payment...</p>
         <LoadingSpinner />
       </div>
     )
@@ -405,8 +432,8 @@ export const CheckoutPage: React.FC = () => {
 
   if (cartIsEmpty) {
     return (
-      <div className="min-h-[60vh] bg-[#f8f6f2] px-6 py-20 text-center text-[#2f2a24]">
-        <p className="mb-4 font-sans text-xl uppercase tracking-[0.2em] text-[#8f7442]">Your cart is empty.</p>
+      <div className="min-h-[60vh] bg-background px-6 py-20 text-center text-foreground">
+        <p className="mb-4 font-sans text-xl uppercase tracking-[0.2em] text-primary">Your cart is empty.</p>
         <Link className="underline underline-offset-4" href="/shop">
           Continue shopping?
         </Link>
@@ -415,14 +442,14 @@ export const CheckoutPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f6f2] text-[#2f2a24]">
-      <header className="border-b border-[#e8dfd0] bg-[#fafaf8]">
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border bg-background">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
-          <Link className="text-xs uppercase tracking-[0.24em] text-[#7a6b52]" href="/shop">
+          <Link className="text-xs uppercase tracking-[0.24em] text-muted-foreground" href="/shop">
             Continue Shopping
           </Link>
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#3f372b]">Secure Checkout</p>
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#7a6b52]">
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-foreground">Secure Checkout</p>
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
             <Lock className="h-3.5 w-3.5" />
             SSL Protected
           </div>
@@ -431,39 +458,26 @@ export const CheckoutPage: React.FC = () => {
 
       <main className="mx-auto grid max-w-7xl gap-10 px-6 py-10 md:px-10 lg:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.85fr)]">
         <section className="space-y-12">
-          <div className="rounded-xl border border-[#e8dfd0] bg-[#fffdfa] p-6 shadow-[0_8px_26px_rgba(40,33,20,0.05)]">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#8f7a58]">Checkout Progress</p>
-            <div className="mt-4 grid grid-cols-3 gap-3 text-xs uppercase tracking-[0.18em]">
-              <div className="rounded-md border border-[#d9c6a2] bg-[#f6ecdb] px-3 py-2 text-center text-[#5a4a2d]">
-                Information
-              </div>
-              <div className="rounded-md border border-[#e9dfce] bg-[#fdfbf7] px-3 py-2 text-center text-[#7a6b52]">
-                Shipping
-              </div>
-              <div className="rounded-md border border-[#e9dfce] bg-[#fdfbf7] px-3 py-2 text-center text-[#7a6b52]">
-                Payment
-              </div>
-            </div>
-          </div>
+        
 
           <section>
-            <div className="mb-8 flex items-center gap-4 border-b border-[#e5dac8] pb-6">
-              <span className="font-sans text-2xl font-black text-[#b18c53]">01</span>
-              <h1 className="text-2xl font-black uppercase tracking-tight text-[#312b24]">Customer & Shipping</h1>
+            <div className="mb-8 flex items-center gap-4 border-b border-border pb-6">
+              <span className="font-sans text-2xl font-black text-primary">01</span>
+              <h1 className="text-2xl font-black uppercase tracking-tight text-foreground">Customer & Shipping</h1>
             </div>
 
             <div className="space-y-8">
               {!user && (
-                <div className="rounded-xl border border-[#eadfce] bg-white p-6 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
-                  <p className="mb-4 font-sans text-sm uppercase tracking-[0.18em] text-[#7a6b52]">
+                <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
+                  <p className="mb-4 font-sans text-sm uppercase tracking-[0.18em] text-muted-foreground">
                     Checkout as guest
                   </p>
                   <FormItem>
-                    <Label className="font-sans text-xs uppercase tracking-[0.18em] text-[#7a6b52]" htmlFor="email">
+                    <Label className="font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground" htmlFor="email">
                       Email Address
                     </Label>
                     <Input
-                      className="mt-2 h-14 border-[#ddcfb4] bg-[#fffcf7] px-4 text-[#2f2a24] placeholder:text-[#9a8b72] focus-visible:ring-[#c2a56c]"
+                      className="mt-2 h-14 border-input bg-background px-4 text-card-foreground placeholder:text-muted-foreground focus-visible:ring-ring"
                       disabled={!emailEditable}
                       id="email"
                       name="email"
@@ -474,7 +488,7 @@ export const CheckoutPage: React.FC = () => {
                   </FormItem>
                   <div className="mt-5 flex flex-wrap items-center gap-4">
                     <Button
-                      className="bg-[#c5a46a] px-8 font-sans font-black uppercase tracking-[0.18em] text-[#17130f] hover:bg-[#b99658]"
+                      className="bg-primary px-8 font-sans font-black uppercase tracking-[0.18em] text-primary-foreground hover:bg-primary/90"
                       disabled={!email || !emailEditable}
                       onClick={(e) => {
                         e.preventDefault()
@@ -483,7 +497,7 @@ export const CheckoutPage: React.FC = () => {
                     >
                       Continue as guest
                     </Button>
-                    <Link className="text-sm text-[#7a6b52] underline underline-offset-4" href="/login">
+                    <Link className="text-sm text-muted-foreground underline underline-offset-4" href="/login">
                       Log in instead
                     </Link>
                   </div>
@@ -493,15 +507,15 @@ export const CheckoutPage: React.FC = () => {
 
 
               <div>
-                <p className="mb-3 font-sans text-xs uppercase tracking-[0.18em] text-[#7a6b52]">
+                <p className="mb-3 font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   Signed in as
                 </p>
                 {user && (
 
-                  <div className="rounded-xl border border-[#eadfce] bg-white p-6 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
+                  <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
                     {/* <p className="font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground">Signed in as</p> */}
-                    <p className="mt-2 text-[#2f2a24]">{user.email}</p>
-                    <Link className="mt-2 inline-block text-sm text-[#9b7a43] underline underline-offset-4" href="/logout">
+                    <p className="mt-2 text-card-foreground">{user.email}</p>
+                    <Link className="mt-2 inline-block text-sm text-primary underline underline-offset-4" href="/logout">
                       Not you? Log out
                     </Link>
                   </div>
@@ -509,15 +523,15 @@ export const CheckoutPage: React.FC = () => {
               </div>
 
               <div>
-                <p className="mb-3 font-sans text-xs uppercase tracking-[0.18em] text-[#7a6b52]">
+                <p className="mb-3 font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   Billing Address
                 </p>
                 {billingAddress ? (
-                  <div className="rounded-xl border border-[#eadfce] bg-white p-5 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
+                  <div className="rounded-xl border border-border bg-card text-card-foreground p-5 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
                     <AddressItem
                       actions={
                         <Button
-                          className="border-[#d9c7a7] text-[#8f7140] hover:bg-[#efdfc2] hover:text-[#2f2a24]"
+                          className="border-border text-primary hover:bg-accent hover:text-foreground"
                           variant="outline"
                           disabled={Boolean(paymentData)}
                           onClick={(e) => {
@@ -553,22 +567,22 @@ export const CheckoutPage: React.FC = () => {
                     setBillingAddressSameAsShipping(state as boolean)
                   }}
                 />
-                <Label className="font-sans text-xs uppercase tracking-[0.18em] text-[#7a6b52]" htmlFor="shippingTheSameAsBilling">
+                <Label className="font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground" htmlFor="shippingTheSameAsBilling">
                   Shipping is the same as billing
                 </Label>
               </div>
 
               {!billingAddressSameAsShipping && (
                 <div>
-                  <p className="mb-3 font-sans text-xs uppercase tracking-[0.18em] text-[#7a6b52]">
+                  <p className="mb-3 font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground">
                     Shipping Address
                   </p>
                   {shippingAddress ? (
-                    <div className="rounded-xl border border-[#eadfce] bg-white p-5 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
+                    <div className="rounded-xl border border-border bg-card text-card-foreground p-5 shadow-[0_8px_24px_rgba(44,34,20,0.04)]">
                       <AddressItem
                         actions={
                           <Button
-                            className="border-[#d9c7a7] text-[#8f7140] hover:bg-[#efdfc2] hover:text-[#2f2a24]"
+                            className="border-border text-primary hover:bg-accent hover:text-foreground"
                             variant="outline"
                             disabled={Boolean(paymentData)}
                             onClick={(e) => {
@@ -603,15 +617,15 @@ export const CheckoutPage: React.FC = () => {
           </section>
 
           <section>
-            <div className="mb-8 flex items-center gap-4 border-b border-[#e5dac8] pb-6">
-              <span className="font-sans text-2xl font-black text-[#b18c53]">02</span>
-              <h2 className="text-2xl font-black uppercase tracking-tight text-[#312b24]">Payment Details</h2>
+            <div className="mb-8 flex items-center gap-4 border-b border-border pb-6">
+              <span className="font-sans text-2xl font-black text-primary">02</span>
+              <h2 className="text-2xl font-black uppercase tracking-tight text-foreground">Payment Details</h2>
             </div>
 
-            <div className="rounded-xl border border-[#eadfce] bg-white p-6 shadow-[0_10px_30px_rgba(44,34,20,0.05)]">
+            <div className="rounded-xl border border-border bg-card text-card-foreground p-6 shadow-[0_10px_30px_rgba(44,34,20,0.05)]">
               {!paymentData && (
                 <Button
-                  className="bg-[#c5a46a] px-10 py-6 font-sans font-black uppercase tracking-[0.18em] text-[#17130f] hover:bg-[#b99658] disabled:opacity-40"
+                  className="bg-primary px-10 py-6 font-sans font-black uppercase tracking-[0.18em] text-primary-foreground hover:bg-primary/90 disabled:opacity-40"
                   disabled={!canGoToPayment}
                   onClick={(e) => {
                     e.preventDefault()
@@ -626,7 +640,7 @@ export const CheckoutPage: React.FC = () => {
                 <div className="mt-8">
                   <Message error={error} />
                   <Button
-                    className="mt-5 bg-[#c5a46a] font-sans font-black uppercase tracking-[0.18em] text-[#17130f] hover:bg-[#b99658]"
+                    className="mt-5 bg-primary font-sans font-black uppercase tracking-[0.18em] text-primary-foreground hover:bg-primary/90"
                     onClick={(e) => {
                       e.preventDefault()
                       router.refresh()
@@ -642,7 +656,7 @@ export const CheckoutPage: React.FC = () => {
                 {/* @ts-ignore */}
                 {paymentData && paymentData?.['clientSecret'] && (
                   <div>
-                    <p className="mb-6 font-sans text-sm uppercase tracking-[0.18em] text-[#7a6b52]">
+                    <p className="mb-6 font-sans text-sm uppercase tracking-[0.18em] text-muted-foreground">
                       Secure card payment
                     </p>
                     {error && <p className="mb-4 text-red-400">{`Error: ${error}`}</p>}
@@ -652,15 +666,15 @@ export const CheckoutPage: React.FC = () => {
                           theme: 'stripe',
                           variables: {
                             borderRadius: '8px',
-                            colorPrimary: '#c5a46a',
+                            colorPrimary: '#dc2626',
                             gridColumnSpacing: '20px',
                             gridRowSpacing: '20px',
-                            colorBackground: '#fffdf8',
+                            colorBackground: '#ffffff',
                             colorDanger: cssVariables.colors.error500,
                             colorDangerText: cssVariables.colors.error500,
-                            colorIcon: '#7a6b52',
-                            colorText: '#2f2a24',
-                            colorTextPlaceholder: '#9a8b72',
+                            colorIcon: '#e11d48',
+                            colorText: '#450a0a',
+                            colorTextPlaceholder: '#9f1239',
                             fontFamily: 'GeistSans, sans-serif',
                             fontSizeBase: '16px',
                             fontWeightBold: '700',
@@ -689,9 +703,9 @@ export const CheckoutPage: React.FC = () => {
           </section>
         </section>
 
-        <aside className="h-fit rounded-xl border border-[#e5dac8] bg-[#fffdfa] p-8 shadow-[0_18px_35px_rgba(44,34,20,0.07)] lg:sticky lg:top-8">
-          <h2 className="font-sans text-sm uppercase tracking-wider text-[#8f7442]">Order Summary</h2>
-          <div className="my-6 h-px bg-[#e9dbc2]" />
+        <aside className="h-fit rounded-xl border border-border bg-card text-card-foreground p-8 shadow-[0_18px_35px_rgba(44,34,20,0.07)] lg:sticky lg:top-8">
+          <h2 className="font-sans text-sm uppercase tracking-wider text-primary">Order Summary</h2>
+          <div className="my-6 h-px bg-border" />
 
           <div className="space-y-6">
             {cart?.items?.map((item, index) => {
@@ -755,17 +769,17 @@ export const CheckoutPage: React.FC = () => {
                 )
 
                 return (
-                  <div className="grid grid-cols-[80px_1fr_auto] items-center gap-4 rounded-lg border border-[#efe5d7] bg-white p-3" key={index}>
-                    <div className="relative h-20 w-20 overflow-hidden rounded-md border border-[#eadfcf] bg-[#f7f4ee]">
+                  <div className="grid grid-cols-[80px_1fr_auto] items-center gap-4 rounded-lg border border-border bg-card text-card-foreground p-3" key={index}>
+                    <div className="relative h-20 w-20 overflow-hidden rounded-md border border-border bg-muted">
                       {image && typeof image !== 'string' && (
                         <Media className="" fill imgClassName="object-cover" resource={image} />
                       )}
 
                     </div>
                     <div>
-                      <p className="font-sans text-base font-black uppercase text-[#2f2a24]">{title}</p>
+                      <p className="font-sans text-base font-black uppercase text-card-foreground">{title}</p>
                       {variant && typeof variant === 'object' && (
-                        <p className="mt-1 font-sans text-xs italic text-[#7a6b52]">
+                        <p className="mt-1 font-sans text-xs italic text-muted-foreground">
                           {variant.options
                             ?.map((option: NonNullable<typeof variant.options>[number]) => {
                               if (typeof option === 'object') return option.label
@@ -774,13 +788,13 @@ export const CheckoutPage: React.FC = () => {
                             .join(', ')}
                         </p>
                       )}
-                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#7a6b52]">Qty {quantity}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#9b7a43]">
+                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Qty {quantity}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-primary">
                         {getPurchaseTypeLabel(purchaseType)}
                       </p>
                     </div>
                     {typeof price === 'number' && (
-                      <Price className="font-sans font-black text-[#8f7442]" amount={price} />
+                      <Price className="font-sans font-black text-primary" amount={price} />
                     )}
                   </div>
                 )
@@ -789,10 +803,10 @@ export const CheckoutPage: React.FC = () => {
             })}
           </div>
 
-          <div className="my-8 h-px bg-[#e9dbc2]" />
+          <div className="my-8 h-px bg-border" />
 
-          <div className="mb-7 rounded-lg border border-[#eadfcf] bg-white p-4">
-            <Label className="mb-2 block text-xs uppercase tracking-[0.16em] text-[#7a6b52]" htmlFor="promoCode">
+          <div className="mb-7 rounded-lg border border-border bg-card text-card-foreground p-4">
+            <Label className="mb-2 block text-xs uppercase tracking-[0.16em] text-muted-foreground" htmlFor="promoCode">
               Discount or Gift Card
             </Label>
             <div className="flex gap-2">
@@ -801,33 +815,33 @@ export const CheckoutPage: React.FC = () => {
                 value={promoCode}
                 onChange={(e) => setPromoCode(e.target.value)}
                 placeholder="Enter code"
-                className="border-[#ddcfb4] bg-[#fffcf7] text-[#2f2a24] placeholder:text-[#9a8b72]"
+                className="border-input bg-background text-card-foreground placeholder:text-muted-foreground"
               />
-              <Button type="button" variant="outline" className="border-[#d9c7a7] bg-[#faf5ea] text-[#715e3f] hover:bg-[#efe2cb]">
+              <Button type="button" variant="outline" className="border-border bg-secondary text-muted-foreground hover:bg-accent">
                 Apply
               </Button>
             </div>
           </div>
 
           <div className="space-y-5 font-sans text-sm uppercase tracking-wide">
-            <div className="flex justify-between text-[#7a6b52]">
+            <div className="flex justify-between text-muted-foreground">
               <span>Subtotal</span>
-              <span className="text-[#2f2a24]">{formatMoney(subtotal)}</span>
+              <span className="text-card-foreground">{formatMoney(subtotal)}</span>
             </div>
             {fulfillmentMethod === 'delivery' && (
-              <div className="flex justify-between text-[#7a6b52]">
+              <div className="flex justify-between text-muted-foreground">
                 <span>Delivery</span>
-                <span className="text-[#2f2a24]">
+                <span className="text-card-foreground">
                   {shipping ? formatMoney(shipping) : '0.00'}
                 </span>
               </div>
             )}
-            <div className="flex justify-between text-[#7a6b52]">
+            <div className="flex justify-between text-muted-foreground">
               <span>Estimated Tax</span>
-              <span className="text-[#2f2a24]">{formatMoney(estimatedTax)}</span>
+              <span className="text-card-foreground">{formatMoney(estimatedTax)}</span>
             </div>
-            <div className="h-px bg-[#e9dbc2]" />
-            <div className="flex justify-between text-base text-[#8f7442]">
+            <div className="h-px bg-border" />
+            <div className="flex justify-between text-base text-primary">
               <span>Total</span>
               <span>{formatMoney(displayTotal)}</span>
             </div>
@@ -835,24 +849,24 @@ export const CheckoutPage: React.FC = () => {
 
           <div className="mt-10 text-center">
             <div className="mb-4 flex items-center justify-between">
-              <p className="font-sans text-xs font-black uppercase tracking-[0.24em] text-[#8f7442] text-left">
+              <p className="font-sans text-xs font-black uppercase tracking-[0.24em] text-primary text-left">
                 Date: {selectedDate ? formatDisplayDate(formatDateForInput(selectedDate)) : 'Not selected'}
               </p>
 
               <button
                 onClick={() => setIsDateModalOpen(true)}
-                className="ml-4 rounded-md border border-[#d7c19a] px-3 py-1 text-xs font-sans uppercase tracking-[0.14em] text-[#8f7442] hover:bg-[#efe2cb] hover:text-[#2f2a24]"
+                className="ml-4 rounded-md border border-border px-3 py-1 text-xs font-sans uppercase tracking-[0.14em] text-primary hover:bg-accent hover:text-foreground"
               >
                 Change
               </button>
-            </div >
+            </div>
 
-            <div className="grid grid-cols-2 rounded-md border border-[#e4d6bf]">
+            <div className="grid grid-cols-2 rounded-md border border-border">
               <button
                 type="button"
                 className={`py-3 font-sans text-sm font-black uppercase tracking-[0.24em] ${fulfillmentMethod === 'pickup'
-                  ? 'bg-[#d6be91] text-[#17130f]'
-                  : 'bg-[#f7f2e8] text-[#7a6b52] hover:text-[#2f2a24]'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground hover:text-foreground'
                   }`}
                 onClick={() => {
                   setFulfillmentMethod('pickup')
@@ -867,8 +881,8 @@ export const CheckoutPage: React.FC = () => {
               <button
                 type="button"
                 className={`py-3 font-sans text-sm font-black uppercase tracking-[0.24em] ${fulfillmentMethod === 'delivery'
-                  ? 'bg-[#d6be91] text-[#17130f]'
-                  : 'bg-[#f7f2e8] text-[#7a6b52] hover:text-[#2f2a24]'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground hover:text-foreground'
                   }`}
                 onClick={() => {
                   setFulfillmentMethod('delivery')
@@ -881,7 +895,7 @@ export const CheckoutPage: React.FC = () => {
           </div>
 
           <Button
-            className="mt-8 w-full bg-[#c5a46a] py-6 font-sans font-black uppercase tracking-[0.2em] text-[#17130f] hover:bg-[#b99658] disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-8 w-full bg-primary py-6 font-sans font-black uppercase tracking-[0.2em] text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
             disabled={
               !canGoToPayment ||
               isProcessingPayment ||
@@ -902,18 +916,18 @@ export const CheckoutPage: React.FC = () => {
             {isProcessingPayment ? 'Processing...' : 'Complete Purchase'}
           </Button>
 
-          <div className="mt-6 space-y-3 rounded-lg border border-[#eadfcf] bg-white p-4">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-[#7a6b52]">
-              <ShieldCheck className="h-4 w-4 text-[#8f7442]" />
+          <div className="mt-6 space-y-3 rounded-lg border border-border bg-card text-card-foreground p-4">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              <ShieldCheck className="h-4 w-4 text-primary" />
               Secure payment by Stripe
             </div>
-            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-[#7a6b52]">
-              <ShieldCheck className="h-4 w-4 text-[#8f7442]" />
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              <ShieldCheck className="h-4 w-4 text-primary" />
               Encrypted billing details
             </div>
           </div>
 
-          <p className="mt-6 text-center text-[11px] uppercase tracking-[0.14em] text-[#8b7c62]">
+          <p className="mt-6 text-center text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             By placing your order, you agree to our terms and refund policy.
           </p>
 
@@ -922,15 +936,15 @@ export const CheckoutPage: React.FC = () => {
       </main>
 
       {isDateModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1e1912]/60 animate-[modalFadeIn_180ms_ease-out]">
-          <div className="w-[420px] rounded-xl border border-[#e4d8c3] bg-[#fffdfa] p-6 text-[#2f2a24] shadow-xl animate-[modalScaleIn_240ms_cubic-bezier(0.16,1,0.3,1)]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-[modalFadeIn_180ms_ease-out]">
+          <div className="w-[420px] rounded-xl border border-border bg-card text-card-foreground p-6 shadow-xl animate-[modalScaleIn_240ms_cubic-bezier(0.16,1,0.3,1)]">
 
             {/* Header */}
-            <p className="mb-2 text-center font-sans text-xs uppercase tracking-[0.3em] text-[#8f7442]">
+            <p className="mb-2 text-center font-sans text-xs uppercase tracking-[0.3em] text-primary">
               The Butcher’s Craft
             </p>
 
-            <h2 className="mb-6 text-center font-sans text-xl font-black uppercase tracking-wide text-[#2f2a24]">
+            <h2 className="mb-6 text-center font-sans text-xl font-black uppercase tracking-wide text-card-foreground">
               Order Type
             </h2>
 
@@ -938,8 +952,8 @@ export const CheckoutPage: React.FC = () => {
             <div className="mb-6 grid grid-cols-2 gap-4">
               <button
                 className={`py-3 font-sans text-sm font-black uppercase tracking-[0.2em] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-400/10 active:translate-y-0 ${fulfillmentMethod === 'delivery'
-                  ? 'bg-[#d6be91] text-[#17130f]'
-                  : 'bg-[#f7f2e8] text-[#7a6b52]'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground'
                   }`}
                 onClick={() => {
                   setFulfillmentMethod('delivery')
@@ -951,8 +965,8 @@ export const CheckoutPage: React.FC = () => {
 
               <button
                 className={`py-3 font-sans text-sm font-black uppercase tracking-[0.2em] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-400/10 active:translate-y-0 ${fulfillmentMethod === 'pickup'
-                  ? 'bg-[#d6be91] text-[#17130f]'
-                  : 'bg-[#f7f2e8] text-[#7a6b52]'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted text-muted-foreground'
                   }`}
                 onClick={() => {
                   setFulfillmentMethod('pickup')
@@ -969,8 +983,8 @@ export const CheckoutPage: React.FC = () => {
             {/* Address */}
             {isLoadingBranches ? (
               <div className="flex flex-col items-center justify-center py-8">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#c5a46a] border-t-transparent" />
-                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-[#7a6b52]">
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Loading locations...
                 </p>
               </div>
@@ -987,13 +1001,13 @@ export const CheckoutPage: React.FC = () => {
                         void loadSchedules(branch.id, 'pickup')
                       }
                     }}
-                    className={`w-full rounded-md border p-3 text-left transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#f5ecdb] hover:shadow-md active:translate-y-0 animate-[itemSlideIn_220ms_ease-out_both] ${selectedBranch?.id === branch.id
-                      ? 'border-[#c5a46a]'
-                      : 'border-[#e5d8c0]'
+                    className={`w-full rounded-md border p-3 text-left transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent hover:shadow-md active:translate-y-0 animate-[itemSlideIn_220ms_ease-out_both] ${selectedBranch?.id === branch.id
+                      ? 'border-primary'
+                      : 'border-border'
                       }`}
                   >
-                    <p className="text-[#8f7442]">{branch.name}</p>
-                    <p className="text-xs text-[#7a6b52]">{branch.address}</p>
+                    <p className="text-primary">{branch.name}</p>
+                    <p className="text-xs text-muted-foreground">{branch.address}</p>
                   </button>
                 ))}
               </div>
@@ -1001,7 +1015,7 @@ export const CheckoutPage: React.FC = () => {
 
             {selectedBranch && fulfillmentMethod === 'delivery' && (
               <div className="mb-6">
-                <label className="mb-2 mt-3 block text-xs uppercase tracking-[0.2em] text-[#7a6b52]">
+                <label className="mb-2 mt-3 block text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   Postal Code
                 </label>
 
@@ -1016,13 +1030,13 @@ export const CheckoutPage: React.FC = () => {
                       setBranchError('')
                     }}
                     placeholder="Example: J7K 0Z6"
-                    className="border-[#ddcfb4] bg-[#fffcf7] text-[#2f2a24]"
+                    className="border-input bg-background text-card-foreground"
                   />
 
                   <button
                     type="button"
                     onClick={() => void loadSchedules(selectedBranch.id, 'delivery')}
-                    className="bg-[#c5a46a] px-4 font-sans text-xs font-black uppercase tracking-[0.16em] text-[#17130f]"
+                    className="bg-primary px-4 font-sans text-xs font-black uppercase tracking-[0.16em] text-primary-foreground"
                   >
                     Check
                   </button>
@@ -1036,7 +1050,7 @@ export const CheckoutPage: React.FC = () => {
 
             {/* Date Picker */}
             <div className="relative mb-6">
-              <label className="mb-2 mt-3 block text-xs uppercase tracking-[0.2em] text-[#7a6b52]">
+              <label className="mb-2 mt-3 block text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Select Date
               </label>
 
@@ -1044,7 +1058,7 @@ export const CheckoutPage: React.FC = () => {
                 type="button"
                 onClick={() => setShowCalendar((prev) => !prev)}
                 disabled={!selectedBranch || !availableSchedules.length}
-                className="w-full rounded-md border border-[#ddcfb4] bg-[#fffcf7] px-3 py-3 text-left text-[#7a6b52] transition-all duration-200 hover:border-[#c5a46a] hover:text-[#2f2a24] disabled:cursor-not-allowed disabled:opacity-40"
+                className={`w-full rounded-md border border-input bg-background px-3 py-3 text-left transition-all duration-200 hover:border-primary disabled:cursor-not-allowed disabled:opacity-40 ${selectedDate ? 'text-card-foreground' : 'text-muted-foreground'}`}
               >
                 {selectedDate
                   ? formatDisplayDate(formatDateForInput(selectedDate))
@@ -1055,14 +1069,15 @@ export const CheckoutPage: React.FC = () => {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center">
                   {/* backdrop (click to close) */}
                   <div
-                    className="absolute inset-0 bg-[#1e1912]/55"
+                    className="absolute inset-0 bg-black/40"
                     onClick={() => setShowCalendar(false)}
                   />
 
                   {/* calendar popup */}
-                  <div className="relative z-[101] rounded-md border border-[#e4d8c3] bg-[#fffdfa] p-4 text-[#2f2a24] shadow-2xl">
+                  <div className="relative z-[101] rounded-md border border-border bg-card p-4 text-card-foreground shadow-2xl">
                     <DayPicker
                       mode="single"
+                      classNames={checkoutDayPickerClassNames()}
                       selected={selectedDate}
                       onSelect={(date) => {
                         if (date && isDateAllowed(date)) {
@@ -1080,7 +1095,7 @@ export const CheckoutPage: React.FC = () => {
 
             {/* Actions */}
             <button
-              className="w-full rounded-md bg-[#c5a46a] py-3 font-sans font-black uppercase tracking-[0.2em] text-[#17130f] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#b99658] hover:shadow-lg hover:shadow-[#c5a46a]/20 active:translate-y-0"
+              className="w-full rounded-md bg-primary py-3 font-sans font-black uppercase tracking-[0.2em] text-primary-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 active:translate-y-0"
               onClick={() => {
                 if (!selectedBranch) {
                   setBranchError('Please select a branch first.')
@@ -1124,7 +1139,7 @@ export const CheckoutPage: React.FC = () => {
             </button>
 
             <button
-              className="mt-4 w-full text-sm uppercase tracking-[0.2em] text-[#7a6b52]"
+              className="mt-4 w-full text-sm uppercase tracking-[0.2em] text-muted-foreground"
               onClick={() => setIsDateModalOpen(false)}
             >
               Cancel
@@ -1132,63 +1147,6 @@ export const CheckoutPage: React.FC = () => {
           </div>
         </div>
       )}
-      <style jsx global>{`
-  .rdp {
-    --rdp-accent-color: #c5a46a;
-    --rdp-background-color: #fffcf7;
-    --rdp-outline: 2px solid #c5a46a;
-    margin: 0;
-    color: #2f2a24;
-  }
-
-  .rdp-caption_label {
-    color: #8f7442;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-  }
-
-  .rdp-head_cell {
-    color: #7a6b52;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-  }
-
-  .rdp-day {
-    color: #2f2a24;
-    border-radius: 0;
-  }
-
-  .rdp-day:hover:not([disabled]) {
-    background: #f2e8d6;
-    color: #5d4d31;
-  }
-
-  .rdp-day_selected,
-  .rdp-day_selected:hover {
-    background: #c5a46a;
-    color: #17130f;
-    font-weight: 900;
-  }
-
-  .rdp-day_disabled {
-    color: #a6977d;
-    opacity: 0.45;
-  }
-
-  .rdp-day_outside {
-    color: #b6aa95;
-  }
-
-  .rdp-nav_button {
-    color: #8f7442;
-  }
-
-  .rdp-nav_button:hover {
-    background: #f2e8d6;
-  }
-`}</style>
-
       <style jsx global>{`
   @keyframes modalFadeIn {
     from {

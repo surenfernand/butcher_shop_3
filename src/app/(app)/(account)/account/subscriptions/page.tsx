@@ -114,27 +114,27 @@ export default async function SubscriptionsPage() {
   const nextShipment = subscriptionItems[0] as (typeof subscriptionItems)[number] | undefined
 
   return (
-    <div className="space-y-8 text-[#2f2a24]">
-      <div className="rounded-lg border border-[#e8dfd0] bg-[#fafaf8] px-6 py-3">
-        <p className="text-xs uppercase tracking-[0.15em] text-[#7a6b52]">
+    <div className="space-y-8 text-foreground">
+      <div className="rounded-lg border border-[#e8dfd0] bg-background px-6 py-3">
+        <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
           Subscription support:{' '}
-          <a className="text-[#8f7442] underline" href="mailto:info@filetgourmet.ca">
+          <a className="text-primary underline" href="mailto:info@filetgourmet.ca">
             info@filetgourmet.ca
           </a>
         </p>
       </div>
 
-      <div className="rounded-xl border border-[#e5dac8] bg-[#fffdfa] p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
-        <p className="text-xs uppercase tracking-[0.2em] text-[#8f7a58]">Subscription Management</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#2f2a24]">Manage Your Deliveries</h1>
-        <p className="mt-3 max-w-3xl text-sm text-[#746a5a]">
+      <div className="rounded-xl border border-border bg-card p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Subscription Management</p>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground">Manage Your Deliveries</h1>
+        <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
           Control schedule, billing, and product selections for your recurring premium orders.
         </p>
       </div>
 
       {subscriptionItems.length === 0 ? (
         <DashboardCard title="Active Subscriptions" subtitle="No recurring plans found.">
-          <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-[#746a5a]">
+          <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-muted-foreground">
             You do not have any active subscriptions yet.
           </p>
         </DashboardCard>
@@ -152,51 +152,51 @@ export default async function SubscriptionsPage() {
                   return (
                     <section
                       key={`${order.id}-${index}`}
-                      className="rounded-xl border border-[#eadfce] bg-white p-5 shadow-[0_10px_22px_rgba(42,34,22,0.05)]"
+                      className="rounded-xl border border-border bg-white p-5 shadow-[0_10px_22px_rgba(42,34,22,0.05)]"
                     >
                       <div className="flex flex-col justify-between gap-4 border-b border-[#efe6d8] pb-5 sm:flex-row sm:items-start">
                         <div>
                           <div className="mb-2 flex items-center gap-2">
                             <SubscriptionStatusBadge status={order.status} />
-                            <p className="text-xs uppercase tracking-[0.14em] text-[#8f7a58]">
+                            <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                               Subscription #{order.stripeSubscriptionID || order.id}
                             </p>
                           </div>
-                          <h2 className="text-xl font-bold uppercase text-[#2f2a24]">
+                          <h2 className="text-xl font-bold uppercase text-foreground">
                             {product?.title || 'Subscription Box'}
                           </h2>
-                          <p className="mt-2 text-sm text-[#746a5a]">Quantity: {item.quantity || 1}</p>
+                          <p className="mt-2 text-sm text-muted-foreground">Quantity: {item.quantity || 1}</p>
                         </div>
                         <div className="text-left sm:text-right">
-                          <p className="text-2xl font-semibold text-[#8f7442]">{formatMoney(amount)}</p>
-                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#8f7a58]">{cadenceLabel}</p>
+                          <p className="text-2xl font-semibold text-primary">{formatMoney(amount)}</p>
+                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">{cadenceLabel}</p>
                         </div>
                       </div>
 
                       <div className="grid gap-4 border-b border-[#efe6d8] py-5 md:grid-cols-3">
                         <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
-                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">
+                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                             <CalendarDays className="h-4 w-4" />
                             Upcoming Shipment
                           </p>
-                          <p className="mt-2 text-sm font-semibold text-[#2f2a24]">{formatDate(fulfillment?.date)}</p>
+                          <p className="mt-2 text-sm font-semibold text-foreground">{formatDate(fulfillment?.date)}</p>
                         </div>
                         <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
-                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">
+                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                             <Truck className="h-4 w-4" />
                             Delivery Address
                           </p>
-                          <p className="mt-2 text-sm text-[#2f2a24]">
+                          <p className="mt-2 text-sm text-foreground">
                             {address?.addressLine1
                               ? `${address.addressLine1}, ${address.city || ''}`
                               : 'Not available'}
                           </p>
                         </div>
                         <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
-                          <p className="text-xs uppercase tracking-[0.12em] text-[#8f7a58]">Delivery Frequency</p>
+                          <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Delivery Frequency</p>
                           <select
                             defaultValue={purchaseType}
-                            className="mt-2 w-full rounded-md border border-[#ddcfb4] bg-[#fffaf1] px-3 py-2 text-sm text-[#2f2a24]"
+                            className="mt-2 w-full rounded-md border border-input bg-[#fffaf1] px-3 py-2 text-sm text-foreground"
                           >
                             <option value="weekly">Weekly</option>
                             <option value="monthly">Monthly</option>
@@ -207,20 +207,20 @@ export default async function SubscriptionsPage() {
                       <div className="mt-5 flex flex-wrap items-center gap-3">
                         <Link
                           href={`/orders/${order.id}`}
-                          className="rounded-md bg-[#c5a46a] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#17130f] hover:bg-[#b99658]"
+                          className="rounded-md bg-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground hover:bg-primary/90"
                         >
                           Manage Subscription
                         </Link>
                         <button
                           type="button"
-                          className="inline-flex items-center gap-2 rounded-md border border-[#d9c7a7] bg-[#faf4e8] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-[#efe2cb]"
+                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-accent"
                         >
                           <PauseCircle className="h-3.5 w-3.5" />
                           Pause
                         </button>
                         <button
                           type="button"
-                          className="inline-flex items-center gap-2 rounded-md border border-[#d9c7a7] bg-[#faf4e8] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-[#efe2cb]"
+                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-[#6f5b3a] hover:bg-accent"
                         >
                           <SkipForward className="h-3.5 w-3.5" />
                           Skip Next
@@ -244,12 +244,12 @@ export default async function SubscriptionsPage() {
               {nextShipment ? (
                 <div className="space-y-3">
                   <ProductThumbnailRow product={nextShipment.product} fallbackLabel="Monthly Menu Box" />
-                  <p className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4 text-sm text-[#746a5a]">
+                  <p className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4 text-sm text-muted-foreground">
                     Scheduled for {formatDate((nextShipment.order.fulfillment as any)?.date)}.
                   </p>
                 </div>
               ) : (
-                <p className="text-sm text-[#746a5a]">No upcoming shipments.</p>
+                <p className="text-sm text-muted-foreground">No upcoming shipments.</p>
               )}
             </DashboardCard>
 
@@ -260,11 +260,11 @@ export default async function SubscriptionsPage() {
                   cadenceLabel={nextShipment?.purchaseType === 'monthly' ? 'Charged monthly' : 'Charged weekly'}
                 />
                 <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-4">
-                  <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">
+                  <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                     <CreditCard className="h-4 w-4" />
                     Payment Method
                   </p>
-                  <p className="mt-2 text-sm text-[#2f2a24]">Card on file via Stripe (managed securely)</p>
+                  <p className="mt-2 text-sm text-foreground">Card on file via Stripe (managed securely)</p>
                 </div>
               </div>
             </DashboardCard>
@@ -286,9 +286,9 @@ export default async function SubscriptionsPage() {
         </DashboardCard>
       )}
 
-      <footer className="rounded-xl bg-[#1f1a14] px-6 py-6 text-[#e9decb]">
+      <footer className="rounded-xl bg-foreground px-6 py-6 text-background">
         <p className="text-xs uppercase tracking-[0.16em]">Subscription Terms</p>
-        <p className="mt-2 text-sm text-[#d6c9b2]">
+        <p className="mt-2 text-sm text-background/80">
           Renewal and plan changes are subject to account terms. For custom requests, contact support.
         </p>
       </footer>

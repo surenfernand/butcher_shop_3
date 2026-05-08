@@ -203,7 +203,7 @@ export const CheckoutForm: React.FC<Props> = ({
       <PaymentElement onChange={(event) => setPaymentElementComplete(event.complete)} />
 
       {isLoading && (
-        <p className="mt-4 font-sans text-sm uppercase tracking-[0.16em] text-stone-400">
+        <p className="mt-4 font-sans text-sm uppercase tracking-[0.16em] text-muted-foreground">
           Processing payment...
         </p>
       )}

@@ -13,10 +13,10 @@ const linkBase =
   'w-full justify-start rounded-md px-5 py-4 text-sm font-medium tracking-wide hover:no-underline transition-colors'
 
 const linkInactive =
-  'text-[#7a6b52] hover:text-[#8f7442] hover:bg-[#f7efdf]'
+  'text-muted-foreground hover:text-primary hover:bg-accent'
 
 const linkActive =
-  'bg-[#efe2cb] text-[#6d5631]'
+  'bg-accent text-primary'
 
 export const AccountNav: React.FC<Props> = ({ className }) => {
   const pathname = usePathname()
@@ -25,16 +25,16 @@ export const AccountNav: React.FC<Props> = ({ className }) => {
     <div
       className={clsx(
         'flex min-h-full flex-col justify-between',
-        'text-[#2f2a24]',
+        'text-foreground',
         className,
       )}
     >
       <div>
         <div className="border-b border-[#eadfcf] px-5 py-6">
-          <p className="text-lg font-bold uppercase tracking-[0.18em] text-[#8f7442]">
+          <p className="text-lg font-bold uppercase tracking-[0.18em] text-primary">
             FILET GOURMET
           </p>
-          <p className="mt-1 text-xs text-[#8f7a58]">Customer Dashboard</p>
+          <p className="mt-1 text-xs text-muted-foreground">Customer Dashboard</p>
         </div>
 
         <ul className="mt-6 flex flex-col gap-1 px-3">

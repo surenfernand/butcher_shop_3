@@ -8,6 +8,7 @@ import { useSearchParams } from 'next/navigation'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { getPurchaseUnitPriceInCents } from '@/utilities/purchasePricing'
+import { cn } from '@/utilities/cn'
 
 type PurchaseType = 'one_time' | 'weekly' | 'monthly'
 
@@ -217,15 +218,15 @@ export function AddToCart({
   return (
     <Button
       aria-label="Add to cart"
-      variant="outline"
-      className={
-        className ||
-        'w-full rounded-none border border-[#c8a24d] bg-[#c8a24d] px-5 py-6 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-black transition-all duration-300 ease-out hover:bg-transparent hover:text-[#c8a24d] hover:scale-[1.03] active:scale-[0.97]'
-      }
+      variant="default"
+      size="lg"
+      className={cn(
+        'w-full rounded-full px-6 py-6 text-xs font-semibold uppercase tracking-[0.2em] shadow-sm',
+        className,
+      )}
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"
-      style={{ borderRadius: '0px' }}
     >
       {isLoading ? 'Adding...' : product.primaryCTA?.label || 'Add To Cart'}
     </Button>

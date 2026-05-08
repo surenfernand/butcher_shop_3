@@ -23,16 +23,16 @@ export function ProductThumbnailRow({ product, fallbackLabel = 'Subscription Pro
             className="h-full w-full object-cover"
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-[10px] uppercase tracking-[0.1em] text-[#8f7a58]">
+          <div className="flex h-full items-center justify-center text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
             Image
           </div>
         )}
       </div>
       <div className="min-w-0">
-        <p className="truncate text-sm font-semibold uppercase tracking-[0.08em] text-[#2f2a24]">
+        <p className="truncate text-sm font-semibold uppercase tracking-[0.08em] text-foreground">
           {product?.title || fallbackLabel}
         </p>
-        <p className="mt-1 text-xs uppercase tracking-[0.12em] text-[#8f7a58]">Premium selection</p>
+        <p className="mt-1 text-xs uppercase tracking-[0.12em] text-muted-foreground">Premium selection</p>
       </div>
     </div>
   )

@@ -189,7 +189,7 @@ export default async function Order({ params, searchParams }: PageProps) {
             <Button
               asChild
               variant="ghost"
-              className="px-0 font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 hover:bg-transparent hover:text-[#f5a400]"
+              className="px-0 font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 hover:bg-transparent hover:text-primary"
             >
               <Link href="/orders">
                 <ChevronLeftIcon className="size-4" />
@@ -264,7 +264,7 @@ export default async function Order({ params, searchParams }: PageProps) {
                         />
 
                         <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                          <span className="rounded-full border border-border px-3 py-1 font-mono uppercase tracking-[0.12em] text-[#f5a400]">
+                          <span className="rounded-full border border-border px-3 py-1 font-mono uppercase tracking-[0.12em] text-primary">
                             {getPurchaseTypeLabel(linePurchaseType)}
                           </span>
 
@@ -288,12 +288,12 @@ export default async function Order({ params, searchParams }: PageProps) {
                 </div>
 
                 <div className="flex justify-between border-t border-border pt-5">
-                  <span className="font-mono text-2xl font-bold uppercase tracking-[0.14em] text-[#f5a400]">
+                  <span className="font-mono text-2xl font-bold uppercase tracking-[0.14em] text-primary">
                     Total
                   </span>
 
                   <Price
-                    className="text-2xl font-bold text-[#f5a400]"
+                    className="text-2xl font-bold text-primary"
                     amount={computedTotal}
                   />
                 </div>

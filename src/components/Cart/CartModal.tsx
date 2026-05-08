@@ -187,7 +187,7 @@ export function CartModal() {
           <SheetHeader className="border-b border-border px-7 py-8 text-left">
             <div className="flex items-start justify-between">
               <div>
-                <SheetTitle className="text-left text-[2.1rem] font-black uppercase tracking-[-0.02em] text-[#d4a63c]">
+                <SheetTitle className="text-left font-serif text-[2.1rem] font-bold uppercase tracking-tight text-primary">
                   Cart
                 </SheetTitle>
               </div>
@@ -196,7 +196,7 @@ export function CartModal() {
 
           {!cart || cart?.items?.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-              <ShoppingCart className="h-14 w-14 text-[#d4a63c]" />
+              <ShoppingCart className="h-14 w-14 text-primary" />
               <p className="text-xl font-bold uppercase tracking-wide text-foreground">
                 Your cart is empty
               </p>
@@ -312,7 +312,7 @@ export function CartModal() {
                                 </p>
                               )}
 
-                              <p className="mt-1 text-[0.72rem] uppercase tracking-[0.1em] text-[#d4a63c]">
+                              <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-primary">
                                 {getPurchaseTypeLabel(purchaseType)}
                               </p>
                             </div>
@@ -321,11 +321,11 @@ export function CartModal() {
                           </div>
 
                           <div className="mt-5 flex items-end justify-between gap-3">
-                            <div className="flex h-8 items-center border border-border bg-muted/40">
+                            <div className="flex h-8 items-center overflow-hidden rounded-md border border-border bg-background">
                               <EditItemQuantityButton
                                 item={item}
                                 type="minus"
-                                className="h-8 w-8 border-r border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                                className="h-8 w-8 border-r border-border text-muted-foreground hover:bg-primary/10 hover:text-primary"
                               />
 
                               <span className="flex h-8 w-9 items-center justify-center text-sm font-medium text-foreground">
@@ -335,14 +335,14 @@ export function CartModal() {
                               <EditItemQuantityButton
                                 item={item}
                                 type="plus"
-                                className="h-8 w-8 border-l border-border text-muted-foreground hover:bg-muted hover:text-foreground"
+                                className="h-8 w-8 border-l border-border text-muted-foreground hover:bg-primary/10 hover:text-primary"
                               />
                             </div>
 
                             {typeof price === 'number' && (
                               <Price
                                 amount={price * (item.quantity || 1)}
-                                className="text-right text-[1.05rem] font-bold text-[#d4a63c]"
+                                className="text-right text-[1.05rem] font-bold text-primary"
                               />
                             )}
                           </div>
@@ -353,38 +353,30 @@ export function CartModal() {
                 </ul>
               </div>
 
-              <div className="border-t border-[#6f5620]/40 bg-zinc-950 px-7 py-6 text-zinc-100">
+              <div className="border-t border-border bg-muted/40 px-7 py-6">
                 <div className="space-y-3 text-sm uppercase tracking-[0.14em]">
-                  <div className="flex items-center justify-between text-zinc-400">
+                  <div className="flex items-center justify-between text-muted-foreground">
                     <span>Subtotal</span>
                     {typeof cart?.subtotal === 'number' && (
-                      <Price amount={adjustedSubtotal} className="text-base text-zinc-300" />
+                      <Price amount={adjustedSubtotal} className="text-base font-semibold text-foreground" />
                     )}
                   </div>
 
-                  <div className="mt-5 flex items-center justify-between border-t border-zinc-800 pt-4">
-                    <span className="text-lg font-extrabold tracking-[0.14em] text-zinc-100">
-                      Total
-                    </span>
+                  <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                    <span className="text-lg font-extrabold tracking-[0.14em] text-foreground">Total</span>
                     {typeof cart?.subtotal === 'number' && (
-                      <Price
-                        amount={adjustedSubtotal}
-                        className="text-3xl font-black text-[#d4a63c]"
-                      />
+                      <Price amount={adjustedSubtotal} className="text-3xl font-black text-primary" />
                     )}
                   </div>
                 </div>
 
-                <div className="mt-7 space-y-5">
+                <div className="mt-7">
                   <Link
                     href="/checkout"
-                    className="flex h-14 w-full items-center justify-center rounded-none border border-[#c8a24d] bg-[#c8a24d] px-5 py-6 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-black transition-all duration-300 ease-out hover:bg-transparent hover:text-[#c8a24d] hover:scale-[1.03] active:scale-[0.97]"
-
+                    className="flex h-14 w-full items-center justify-center rounded-full bg-primary px-5 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-primary-foreground shadow-sm transition hover:bg-primary/90"
                   >
                     Proceed to Checkout
                   </Link>
-
-                  <div className="flex items-center justify-center gap-10 border-t border-zinc-800 pt-5 text-[11px] uppercase tracking-[0.14em] text-zinc-500" />
                 </div>
               </div>
             </>

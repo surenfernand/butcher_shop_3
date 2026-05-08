@@ -53,20 +53,20 @@ export default async function AccountPage() {
   ).length
 
   return (
-    <div className="space-y-8 text-[#2f2a24]">
-      <div className="rounded-lg border border-[#e8dfd0] bg-[#fafaf8] px-6 py-3">
-        <p className="text-xs uppercase tracking-[0.15em] text-[#7a6b52]">
+    <div className="space-y-8 text-foreground">
+      <div className="rounded-lg border border-border bg-background px-6 py-3">
+        <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
           Need help with your account? Contact support at{' '}
-          <a className="text-[#8f7442] underline" href="mailto:info@filetgourmet.ca">
+          <a className="text-primary underline" href="mailto:info@filetgourmet.ca">
             info@filetgourmet.ca
           </a>
         </p>
       </div>
 
-      <div className="rounded-xl border border-[#e5dac8] bg-[#fffdfa] p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
-        <p className="text-xs uppercase tracking-[0.2em] text-[#8f7a58]">My Account Dashboard</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight text-[#2f2a24]">Welcome back, {user.name || 'Guest'}</h1>
-        <p className="mt-3 max-w-3xl text-sm text-[#746a5a]">
+      <div className="rounded-xl border border-border bg-card p-7 shadow-[0_14px_28px_rgba(40,33,20,0.06)]">
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">My Account Dashboard</p>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground">Welcome back, {user.name || 'Guest'}</h1>
+        <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
           Review your profile, track recent orders, manage saved addresses, and access subscription details from one place.
         </p>
       </div>
@@ -79,10 +79,10 @@ export default async function AccountPage() {
           >
             <div className="grid gap-4 md:grid-cols-2">
               <ProfileSummaryCard user={user} />
-              <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-5">
-                <p className="text-xs uppercase tracking-[0.16em] text-[#8f7a58]">Rewards & Loyalty</p>
-                <p className="mt-3 text-2xl font-semibold text-[#2f2a24]">Gold Member</p>
-                <p className="mt-2 text-sm text-[#746a5a]">Earn points on every premium order. Redeem perks soon.</p>
+              <div className="rounded-lg border border-border bg-muted/50 p-5">
+                <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Rewards & Loyalty</p>
+                <p className="mt-3 text-2xl font-semibold text-foreground">Gold Member</p>
+                <p className="mt-2 text-sm text-muted-foreground">Earn points on every premium order. Redeem perks soon.</p>
               </div>
             </div>
           </DashboardCard>
@@ -127,13 +127,13 @@ export default async function AccountPage() {
             title="Recent Orders"
             subtitle="A quick preview of your latest purchases."
             action={
-              <Link href="/orders" className="text-xs uppercase tracking-[0.14em] text-[#8f7442] hover:text-[#6f5933]">
+              <Link href="/orders" className="text-xs uppercase tracking-[0.14em] text-primary hover:text-primary/90">
                 View all
               </Link>
             }
           >
             {recentOrders.length === 0 ? (
-              <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-[#746a5a]">
+              <p className="rounded-lg border border-dashed border-border bg-muted/30 p-5 text-sm text-muted-foreground">
                 You have no recent orders yet.
               </p>
             ) : (
@@ -151,13 +151,13 @@ export default async function AccountPage() {
             title="Saved Addresses"
             subtitle="Your default delivery locations."
             action={
-              <Link href="/account/addresses" className="text-xs uppercase tracking-[0.14em] text-[#8f7442] hover:text-[#6f5933]">
+              <Link href="/account/addresses" className="text-xs uppercase tracking-[0.14em] text-primary hover:text-primary/90">
                 Edit
               </Link>
             }
           >
             {savedAddresses.length === 0 ? (
-              <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-[#746a5a]">
+              <p className="rounded-lg border border-dashed border-border bg-muted/30 p-5 text-sm text-muted-foreground">
                 No saved addresses. Add one to speed up checkout.
               </p>
             ) : (
@@ -170,10 +170,10 @@ export default async function AccountPage() {
           </DashboardCard>
 
           <DashboardCard title="Subscriptions" subtitle="Recurring order overview.">
-            <div className="rounded-lg border border-[#efe6d8] bg-[#fdfbf7] p-5">
-              <p className="text-xs uppercase tracking-[0.16em] text-[#8f7a58]">Active Plans</p>
-              <p className="mt-2 text-2xl font-semibold text-[#2f2a24]">{activeSubscriptions}</p>
-              <Link href="/account/subscriptions" className="mt-4 inline-block text-xs uppercase tracking-[0.14em] text-[#8f7442] hover:text-[#6f5933]">
+            <div className="rounded-lg border border-border bg-muted/50 p-5">
+              <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Active Plans</p>
+              <p className="mt-2 text-2xl font-semibold text-foreground">{activeSubscriptions}</p>
+              <Link href="/account/subscriptions" className="mt-4 inline-block text-xs uppercase tracking-[0.14em] text-primary hover:text-primary/90">
                 Manage subscriptions
               </Link>
             </div>
@@ -182,7 +182,7 @@ export default async function AccountPage() {
       </div>
 
       <DashboardCard title="Wishlist & Favourites" subtitle="Placeholder section for future favourite products integration.">
-        <p className="rounded-lg border border-dashed border-[#e6dac4] bg-[#fdfbf7] p-5 text-sm text-[#746a5a]">
+        <p className="rounded-lg border border-dashed border-border bg-muted/30 p-5 text-sm text-muted-foreground">
           Wishlist functionality is not currently enabled in this project. This slot is ready for future integration.
         </p>
       </DashboardCard>

@@ -186,25 +186,25 @@ export default async function ShopPage({ searchParams }: Props) {
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-4 rounded-2xl border border-[#eadfca] bg-[#fffdf8] px-5 py-4 shadow-[0_10px_24px_rgba(36,29,20,0.05)] md:flex-row md:items-center md:justify-between">
-        <p className="text-sm text-[#645e53]">
-          Showing <span className="font-semibold text-[#2a2620]">{products.docs.length}</span> of{' '}
-          <span className="font-semibold text-[#2a2620]">{totalProducts}</span> {resultsText}
+      <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card px-5 py-4 shadow-[0_10px_24px_rgba(36,29,20,0.05)] md:flex-row md:items-center md:justify-between">
+        <p className="text-sm text-muted-foreground">
+          Showing <span className="font-semibold text-foreground">{products.docs.length}</span> of{' '}
+          <span className="font-semibold text-foreground">{totalProducts}</span> {resultsText}
         </p>
         <ShopSortSelect />
       </div>
 
       {searchValue ? (
-        <p className="text-sm text-[#6b665d]">
+        <p className="text-sm text-muted-foreground">
           {products.docs.length === 0
             ? 'There are no products that match '
             : `Showing ${products.docs.length} ${resultsText} for `}
-          <span className="font-semibold text-[#2a2620]">&quot;{String(searchValue)}&quot;</span>
+          <span className="font-semibold text-foreground">&quot;{String(searchValue)}&quot;</span>
         </p>
       ) : null}
 
       {!searchValue && products.docs.length === 0 ? (
-        <p className="text-sm text-[#6b665d]">
+        <p className="text-sm text-muted-foreground">
           {shopPage.emptyStateText || 'No products found. Please try different filters.'}
         </p>
       ) : null}
@@ -220,20 +220,20 @@ export default async function ShopPage({ searchParams }: Props) {
       {totalPages > 1 ? (
         <nav
           aria-label="Shop pagination"
-          className="flex flex-wrap items-center justify-center gap-3 border-t border-[#e9dfce] pt-8"
+          className="flex flex-wrap items-center justify-center gap-3 border-t border-border pt-8"
         >
           <Link
             href={createPageHref(Math.max(1, currentPage - 1))}
             className={cn(
               'rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition',
               products.hasPrevPage
-                ? 'border-[#dbc9a3] bg-white text-[#4c4437] hover:border-[#b99652]'
-                : 'pointer-events-none border-[#eee5d4] bg-[#faf7ef] text-[#b4ab9b]',
+                ? 'border-border bg-card text-foreground hover:border-primary hover:text-primary'
+                : 'pointer-events-none border-border bg-muted/50 text-muted-foreground',
             )}
           >
             Prev
           </Link>
-          <span className="rounded-full border border-[#eadfc9] bg-[#fffdf8] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#7b6740]">
+          <span className="rounded-full border border-border bg-muted/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Page {currentPage} / {totalPages}
           </span>
           <Link
@@ -241,8 +241,8 @@ export default async function ShopPage({ searchParams }: Props) {
             className={cn(
               'rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition',
               products.hasNextPage
-                ? 'border-[#dbc9a3] bg-white text-[#4c4437] hover:border-[#b99652]'
-                : 'pointer-events-none border-[#eee5d4] bg-[#faf7ef] text-[#b4ab9b]',
+                ? 'border-border bg-card text-foreground hover:border-primary hover:text-primary'
+                : 'pointer-events-none border-border bg-muted/50 text-muted-foreground',
             )}
           >
             Next
@@ -250,10 +250,10 @@ export default async function ShopPage({ searchParams }: Props) {
         </nav>
       ) : null}
 
-      <section className="rounded-3xl border border-[#e6d9c2] bg-[linear-gradient(135deg,#f8f1e4_0%,#f4ead5_100%)] p-8 shadow-[0_16px_34px_rgba(42,33,17,0.08)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8b6b2f]">Stay Informed</p>
-        <h2 className="mt-3 text-2xl font-semibold text-[#2d261a]">Get monthly menus and premium offers</h2>
-        <p className="mt-3 text-sm leading-7 text-[#605641]">
+      <section className="rounded-3xl border border-border bg-gradient-to-br from-rose-50 via-orange-50/80 to-amber-50 p-8 text-neutral-900 shadow-[0_16px_34px_rgba(42,33,17,0.08)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Stay Informed</p>
+        <h2 className="mt-3 font-serif text-2xl font-semibold">Get monthly menus and premium offers</h2>
+        <p className="mt-3 text-sm leading-7 text-neutral-700">
           Join our list to receive curated seasonal product drops and chef recommendations.
         </p>
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -261,11 +261,11 @@ export default async function ShopPage({ searchParams }: Props) {
             type="email"
             aria-label="Email address"
             placeholder="Your email address"
-            className="min-h-11 flex-1 rounded-full border border-[#dcc8a3] bg-white px-4 text-sm text-[#3c362c] outline-none focus:border-[#b6924d]"
+            className="min-h-11 flex-1 rounded-full border border-input bg-background px-4 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/25"
           />
           <button
             type="button"
-            className="min-h-11 rounded-full bg-[#caa660] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-[#1f190e] transition hover:bg-[#b99249]"
+            className="min-h-11 rounded-full bg-primary px-6 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground transition hover:bg-primary/90"
           >
             Subscribe
           </button>

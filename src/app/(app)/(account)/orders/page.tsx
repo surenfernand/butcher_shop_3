@@ -1,10 +1,11 @@
 import type { Order, Product } from '@/payload-types'
 import type { Metadata } from 'next'
 
+import { DashboardCard } from '@/components/account/DashboardCard'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import configPromise from '@payload-config'
 import { headers as getHeaders } from 'next/headers'
-import { Truck, ShoppingBasket, ChevronRight } from 'lucide-react'
+import { ShoppingBasket, Truck } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -76,17 +77,18 @@ function StatusBadge({ status }: { status: Order['status'] }) {
             ? 'Refunded'
             : 'Processing'
 
-  if (s === 'completed') {
-    return (
-      <span className="inline-block border border-[#d4af5f] bg-black px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#d4af5f]">
-        {label.toUpperCase()}
-      </span>
-    )
-  }
+  const cls =
+    s === 'completed'
+      ? 'border-primary/30 bg-primary/10 text-primary'
+      : s === 'processing'
+        ? 'border-border bg-muted text-foreground'
+        : 'border-border bg-muted text-muted-foreground'
 
   return (
-    <span className="inline-block bg-[#2c2c2c] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a3a3a3]">
-      {label.toUpperCase()}
+    <span
+      className={`inline-flex rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${cls}`}
+    >
+      {label}
     </span>
   )
 }
@@ -123,104 +125,120 @@ export default async function Orders() {
     orders = []
   }
 
+  const visibleOrders = orders || []
+
   return (
-    <div className="w-full space-y-10 text-[#e5e5e5]">
-      <div className="mt-3">
-        <h1 className="text-5xl font-bold tracking-tight text-white">Order History</h1>
-        <p className="mt-3 text-sm text-[#9ca3af]">Manage your order history.</p>
+    <div className="w-full space-y-8 text-foreground">
+      <div className="rounded-lg border border-border bg-muted/40 px-6 py-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+          Order support:{' '}
+          <a className="text-primary underline underline-offset-2" href="mailto:info@filetgourmet.ca">
+            info@filetgourmet.ca
+          </a>
+        </p>
       </div>
 
-      <div className="overflow-hidden rounded-sm border border-[#2a2a2a] bg-black">
+      <div className="rounded-xl border border-border bg-card p-7 shadow-[0_14px_28px_rgba(26,28,28,0.06)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Order Management</p>
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-neutral-950">Order History</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Track, review, and manage all your premium orders.
+        </p>
+      </div>
+
+      <DashboardCard title="Your orders" subtitle="Detailed order records with status and pricing.">
         {(!orders || orders.length === 0) && (
-          <div className="px-6 py-14 text-center text-[#9ca3af]">You have no orders.</div>
+          <div className="rounded-lg border border-dashed border-border bg-muted/30 px-6 py-14 text-center text-muted-foreground">
+            You have no orders yet.
+          </div>
         )}
 
         {orders && orders.length > 0 && (
           <div className="w-full overflow-x-auto">
-            <table className="w-full min-w-[920px] border-collapse text-left">
+            <table className="w-full min-w-[920px] border-separate border-spacing-0 text-left">
               <thead>
-                <tr className="border-b border-[#2a2a2a] bg-[#161616]">
-                  <th className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d4af5f] lg:px-7">
+                <tr className="bg-muted/70">
+                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-7">
                     Order #
                   </th>
-                  <th className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d4af5f] lg:px-6">
+                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-6">
                     Date
                   </th>
-                  <th className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d4af5f] lg:px-6">
+                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-6">
                     Delivery method
                   </th>
-                  <th className="min-w-[220px] px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d4af5f] lg:min-w-[260px] lg:px-6">
+                  <th className="min-w-[220px] border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:min-w-[260px] lg:px-6">
                     Items
                   </th>
-                  <th className="px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d4af5f] lg:px-6">
+                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-6">
                     Status
                   </th>
-                  <th className="px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d4af5f] lg:px-7">
+                  <th className="border-y border-border px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-7">
                     Total
                   </th>
-                  <th className="w-10 px-2 py-4 lg:w-12" aria-hidden />
+                  <th className="w-12 border-y border-border px-2 py-4 lg:w-14" aria-hidden />
                 </tr>
               </thead>
 
               <tbody>
-                {orders.map((order) => {
+                {visibleOrders.map((order) => {
                   const fulfillment = order.fulfillment
                   const isDelivery = fulfillment?.serviceType === 'delivery'
                   const isPickup = fulfillment?.serviceType === 'pickup'
                   const { primary, secondary } = getItemsLines(order)
-
                   const href = `/orders/${order.id}`
 
                   return (
                     <tr
                       key={order.id}
-                      className="border-b border-[#2a2a2a] transition-colors hover:bg-[#141414]"
+                      className="transition-colors hover:bg-accent/40"
                     >
-                      <td className="px-5 py-5 align-middle text-sm lg:px-7">
+                      <td className="border-b border-border px-5 py-5 align-middle lg:px-7">
                         <Link
                           href={href}
-                          className="font-medium text-[#c4c4c4] underline-offset-4 hover:text-[#d4af5f]"
+                          className="font-medium text-foreground underline-offset-4 hover:text-primary"
                         >
                           {formatOrderRef(order.id)}
                         </Link>
                       </td>
-                      <td className="whitespace-nowrap px-5 py-5 align-middle text-sm text-[#e5e5e5] lg:px-6">
+                      <td className="whitespace-nowrap border-b border-border px-5 py-5 align-middle text-sm text-muted-foreground lg:px-6">
                         {formatOrderDate(order.createdAt)}
                       </td>
-                      <td className="px-5 py-5 align-middle lg:px-6">
+                      <td className="border-b border-border px-5 py-5 align-middle lg:px-6">
                         {isDelivery && (
-                          <span className="inline-flex items-center gap-2 text-sm text-[#a3a3a3]">
-                            <Truck className="size-4 shrink-0 text-[#737373]" aria-hidden />
+                          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                            <Truck className="size-4 shrink-0 text-primary" aria-hidden />
                             Delivery
                           </span>
                         )}
                         {isPickup && (
-                          <span className="inline-flex items-center gap-2 text-sm text-[#a3a3a3]">
-                            <ShoppingBasket className="size-4 shrink-0 text-[#737373]" aria-hidden />
+                          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                            <ShoppingBasket className="size-4 shrink-0 text-primary" aria-hidden />
                             Pickup
                           </span>
                         )}
                         {!isDelivery && !isPickup && (
-                          <span className="text-sm text-[#737373]">—</span>
+                          <span className="text-sm text-muted-foreground">—</span>
                         )}
                       </td>
-                      <td className="max-w-[280px] px-5 py-5 align-middle lg:max-w-[320px] lg:px-6">
-                        <div className="text-sm font-medium text-[#ececec]">{primary}</div>
-                        <div className="mt-1 text-xs text-[#737373]">{secondary}</div>
+                      <td className="max-w-[280px] border-b border-border px-5 py-5 align-middle lg:max-w-[320px] lg:px-6">
+                        <div className="text-sm font-medium text-foreground">{primary}</div>
+                        <div className="mt-1 text-xs text-muted-foreground">{secondary}</div>
                       </td>
-                      <td className="px-5 py-5 align-middle lg:px-6">
+                      <td className="border-b border-border px-5 py-5 align-middle lg:px-6">
                         <StatusBadge status={order.status} />
                       </td>
-                      <td className="whitespace-nowrap px-5 py-5 text-right align-middle text-base font-semibold text-[#d4af5f] lg:px-7">
+                      <td className="whitespace-nowrap border-b border-border px-5 py-5 text-right align-middle text-base font-semibold text-primary lg:px-7">
                         {formatMoney(order.amount)}
                       </td>
-                      <td className="px-2 py-5 align-middle text-[#737373] lg:px-3">
+                      <td className="border-b border-border px-2 py-5 align-middle lg:px-3">
                         <Link
                           href={href}
                           aria-label={`View order ${formatOrderRef(order.id)}`}
-                          className="flex justify-end text-[#737373] transition-colors hover:text-[#d4af5f]"
+                          className="flex justify-end text-muted-foreground transition-colors hover:text-primary"
                         >
-                          <ChevronRight className="size-5" aria-hidden />
+                          <span className="sr-only">View order</span>
+                          →
                         </Link>
                       </td>
                     </tr>
@@ -230,7 +248,16 @@ export default async function Orders() {
             </table>
           </div>
         )}
-      </div>
+      </DashboardCard>
+
+      <footer className="rounded-xl border border-border bg-muted/50 px-6 py-6 text-foreground">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          Need order assistance?
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Contact support for invoice corrections, delivery updates, or account-specific help.
+        </p>
+      </footer>
     </div>
   )
 }

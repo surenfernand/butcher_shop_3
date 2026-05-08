@@ -77,15 +77,15 @@ export const ContactPageBlock: React.FC<Props> = ({
   mapEmbedUrl,
 }) => {
   return (
-    <section className="bg-[#f8f6f2] px-6 pb-20 text-[#2a2721] md:pb-24">
-      <div className="mx-auto mb-12 mt-4 max-w-[1280px] overflow-hidden rounded-3xl border border-[#e9dfcc] bg-[radial-gradient(circle_at_top_right,#f3e9d3_0%,#fafaf8_58%,#f8f6f2_100%)] p-8 md:mb-16 md:p-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#9b7a3b]">
+    <section className="bg-background px-6 pb-20 text-foreground md:pb-24">
+      <div className="mx-auto mb-12 mt-4 max-w-[1280px] overflow-hidden rounded-3xl border border-border bg-[radial-gradient(circle_at_top_right,#fecaca_0%,#fff5f5_55%,#ffe4e6_100%)] p-8 md:mb-16 md:p-12">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
           {heroEyebrow || 'Contact'}
         </p>
-        <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.1] tracking-tight text-[#1f1d19] md:text-5xl">
+        <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.1] tracking-tight text-foreground md:text-5xl">
           {heroTitle || 'Get In Touch'}
         </h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-[#5c564d]">
+        <p className="mt-5 max-w-3xl text-base leading-8 text-muted-foreground">
           {heroDescription ||
             'We would love to hear from you. Reach out for questions, delivery details, custom requests, or product recommendations.'}
         </p>
@@ -99,20 +99,20 @@ export const ContactPageBlock: React.FC<Props> = ({
             return (
               <div
                 key={index}
-                className="rounded-2xl border border-[#e9dfcd] bg-white p-6 shadow-[0_12px_34px_rgba(38,30,22,0.06)]"
+                className="rounded-2xl border border-border bg-card p-6 shadow-[0_12px_34px_rgba(38,30,22,0.06)]"
               >
-                <Icon className="mb-5 h-5 w-5 text-[#9f7b35]" />
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-[#2f2a22]">
+                <Icon className="mb-5 h-5 w-5 text-primary" />
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-foreground">
                   {card.title}
                 </h3>
                 {card.line1 && (
-                  <p className="text-sm leading-7 text-[#5d584f]">
+                  <p className="text-sm leading-7 text-muted-foreground">
                     {card.line1.includes('@') ? (
-                      <a href={`mailto:${card.line1}`} className="hover:text-[#8d6c2e]">
+                      <a href={`mailto:${card.line1}`} className="hover:text-primary">
                         {card.line1}
                       </a>
                     ) : card.line1.includes('+') || card.line1.match(/\d{3}/) ? (
-                      <a href={`tel:${card.line1.replace(/\s+/g, '')}`} className="hover:text-[#8d6c2e]">
+                      <a href={`tel:${card.line1.replace(/\s+/g, '')}`} className="hover:text-primary">
                         {card.line1}
                       </a>
                     ) : (
@@ -121,44 +121,44 @@ export const ContactPageBlock: React.FC<Props> = ({
                   </p>
                 )}
                 {card.line2 && (
-                  <p className="text-sm leading-7 text-[#5d584f]">{card.line2}</p>
+                  <p className="text-sm leading-7 text-muted-foreground">{card.line2}</p>
                 )}
               </div>
             )
           })}
 
-          <div className="rounded-2xl border border-[#e9dfcd] bg-white p-6 shadow-[0_12px_34px_rgba(38,30,22,0.06)]">
+          <div className="rounded-2xl border border-border bg-card p-6 shadow-[0_12px_34px_rgba(38,30,22,0.06)]">
             <div className="mb-6 flex items-center gap-3">
-              <Clock3 className="h-5 w-5 text-[#9f7b35]" />
-              <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-[#9f7b35]">Store Hours</h3>
+              <Clock3 className="h-5 w-5 text-primary" />
+              <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">Store Hours</h3>
             </div>
 
             <div className="space-y-4">
               {(storeHours || []).map((item, index) => (
                 <div
                   key={index}
-                  className="flex justify-between border-b border-[#f0e8da] pb-3 text-sm"
+                  className="flex justify-between border-b border-border pb-3 text-sm"
                 >
-                  <span className="font-semibold uppercase tracking-[0.08em] text-[#2f2a22]">{item.day}</span>
-                  <span className="font-semibold text-[#9f7b35]">{item.time}</span>
+                  <span className="font-semibold uppercase tracking-[0.08em] text-foreground">{item.day}</span>
+                  <span className="font-semibold text-primary">{item.time}</span>
                 </div>
               ))}
             </div>
 
             {storeNote && (
-              <p className="mt-6 text-xs italic text-[#6b655c]">{storeNote}</p>
+              <p className="mt-6 text-xs italic text-muted-foreground">{storeNote}</p>
             )}
           </div>
         </div>
 
-        <div className="rounded-3xl border border-[#e8dfcd] bg-white p-8 shadow-[0_18px_42px_rgba(38,30,22,0.08)] md:p-12">
-          <h2 className="text-3xl font-semibold tracking-tight text-[#25221d] md:text-4xl">
+        <div className="rounded-3xl border border-border bg-card p-8 shadow-[0_18px_42px_rgba(38,30,22,0.08)] md:p-12">
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
             {formTitle || 'Send An Inquiry'}
           </h2>
-          <div className="mb-8 mt-4 h-[2px] w-14 bg-[#d2b47a]" />
+          <div className="mb-8 mt-4 h-[2px] w-14 bg-primary" />
 
           {form && (
-            <div className="[&_button[type='submit']]:mt-2 [&_button[type='submit']]:h-12 [&_button[type='submit']]:rounded-full [&_button[type='submit']]:border-[#d2b37a] [&_button[type='submit']]:bg-[#d2b37a] [&_button[type='submit']]:px-8 [&_button[type='submit']]:text-xs [&_button[type='submit']]:font-semibold [&_button[type='submit']]:tracking-[0.18em] [&_button[type='submit']]:text-[#241c11] [&_button[type='submit']]:hover:bg-[#c29f5a] [&_button[type='submit']]:hover:text-[#241c11] [&_button[type='submit']]:hover:scale-100 [&_input]:h-12 [&_input]:rounded-xl [&_input]:border-[#e5d8bf] [&_input]:bg-[#fffefb] [&_input]:text-[#332f27] [&_input]:placeholder:text-[#8f8778] [&_input]:focus-visible:border-[#c6a566] [&_label]:mb-2 [&_label]:text-[11px] [&_label]:font-semibold [&_label]:tracking-[0.14em] [&_label]:text-[#7f6b43] [&_textarea]:rounded-xl [&_textarea]:border-[#e5d8bf] [&_textarea]:bg-[#fffefb] [&_textarea]:text-[#332f27] [&_textarea]:placeholder:text-[#8f8778] [&_textarea]:focus-visible:border-[#c6a566]">
+            <div className="[&_button[type='submit']]:mt-2 [&_button[type='submit']]:h-12 [&_button[type='submit']]:rounded-full [&_button[type='submit']]:border-primary [&_button[type='submit']]:bg-primary [&_button[type='submit']]:px-8 [&_button[type='submit']]:text-xs [&_button[type='submit']]:font-semibold [&_button[type='submit']]:tracking-[0.18em] [&_button[type='submit']]:text-primary-foreground [&_button[type='submit']]:hover:bg-primary/90 [&_button[type='submit']]:hover:text-primary-foreground [&_button[type='submit']]:hover:scale-100 [&_input]:h-12 [&_input]:rounded-xl [&_input]:border-input [&_input]:bg-card [&_input]:text-foreground [&_input]:placeholder:text-muted-foreground [&_input]:focus-visible:border-ring [&_label]:mb-2 [&_label]:text-[11px] [&_label]:font-semibold [&_label]:tracking-[0.14em] [&_label]:text-muted-foreground [&_textarea]:rounded-xl [&_textarea]:border-input [&_textarea]:bg-card [&_textarea]:text-foreground [&_textarea]:placeholder:text-muted-foreground [&_textarea]:focus-visible:border-ring">
               <FormBlock form={form} enableIntro={false} />
             </div>
           )}
@@ -166,7 +166,7 @@ export const ContactPageBlock: React.FC<Props> = ({
       </div>
 
       <div className="mx-auto mt-16 max-w-[1280px] md:mt-20">
-        <div className="relative h-[420px] overflow-hidden rounded-3xl border border-[#e8decb] bg-[#f1ebdf] shadow-[0_18px_42px_rgba(39,31,20,0.1)]">
+        <div className="relative h-[420px] overflow-hidden rounded-3xl border border-border bg-muted shadow-[0_18px_42px_rgba(39,31,20,0.1)]">
           {mapEmbedUrl ? (
             <iframe
               src={mapEmbedUrl}
@@ -178,7 +178,7 @@ export const ContactPageBlock: React.FC<Props> = ({
               className="absolute inset-0 h-full w-full border-0 grayscale-[0.35]"
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-[#766f63]">
+            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
               Google Map not configured
             </div>
           )}
@@ -203,8 +203,8 @@ export const ContactPageBlock: React.FC<Props> = ({
       </div>
 
       <div className="mx-auto mt-16 grid max-w-[1280px] gap-8 lg:grid-cols-[1fr_0.95fr]">
-        <div className="rounded-3xl border border-[#e8deca] bg-white p-8 shadow-[0_16px_38px_rgba(37,30,22,0.07)]">
-          <h3 className="text-2xl font-semibold text-[#25221d]">{faqTitle || 'Frequently Asked Questions'}</h3>
+        <div className="rounded-3xl border border-border bg-card p-8 shadow-[0_16px_38px_rgba(37,30,22,0.07)]">
+          <h3 className="text-2xl font-semibold text-foreground">{faqTitle || 'Frequently Asked Questions'}</h3>
           <div className="mt-5">
             <Accordion type="single" collapsible defaultValue="faq-0">
               {(faqItems?.length
@@ -225,11 +225,11 @@ export const ContactPageBlock: React.FC<Props> = ({
                     },
                   ]
               ).map((item, index) => (
-                <AccordionItem key={index} value={`faq-${index}`} className="border-[#eee5d6]">
-                  <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#3f3a31] hover:no-underline">
+                <AccordionItem key={index} value={`faq-${index}`} className="border-border">
+                  <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.12em] text-foreground hover:no-underline">
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="pb-5 text-sm leading-7 text-[#5d584f]">
+                  <AccordionContent className="pb-5 text-sm leading-7 text-muted-foreground">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -238,26 +238,26 @@ export const ContactPageBlock: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="rounded-3xl border border-[#e2d4b9] bg-[linear-gradient(135deg,#f7efde_0%,#f2e5c9_100%)] p-8 shadow-[0_16px_38px_rgba(50,38,19,0.1)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8d6a2e]">Customer Support</p>
-          <h3 className="mt-3 text-3xl font-semibold leading-tight text-[#2b2418]">
+        <div className="rounded-3xl border border-primary/25 bg-gradient-to-br from-rose-100 via-orange-50 to-amber-100 p-8 shadow-[0_16px_38px_rgba(50,38,19,0.1)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Customer Support</p>
+          <h3 className="mt-3 text-3xl font-semibold leading-tight text-foreground">
             {supportTitle || 'Need immediate assistance?'}
           </h3>
-          <p className="mt-4 text-sm leading-7 text-[#5d513b]">
+          <p className="mt-4 text-sm leading-7 text-muted-foreground">
             {supportDescription ||
               'Our team is available to help with orders, product details, delivery windows, and custom requests.'}
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href={supportPrimaryUrl || 'tel:+14503131449'}
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#2f2a22] px-6 text-xs font-semibold uppercase tracking-[0.16em] text-[#f8f2e5] transition hover:bg-[#1f1a14]"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground transition hover:bg-primary/90"
             >
               {supportPrimaryLabel || 'Call Us'}
               <ArrowRight className="ml-2 h-3.5 w-3.5" />
             </Link>
             <Link
               href={supportSecondaryUrl || 'mailto:info@filetgourmet.ca'}
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#bfa066] bg-white/70 px-6 text-xs font-semibold uppercase tracking-[0.16em] text-[#4e3f24]"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-primary bg-card/80 px-6 text-xs font-semibold uppercase tracking-[0.16em] text-foreground"
             >
               {supportSecondaryLabel || 'Email Support'}
             </Link>

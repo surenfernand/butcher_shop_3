@@ -18,47 +18,40 @@ export default async function Login() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden text-[#d8c7a0]" style={{margin: "80px 40px 80px 40px"}}>
+    <main className="relative min-h-screen overflow-hidden bg-background">
       <div className="absolute inset-0 grid grid-cols-1 lg:grid-cols-2">
         <div
-          className="hidden lg:block bg-cover bg-center"
+          className="hidden bg-cover bg-center lg:block"
           style={{
             backgroundImage: "url('/butcher-portrait.jpg')",
           }}
         />
-        <div className=" " />
+        <div className="hidden lg:block" />
       </div>
 
-      <div className="absolute inset-0" />
- 
-      <section className="relative z-10 min-h-screen grid grid-cols-1 lg:grid-cols-2">
-        <div className="hidden lg:flex flex-col justify-end px-8 pb-10">
-        
+      <div className="absolute inset-0 bg-background/80 lg:bg-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-background/90 lg:to-background" />
 
-           
-        </div>
+      <section className="relative z-10 mx-auto grid min-h-screen max-w-6xl grid-cols-1 px-6 py-16 sm:px-10 lg:grid-cols-2 lg:px-8 lg:py-12">
+        <div className="hidden lg:block" />
 
-        <div className="flex flex-col justify-center px-8 sm:px-16 lg:px-28">
-          <div className="w-full max-w-md mx-auto mt-10">
+        <div className="flex flex-col justify-center">
+          <div className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card/95 p-8 shadow-[0_20px_50px_rgba(26,28,28,0.08)] backdrop-blur-sm sm:p-10">
             <RenderParams />
 
-            <div className="mb-16">
-               
-               
-
-              <h1 className="text-white text-lg font-medium mb-3">Welcome back</h1>
-              <p className="text-[#b9ad9a] text-base">
+            <div className="mb-10">
+              <h1 className="mb-3 text-lg font-medium text-foreground">Welcome back</h1>
+              <p className="text-base text-muted-foreground">
                 Enter your credentials to access your account.
               </p>
             </div>
 
             <LoginForm />
 
-            <div className="mt-36 text-sm text-[#c6bca8]">
-              New to Butchers Craft ? {' '}
+            <div className="mt-10 text-sm text-muted-foreground">
+              New to Butchers Craft?{' '}
               <Link
                 href="/create-account"
-                className="ml-2 text-white underline underline-offset-4 hover:text-[#d6a941]"
+                className="font-medium text-primary underline underline-offset-4 hover:text-primary/90"
               >
                 Create an account
               </Link>
@@ -66,8 +59,6 @@ export default async function Login() {
           </div>
         </div>
       </section>
-
- 
     </main>
   )
 }

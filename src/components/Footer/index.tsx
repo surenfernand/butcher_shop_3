@@ -15,13 +15,13 @@ export async function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-[#e6dcc8] bg-[#f7f4ed] text-[#4f483c]">
+    <footer className="border-t border-border bg-muted text-[#4f483c]">
       <div className="mx-auto max-w-7xl px-6 py-16 md:px-10 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-[1.25fr_0.9fr_1fr_1fr]">
           <div className="max-w-md">
             <Link
               href="/"
-              className="mb-6 flex items-center gap-3 text-[#a8843b] transition-opacity hover:opacity-80"
+              className="mb-6 flex items-center gap-3 text-primary transition-opacity hover:opacity-80"
             >
               {footer.logo && typeof footer.logo === 'object' ? (
                 <Media
@@ -29,14 +29,14 @@ export async function Footer() {
                   imgClassName="h-16 w-auto object-contain"
                 />
               ) : (
-                <span className="text-xl font-semibold uppercase tracking-wide text-[#2c2822]">
+                <span className="text-xl font-semibold uppercase tracking-wide text-foreground">
                   {footer.brandName || 'Filet Gourmet Atelier'}
                 </span>
               )}
             </Link>
 
             {footer.description && (
-              <p className="mb-8 text-sm leading-7 text-[#615b51]">
+              <p className="mb-8 text-sm leading-7 text-muted-foreground">
                 {footer.description}
               </p>
             )}
@@ -51,7 +51,7 @@ export async function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-xs uppercase tracking-[0.28em] text-[#9b7a3a]">
+            <h3 className="mb-6 text-xs uppercase tracking-[0.28em] text-primary">
               Useful Links
             </h3>
 
@@ -61,7 +61,7 @@ export async function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-xs uppercase tracking-[0.28em] text-[#9b7a3a]">
+            <h3 className="mb-6 text-xs uppercase tracking-[0.28em] text-primary">
               Contact
             </h3>
 
@@ -69,7 +69,7 @@ export async function Footer() {
               {footer.contactEmail && (
                 <a
                   href={`mailto:${footer.contactEmail}`}
-                  className="text-xs uppercase tracking-[0.22em] text-[#5f594f] transition-colors hover:text-[#8a6c31]"
+                  className="text-xs uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:text-primary"
                 >
                   {footer.contactEmail}
                 </a>
@@ -78,20 +78,20 @@ export async function Footer() {
               {footer.contactPhone && (
                 <a
                   href={`tel:${footer.contactPhone}`}
-                  className="text-xs uppercase tracking-[0.22em] text-[#5f594f] transition-colors hover:text-[#8a6c31]"
+                  className="text-xs uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:text-primary"
                 >
                   {footer.contactPhone}
                 </a>
               )}
 
               {footer.address && (
-                <p className="whitespace-pre-line text-xs uppercase tracking-[0.18em] leading-6 text-[#5f594f]">
+                <p className="whitespace-pre-line text-xs uppercase tracking-[0.18em] leading-6 text-muted-foreground">
                   {footer.address}
                 </p>
               )}
 
               {footer.bottomBar?.locationText && (
-                <p className="text-xs uppercase tracking-[0.22em] text-[#5f594f]">
+                <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
                   {footer.bottomBar.locationText}
                 </p>
               )}
@@ -99,7 +99,7 @@ export async function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-xs uppercase tracking-[0.28em] text-[#9b7a3a]">
+            <h3 className="mb-6 text-xs uppercase tracking-[0.28em] text-primary">
               Newsletter
             </h3>
             <p className="mb-4 text-sm leading-7 text-[#605b51]">
@@ -109,12 +109,12 @@ export async function Footer() {
               <input
                 type="email"
                 placeholder="Your email"
-                className="w-full rounded-full border border-[#dfd2b5] bg-white px-4 py-3 text-sm text-[#3f3a31] placeholder:text-[#8a816f] focus:border-[#b99956] focus:outline-none"
+                className="w-full rounded-full border border-input bg-white px-4 py-3 text-sm text-foreground placeholder:text-[#8a816f] focus:border-[#b99956] focus:outline-none"
                 aria-label="Email address"
               />
               <button
                 type="button"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#c6a15a] px-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#1f1a12] transition hover:bg-[#b79047]"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground transition hover:bg-primary/90"
               >
                 Subscribe
               </button>
@@ -123,8 +123,8 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[#e6dcc8]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-[10px] uppercase tracking-[0.22em] text-[#756b58] md:flex-row md:items-center md:justify-between md:px-10 lg:px-12">
+      <div className="border-t border-border">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-10 lg:px-12">
           <p>
             © {currentYear} {footer.brandName || 'Filet Gourmet Atelier'}. All rights reserved.
           </p>
@@ -138,7 +138,7 @@ export async function Footer() {
                   href={footer.bottomBar.creditUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-[#8a6c31]"
+                  className="transition-colors hover:text-primary"
                 >
                   {footer.bottomBar.creditLabel}
                 </a>

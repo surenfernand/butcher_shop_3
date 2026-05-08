@@ -19,7 +19,7 @@ export default function ProductGallery({ product }: Props) {
 
   return (
     <div className="flex flex-col gap-4 md:gap-5">
-      <div className="relative aspect-[4/4.5] w-full overflow-hidden rounded-3xl border border-[#e8ddc9] bg-[#f5efe3] shadow-[0_22px_44px_rgba(36,29,20,0.12)]">
+      <div className="relative aspect-[6/4.5] w-full overflow-hidden rounded-3xl border border-[#e8ddc9] bg-[#f5efe3] shadow-[0_22px_44px_rgba(36,29,20,0.12)]">
         {mainImage?.url ? (
           <Image
             src={mainImage.url}

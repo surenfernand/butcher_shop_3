@@ -62,7 +62,7 @@ export default async function ProductPage({ params }: Args) {
   })
 
   return (
-    <main className="bg-[#f8f6f2] pb-20 pt-30 text-[#2a2721]">
+    <main className="bg-background pb-20 pt-30 text-foreground">
       <div className="container">
         <Breadcrumbs
           items={[
@@ -86,10 +86,12 @@ export default async function ProductPage({ params }: Args) {
         <ProductReviews product={product} />
 
         {relatedProducts.docs.length ? (
-          <section className="mt-20 border-t border-[#ece2cf] pt-14">
+          <section className="mt-20 border-t border-border pt-14">
             <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#9d7c39]">You May Also Like</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#23201b]">Related Products</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">You May Also Like</p>
+              <h2 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-foreground">
+                Related Products
+              </h2>
             </div>
             <div className="grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3">
               {relatedProducts.docs.map((relatedProduct) => (
