@@ -88,6 +88,7 @@
 
 /* Light: vivid red primary, rose/coral accents, airy tinted background */
 :root {
+  --app-header-offset: 13rem;
   --background: #fff5f5;
   --foreground: #450a0a;
   --card: #ffffff;
@@ -124,6 +125,21 @@
   --success: #16a34a;
   --warning: #ea580c;
   --error: #dc2626;
+}
+
+@media (width >= 40rem) {
+  :root {
+    --app-header-offset: 10.75rem;
+  }
+}
+@media (width >= 48rem) {
+  :root {
+    --app-header-offset: 10rem;
+  }
+}
+
+html {
+  scroll-padding-top: var(--app-header-offset);
 }
 
 [data-theme='dark'] {

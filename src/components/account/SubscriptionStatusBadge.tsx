@@ -19,8 +19,8 @@ export function SubscriptionStatusBadge({ status }: Props) {
       className={[
         'inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]',
         isActive
-          ? 'border-primary/30 bg-primary/10 text-primary'
-          : 'border-border bg-muted text-muted-foreground',
+          ? 'border-[#e31e24]/35 bg-[#e31e24]/10 text-[#e31e24]'
+          : 'border-neutral-200 bg-neutral-100 text-neutral-600',
       ].join(' ')}
     >
       {label}

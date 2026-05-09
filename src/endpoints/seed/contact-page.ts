@@ -10,7 +10,7 @@ export const contactPageData: (args: ProductArgs) => RequiredDataFromCollectionS
   contactForm,
 }) => {
   return {
-    slug: 'contact',
+    slug: 'contact-us',
     _status: 'published',
     hero: {
       type: 'none',

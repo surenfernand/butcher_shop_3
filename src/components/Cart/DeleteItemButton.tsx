@@ -17,9 +17,10 @@ export function DeleteItemButton({ item }: { item: CartItem }) {
       <button
         aria-label="Remove cart item"
         className={clsx(
-          'ease flex h-8 w-8 items-center justify-center rounded-full border border-border bg-muted text-muted-foreground transition-all duration-200 hover:cursor-pointer hover:border-primary/40 hover:bg-primary/10 hover:text-primary',
+          'ease flex h-8 w-8 items-center justify-center rounded-full border border-neutral-600 bg-neutral-800/60 text-neutral-300 transition-all duration-200 hover:cursor-pointer hover:border-[#e31e24]/45 hover:bg-[#e31e24]/10 hover:text-[#e31e24]',
           {
-            'cursor-not-allowed opacity-50 hover:border-border hover:bg-muted hover:text-muted-foreground': !apiLineId || isLoading,
+            'cursor-not-allowed opacity-50 hover:border-neutral-600 hover:bg-neutral-800/60 hover:text-neutral-300':
+              !apiLineId || isLoading,
           },
         )}
         disabled={!apiLineId || isLoading}

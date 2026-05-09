@@ -17,12 +17,10 @@ export function SettingsShortcutCard({ shortcuts }: Props) {
         <Link
           key={shortcut.href}
           href={shortcut.href}
-          className="rounded-lg border border-border bg-muted/40 p-4 transition-colors hover:bg-muted"
+          className="rounded-sm border border-neutral-200 bg-neutral-50 p-4 transition-colors hover:border-[#e31e24]/35 hover:bg-white"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.12em]">
-            {shortcut.label}
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground">{shortcut.description}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-neutral-900">{shortcut.label}</p>
+          <p className="mt-2 text-sm text-neutral-600">{shortcut.description}</p>
         </Link>
       ))}
     </div>

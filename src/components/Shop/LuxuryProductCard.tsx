@@ -29,8 +29,10 @@ const meatTypeLabels: Record<string, string> = {
   lamb: 'Lamb',
   seafood: 'Seafood',
   turkey: 'Turkey',
-  processed: 'Processed',
+  processed: 'Sausage',
 }
+
+const brandRed = '#e53935'
 
 export const LuxuryProductCard: React.FC<Props> = ({ product }) => {
   const firstImage = product.productGallery?.[0]?.image
@@ -42,59 +44,65 @@ export const LuxuryProductCard: React.FC<Props> = ({ product }) => {
     (product.cutType ? String(product.cutType).replaceAll('-', ' ') : '')
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-[0_14px_38px_rgba(37,31,21,0.08)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/35 hover:shadow-[0_20px_44px_rgba(37,31,21,0.14)]">
-      <Link className="group block h-full w-full" href={`/products/${product.slug}`}>
-        <div className="relative">
+    <article className="group overflow-hidden border border-neutral-200/90 bg-white text-neutral-950 shadow-[0_10px_28px_rgba(0,0,0,0.06)] transition hover:shadow-[0_16px_40px_rgba(0,0,0,0.1)]">
+      <Link className="flex h-full min-h-0 flex-col" href={`/products/${product.slug}`}>
+        <div className="relative bg-neutral-100">
           {product.shopCardLabel ? (
-            <div className="absolute left-5 top-5 z-10 rounded-full border border-primary/35 bg-primary/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary transition-all duration-300 group-hover:translate-y-[-2px] group-hover:shadow-lg">
+            <div
+              className="absolute left-3 top-3 z-10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white"
+              style={{ backgroundColor: brandRed }}
+            >
               {product.shopCardLabel}
             </div>
           ) : null}
 
           {image ? (
             <Media
-              className="relative aspect-[4/4.5] w-full bg-muted"
+              className="relative aspect-square w-full"
               imgClassName={clsx(
-                'h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]',
+                'h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]',
               )}
               resource={image as never}
             />
           ) : (
-            <div className="flex aspect-[4/4.5] items-center justify-center px-4 text-center text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
-              Product image placeholder
+            <div className="flex aspect-square items-center justify-center px-4 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-400">
+              Product image
             </div>
           )}
         </div>
 
-        <div className="space-y-3 p-6">
+        <div className="flex flex-1 flex-col border-t border-neutral-100 p-5">
           {categoryText ? (
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">{categoryText}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-500">{categoryText}</p>
           ) : null}
 
-          <div className="flex items-start justify-between gap-4 transition-all duration-300 group-hover:translate-y-[-2px]">
-            <h3 className="font-serif text-xl font-medium">{product.title}</h3>
+          <h3 className="mt-1 text-base font-semibold leading-snug tracking-tight md:text-lg">{product.title}</h3>
 
+          <div className="mt-3 flex items-baseline justify-between gap-3">
             {typeof product.priceInUSD === 'number' ? (
-              <div className="shrink-0 text-primary">
+              <div className="text-lg font-semibold tabular-nums" style={{ color: brandRed }}>
                 <Price amount={product.priceInUSD} />
               </div>
-            ) : null}
+            ) : (
+              <span className="text-sm font-medium text-neutral-500">See details</span>
+            )}
           </div>
 
           {originText ? (
-            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
-              {originText}
-            </p>
+            <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-neutral-500">{originText}</p>
           ) : null}
 
           {product.shopCardShortDescription ? (
-            <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">{product.shopCardShortDescription}</p>
+            <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-neutral-600">{product.shopCardShortDescription}</p>
           ) : null}
 
-          <div className="pt-2">
-            <div className="rounded-full border border-primary bg-primary px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-primary-foreground transition-all duration-300 ease-out group-hover:bg-primary/90">
-              {product.cardButtonLabel || 'View product'}
-            </div>
+          <div className="mt-5 border-t border-neutral-100 pt-4">
+            <span
+              className="flex min-h-10 w-full items-center justify-center text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition group-hover:brightness-105"
+              style={{ backgroundColor: brandRed }}
+            >
+              {product.cardButtonLabel || 'Add to cart'}
+            </span>
           </div>
         </div>
       </Link>

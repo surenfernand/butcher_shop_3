@@ -57,7 +57,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <LivePreviewListener />
 
           <Header />
-          <main>{children}</main>
+          <main className="pt-[var(--app-header-offset)]">{children}</main>
           <Footer />
         </Providers>
       </body>

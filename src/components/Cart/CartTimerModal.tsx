@@ -29,17 +29,17 @@ export function CartTimerModal({
   if (!open) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-background/80 backdrop-blur-sm">
-      <div className="w-full max-w-[560px] border border-border bg-card px-10 py-12 text-center text-card-foreground shadow-2xl">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl border border-primary/35 bg-primary/10 text-primary">
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/75 backdrop-blur-sm">
+      <div className="w-full max-w-[560px] border border-neutral-700 bg-neutral-950 px-10 py-12 text-center text-neutral-50 shadow-2xl">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-xl border border-[#e31e24]/40 bg-[#e31e24]/10 text-[#e31e24]">
           <Hourglass size={34} />
         </div>
 
-        <h2 className="mt-8 font-serif text-3xl font-bold uppercase text-primary">{title}</h2>
+        <h2 className="mt-8 font-serif text-3xl font-bold uppercase text-[#e31e24]">{title}</h2>
 
-        <div className="mx-auto mt-5 h-px w-14 bg-primary/40" />
+        <div className="mx-auto mt-5 h-px w-14 bg-[#e31e24]/50" />
 
-        <p className="mx-auto mt-7 max-w-[420px] text-lg leading-8 text-muted-foreground">
+        <p className="mx-auto mt-7 max-w-[420px] text-lg leading-8 text-neutral-400">
           {secondsLeft} seconds remaining. {message}
         </p>
 
@@ -47,7 +47,7 @@ export function CartTimerModal({
           <button
             type="button"
             onClick={onConfirm}
-            className="h-14 rounded-full bg-primary text-sm font-black uppercase tracking-[0.18em] text-primary-foreground transition-opacity hover:bg-primary/90"
+            className="h-14 bg-[#e31e24] text-sm font-black uppercase tracking-[0.18em] text-white transition-opacity hover:brightness-110"
           >
             {confirmLabel}
           </button>
@@ -55,14 +55,14 @@ export function CartTimerModal({
           <button
             type="button"
             onClick={onExtend}
-            className="h-14 rounded-full border-2 border-primary bg-transparent text-sm font-black uppercase tracking-[0.18em] text-primary transition-colors hover:bg-primary/10"
+            className="h-14 border-2 border-[#e31e24] bg-transparent text-sm font-black uppercase tracking-[0.18em] text-[#e31e24] transition-colors hover:bg-[#e31e24]/10"
           >
             {extendLabel}
           </button>
         </div>
 
         {footerText && (
-          <p className="mt-10 text-xs uppercase tracking-[0.35em] text-muted-foreground">{footerText}</p>
+          <p className="mt-10 text-xs uppercase tracking-[0.35em] text-neutral-500">{footerText}</p>
         )}
       </div>
     </div>,

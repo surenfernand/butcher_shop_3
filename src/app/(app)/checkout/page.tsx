@@ -7,7 +7,7 @@ import { CheckoutPage } from '@/components/checkout/CheckoutPage'
 
 export default function Checkout() {
   return (
-    <div className="">
+    <div className="pt-20">
       {!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && (
         <div>
           <Fragment>

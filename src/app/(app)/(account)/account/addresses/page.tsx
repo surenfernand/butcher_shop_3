@@ -20,44 +20,21 @@ export default async function AddressesPage() {
   }
 
   return (
-    <div className="mt-5 space-y-10">
+    <div className="space-y-8">
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-600">
+        Manage shipping and billing addresses for faster checkout and accurate delivery.
+      </p>
 
-      {/* HEADER */}
-      <div>
-        <h1 className="text-5xl font-bold tracking-tight">
-          Address Book
-        </h1>
-
-        <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
-          Manage your billing details 
-        </p>
-      </div>
-
-      {/* GRID */}
-      <div className="grid">
-
-        <h2 className="mb-5 text-xl font-bold uppercase tracking-wide text-primary">
-           Shipping Address
-        </h2>
-
-        {/* LEFT - FORM / LIST */}
-        <div className="rounded-xl border border-border bg-card p-8">
-          {/* <h2 className="mb-8 text-xl font-bold uppercase tracking-[0.18em] text-[#E2B84F]">
-            Shipping Address
-          </h2> */}
-
-          <div className="">
-            <AddressListing />
-
-            <div className="border-t border-border/40 pt-6">
-              <CreateAddressModal />
-            </div>
+      <div className="rounded-sm border border-neutral-200 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)] md:p-8">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#e31e24]">Shipping</p>
+        <h2 className="mt-2 text-xl font-semibold tracking-tight text-neutral-900 md:text-2xl">Saved addresses</h2>
+        <div className="mt-8 border-t border-neutral-100 pt-8">
+          <AddressListing />
+          <div className="mt-8 border-t border-neutral-100 pt-8">
+            <CreateAddressModal />
           </div>
         </div>
-
       </div>
-
-
     </div>
   )
 }

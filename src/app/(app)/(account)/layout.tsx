@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 
+import { AccountAreaChrome } from '@/components/account/AccountAreaChrome'
 import { headers as getHeaders } from 'next/headers.js'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -12,17 +13,19 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const { user } = await payload.auth({ headers })
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white text-neutral-800">
       <div className="container">
         <RenderParams className="" />
       </div>
 
-      <div className="container mt-10 pb-10 flex gap-8">
+      <AccountAreaChrome />
+
+      <div className="container flex gap-8 pb-14 pt-8 lg:gap-12">
         {user && (
-          <AccountNav className="max-w-72 grow flex-col items-start gap-4 hidden md:flex rounded-xl border border-border bg-card shadow-[0_12px_26px_rgba(42,34,22,0.05)]" />
+          <AccountNav className="hidden max-w-[280px] shrink-0 flex-col items-stretch md:flex" />
         )}
 
-        <div className="flex flex-col gap-12 grow">{children}</div>
+        <div className="flex min-w-0 flex-1 flex-col gap-10">{children}</div>
       </div>
     </div>
   )

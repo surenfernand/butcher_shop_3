@@ -26,54 +26,50 @@ export default function ProductInfoAccordion({ product }: Props) {
   ].filter(Boolean) as string[]
 
   return (
-    <div className="mt-10 rounded-2xl border border-[#e8ddca] bg-white px-6 py-2 shadow-[0_10px_30px_rgba(36,29,20,0.05)]">
+    <div className="mt-10 rounded-sm border border-neutral-200 bg-white px-1 py-2 shadow-sm md:px-2">
       <Accordion type="single" collapsible defaultValue="description">
-        <AccordionItem value="description" className="border-[#eee4d2]">
-          <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.14em] text-[#3e392f] hover:no-underline">
+        <AccordionItem value="description" className="border-neutral-200">
+          <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.14em] text-neutral-900 hover:no-underline">
             Description
           </AccordionTrigger>
-          <AccordionContent className="pb-5 text-sm leading-7 text-[#5d574d]">
-            {description}
-          </AccordionContent>
+          <AccordionContent className="pb-5 text-sm leading-7 text-neutral-600">{description}</AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="ingredients" className="border-[#eee4d2]">
-          <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.14em] text-[#3e392f] hover:no-underline">
+        <AccordionItem value="ingredients" className="border-neutral-200">
+          <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.14em] text-neutral-900 hover:no-underline">
             Ingredients / Details
           </AccordionTrigger>
           <AccordionContent className="pb-5">
             {product.whatsInside?.length ? (
-              <ul className="space-y-2 text-sm leading-7 text-[#5d574d]">
+              <ul className="space-y-2 text-sm leading-7 text-neutral-600">
                 {product.whatsInside.map((item) => (
                   <li key={item.id || `${item.quantity}-${item.label}`}>
-                    <span className="mr-2 font-semibold text-[#9b7a3b]">{item.quantity}</span>
+                    <span className="mr-2 font-semibold text-[#e53935]">{item.quantity}</span>
                     {item.label}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm leading-7 text-[#5d574d]">
+              <p className="text-sm leading-7 text-neutral-600">
                 Ingredient list placeholder - update this product in Payload CMS.
               </p>
             )}
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="specs" className="border-[#eee4d2]">
-          <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.14em] text-[#3e392f] hover:no-underline">
+        <AccordionItem value="specs" className="border-neutral-200">
+          <AccordionTrigger className="py-5 text-sm font-semibold uppercase tracking-[0.14em] text-neutral-900 hover:no-underline">
             Product Information
           </AccordionTrigger>
           <AccordionContent className="pb-5">
             {specs.length ? (
-              <ul className="space-y-2 text-sm leading-7 text-[#5d574d]">
+              <ul className="space-y-2 text-sm leading-7 text-neutral-600">
                 {specs.map((spec) => (
                   <li key={spec}>{spec}</li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm leading-7 text-[#5d574d]">
-                Product specifications are being updated.
-              </p>
+              <p className="text-sm leading-7 text-neutral-600">Product specifications are being updated.</p>
             )}
           </AccordionContent>
         </AccordionItem>

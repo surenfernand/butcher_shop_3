@@ -47,13 +47,13 @@ export function MobileMenu({ menu }: Props) {
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
-      <SheetTrigger className="relative flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white">
-        <MenuIcon className="h-4" />
+      <SheetTrigger className="relative flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200/90 bg-white text-neutral-800 shadow-md transition-colors hover:bg-neutral-50 md:hidden">
+        <MenuIcon className="h-[1.15rem] w-[1.15rem]" strokeWidth={2} />
       </SheetTrigger>
 
-      <SheetContent side="left" className="px-4">
+      <SheetContent side="right" className="border-neutral-200 bg-white px-4 text-neutral-900">
         <SheetHeader className="px-0 pt-4 pb-0">
-          <SheetTitle>My Store</SheetTitle>
+          <SheetTitle className="font-semibold uppercase tracking-[0.14em] text-[#D32F2F]">Menu</SheetTitle>
 
           <SheetDescription />
         </SheetHeader>
@@ -63,7 +63,11 @@ export function MobileMenu({ menu }: Props) {
             <ul className="flex w-full flex-col">
               {menu.map((item) => (
                 <li className="py-2" key={item.id}>
-                  <CMSLink {...item.link} appearance="link" />
+                  <CMSLink
+                    {...item.link}
+                    appearance="link"
+                    className="text-sm font-medium text-neutral-800 hover:text-[#D32F2F]"
+                  />
                 </li>
               ))}
             </ul>
@@ -71,35 +75,40 @@ export function MobileMenu({ menu }: Props) {
         </div>
 
         {user ? (
-          <div className="mt-4">
-            <h2 className="text-xl mb-4">My account</h2>
-            <hr className="my-2" />
-            <ul className="flex flex-col gap-2">
+          <div className="mt-4 border-t border-neutral-200 pt-6">
+            <h2 className="mb-4 text-base font-semibold text-neutral-900">My account</h2>
+            <ul className="flex flex-col gap-3 text-neutral-700">
               <li>
-                <Link href="/orders">Orders</Link>
+                <Link href="/orders" className="hover:text-[#D32F2F]">
+                  Orders
+                </Link>
               </li>
               <li>
-                <Link href="/account/addresses">Addresses</Link>
+                <Link href="/account/addresses" className="hover:text-[#D32F2F]">
+                  Addresses
+                </Link>
               </li>
               <li>
-                <Link href="/account">Manage account</Link>
+                <Link href="/account" className="hover:text-[#D32F2F]">
+                  Manage account
+                </Link>
               </li>
               <li className="mt-6">
-                <Button asChild variant="outline">
+                <Button asChild variant="outline" className="w-full border-neutral-300 hover:border-[#D32F2F] hover:text-[#D32F2F]">
                   <Link href="/logout">Log out</Link>
                 </Button>
               </li>
             </ul>
           </div>
         ) : (
-          <div>
-            <h2 className="text-xl mb-4">My account</h2>
+          <div className="mt-4 border-t border-neutral-200 pt-6">
+            <h2 className="mb-4 text-base font-semibold text-neutral-900">My account</h2>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-              <Button asChild className="w-full sm:flex-1" variant="outline">
+              <Button asChild className="w-full border-neutral-300 sm:flex-1" variant="outline">
                 <Link href="/login">Log in</Link>
               </Button>
-              <span className="text-center text-sm text-muted-foreground sm:text-base">or</span>
-              <Button asChild className="w-full sm:flex-1">
+              <span className="text-center text-sm text-neutral-500 sm:text-base">or</span>
+              <Button asChild className="w-full bg-[#D32F2F] text-white hover:bg-[#b71c1c] sm:flex-1">
                 <Link href="/create-account">Create an account</Link>
               </Button>
             </div>

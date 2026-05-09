@@ -31,8 +31,8 @@ export const CheckoutAddresses: React.FC<Props> = ({
 
   if (!addresses || addresses.length === 0) {
     return (
-      <div>
-        <p>No addresses found. Please add an address.</p>
+      <div className="rounded-sm border border-neutral-200 bg-white p-6 text-neutral-700 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+        <p className="mb-4 text-sm text-neutral-600">No addresses found. Please add an address.</p>
 
         <CreateAddressModal />
       </div>
@@ -42,8 +42,8 @@ export const CheckoutAddresses: React.FC<Props> = ({
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h3 className="text-xl font-medium mb-2">{heading}</h3>
-        <p className="text-muted-foreground">{description}</p>
+        <h3 className="mb-2 text-lg font-semibold text-neutral-900">{heading}</h3>
+        <p className="text-sm text-neutral-600">{description}</p>
       </div>
       <AddressesModal setAddress={setAddress} />
     </div>
@@ -62,27 +62,33 @@ const AddressesModal: React.FC<Props> = ({ setAddress }) => {
   const { addresses } = useAddresses()
 
   if (!addresses || addresses.length === 0) {
-    return <p>No addresses found. Please add an address.</p>
+    return <p className="text-sm text-neutral-600">No addresses found. Please add an address.</p>
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant={'outline'}>{'Select an address'}</Button>
+        <Button
+          variant="outline"
+          className="border-neutral-300 bg-white font-semibold uppercase tracking-[0.14em] text-neutral-900 hover:bg-neutral-100"
+        >
+          Select an address
+        </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="border-neutral-200 bg-white text-neutral-900">
         <DialogHeader>
-          <DialogTitle>{'Select an address'}</DialogTitle>
+          <DialogTitle className="text-neutral-900">Select an address</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-12">
           <ul className="flex flex-col gap-8">
             {addresses.map((address) => (
-              <li key={address.id} className="border-b pb-8 last:border-none">
+              <li key={address.id} className="border-b border-neutral-200 pb-8 last:border-none">
                 <AddressItem
                   address={address}
                   beforeActions={
                     <Button
+                      className="bg-[#e53935] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#c62828]"
                       onClick={(e) => {
                         e.preventDefault()
                         setAddress(address)

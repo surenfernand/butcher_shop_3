@@ -184,33 +184,36 @@ export default async function ShopPage({ searchParams }: Props) {
     return query ? `/shop?${query}` : '/shop'
   }
 
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
+
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card px-5 py-4 shadow-[0_10px_24px_rgba(36,29,20,0.05)] md:flex-row md:items-center md:justify-between">
-        <p className="text-sm text-muted-foreground">
-          Showing <span className="font-semibold text-foreground">{products.docs.length}</span> of{' '}
-          <span className="font-semibold text-foreground">{totalProducts}</span> {resultsText}
+    <div className="space-y-10">
+      {/* Toolbar — results + sort */}
+      <div className="flex flex-col gap-4 border-b border-neutral-200 pb-6 md:flex-row md:items-center md:justify-between">
+        <p className="text-sm text-neutral-600">
+          Showing <span className="font-semibold text-neutral-950">{products.docs.length}</span> of{' '}
+          <span className="font-semibold text-neutral-950">{totalProducts}</span> {resultsText}
         </p>
         <ShopSortSelect />
       </div>
 
       {searchValue ? (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-neutral-600">
           {products.docs.length === 0
             ? 'There are no products that match '
             : `Showing ${products.docs.length} ${resultsText} for `}
-          <span className="font-semibold text-foreground">&quot;{String(searchValue)}&quot;</span>
+          <span className="font-semibold text-neutral-950">&quot;{String(searchValue)}&quot;</span>
         </p>
       ) : null}
 
       {!searchValue && products.docs.length === 0 ? (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-neutral-600">
           {shopPage.emptyStateText || 'No products found. Please try different filters.'}
         </p>
       ) : null}
 
       {products.docs.length > 0 ? (
-        <div className={cn('grid grid-cols-1 gap-7 md:grid-cols-2 xl:grid-cols-3')}>
+        <div className={cn('grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3')}>
           {products.docs.map((product) => {
             return <LuxuryProductCard key={product.id} product={product} />
           })}
@@ -218,54 +221,68 @@ export default async function ShopPage({ searchParams }: Props) {
       ) : null}
 
       {totalPages > 1 ? (
-        <nav
-          aria-label="Shop pagination"
-          className="flex flex-wrap items-center justify-center gap-3 border-t border-border pt-8"
-        >
+        <nav aria-label="Shop pagination" className="flex flex-wrap items-center justify-center gap-2 border-t border-neutral-200 pt-10">
           <Link
             href={createPageHref(Math.max(1, currentPage - 1))}
             className={cn(
-              'rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition',
+              'flex h-10 min-w-10 items-center justify-center border px-3 text-[11px] font-semibold uppercase tracking-[0.14em] transition',
               products.hasPrevPage
-                ? 'border-border bg-card text-foreground hover:border-primary hover:text-primary'
-                : 'pointer-events-none border-border bg-muted/50 text-muted-foreground',
+                ? 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
+                : 'pointer-events-none border-neutral-100 bg-neutral-50 text-neutral-400',
             )}
+            aria-disabled={!products.hasPrevPage}
           >
             Prev
           </Link>
-          <span className="rounded-full border border-border bg-muted/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Page {currentPage} / {totalPages}
-          </span>
+          {pageNumbers.map((n) => {
+            const active = n === currentPage
+            return (
+              <Link
+                key={n}
+                href={createPageHref(n)}
+                className={cn(
+                  'flex h-10 min-w-10 items-center justify-center border text-sm font-semibold tabular-nums transition',
+                  active
+                    ? 'border-[#e31e24] bg-[#e31e24] text-white'
+                    : 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400',
+                )}
+                aria-current={active ? 'page' : undefined}
+              >
+                {n}
+              </Link>
+            )
+          })}
           <Link
             href={createPageHref(currentPage + 1)}
             className={cn(
-              'rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition',
+              'flex h-10 min-w-10 items-center justify-center border px-3 text-[11px] font-semibold uppercase tracking-[0.14em] transition',
               products.hasNextPage
-                ? 'border-border bg-card text-foreground hover:border-primary hover:text-primary'
-                : 'pointer-events-none border-border bg-muted/50 text-muted-foreground',
+                ? 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
+                : 'pointer-events-none border-neutral-100 bg-neutral-50 text-neutral-400',
             )}
+            aria-disabled={!products.hasNextPage}
           >
             Next
           </Link>
         </nav>
       ) : null}
 
-      <section className="rounded-3xl border border-border bg-gradient-to-br from-rose-50 via-orange-50/80 to-amber-50 p-8 text-neutral-900 shadow-[0_16px_34px_rgba(42,33,17,0.08)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Stay Informed</p>
-        <h2 className="mt-3 font-serif text-2xl font-semibold">Get monthly menus and premium offers</h2>
-        <p className="mt-3 text-sm leading-7 text-neutral-700">
-          Join our list to receive curated seasonal product drops and chef recommendations.
+      <section className="border border-neutral-200 bg-white p-8 shadow-[0_12px_36px_rgba(0,0,0,0.06)] md:p-10">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#e31e24]">Newsletter</p>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-neutral-950">Stay updated on what&apos;s new</h2>
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600">
+          Join our list for specials, new arrivals, and recipe ideas from the butcher block.
         </p>
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <input
             type="email"
             aria-label="Email address"
             placeholder="Your email address"
-            className="min-h-11 flex-1 rounded-full border border-input bg-background px-4 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/25"
+            className="min-h-11 flex-1 border border-neutral-200 bg-[#faf7f2] px-4 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900/15"
           />
           <button
             type="button"
-            className="min-h-11 rounded-full bg-primary px-6 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground transition hover:bg-primary/90"
+            className="min-h-11 shrink-0 bg-[#e31e24] px-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-white transition hover:brightness-105"
           >
             Subscribe
           </button>

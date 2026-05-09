@@ -26,7 +26,7 @@ export const MonthlyMenuPromo: React.FC = () => {
           </p>
 
           {submitted ? (
-            <p className="mt-10 text-sm font-medium text-[#d4af5f]">
+            <p className="mt-10 text-sm font-medium text-[#D32F2F]">
               Thank you — you&apos;re on the list.
             </p>
           ) : (
@@ -46,7 +46,7 @@ export const MonthlyMenuPromo: React.FC = () => {
               </label>
               <button
                 type="submit"
-                className="mt-9 w-full bg-[#d4af5f] px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#1a1a1a] transition hover:brightness-105 md:inline-block md:w-auto md:min-w-[300px]"
+                className="mt-9 w-full bg-[#D32F2F] px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:brightness-105 md:inline-block md:w-auto md:min-w-[300px]"
               >
                 SUBSCRIBE TO CRAFT
               </button>

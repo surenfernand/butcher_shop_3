@@ -16,7 +16,7 @@ export default async function ConfirmOrderPage({
   const paymentIntent = searchParams.paymentId
 
   return (
-    <div className="container min-h-[90vh] flex py-12">
+    <div className="container flex min-h-[90vh] bg-neutral-50 py-16 pt-28">
       <ConfirmOrder />
     </div>
   )

@@ -115,26 +115,22 @@ export default async function SubscriptionsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="rounded-lg border border-border bg-muted/40 px-6 py-3">
-        <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+      <div className="rounded-sm border border-neutral-200 bg-neutral-50 px-5 py-3">
+        <p className="text-[11px] uppercase tracking-[0.14em] text-neutral-600">
           Subscription support:{' '}
-          <a className="font-medium text-primary underline underline-offset-2 hover:text-primary/90" href="mailto:info@filetgourmet.ca">
+          <a className="font-semibold text-[#e31e24] underline underline-offset-2 hover:brightness-110" href="mailto:info@filetgourmet.ca">
             info@filetgourmet.ca
           </a>
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-7 text-card-foreground shadow-sm">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Subscription Management</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight">Manage Your Deliveries</h1>
-        <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
-          Control schedule, billing, and product selections for your recurring premium orders.
-        </p>
-      </div>
+      <p className="max-w-2xl text-sm text-neutral-600">
+        Manage recurring deliveries, billing context, and subscription lines tied to your orders.
+      </p>
 
       {subscriptionItems.length === 0 ? (
         <DashboardCard title="Active Subscriptions" subtitle="No recurring plans found.">
-          <p className="rounded-lg border border-dashed border-border bg-muted/30 p-5 text-sm text-muted-foreground">
+          <p className="rounded-sm border border-dashed border-neutral-200 bg-neutral-50 p-5 text-sm text-neutral-600">
             You do not have any active subscriptions yet.
           </p>
         </DashboardCard>
@@ -152,37 +148,37 @@ export default async function SubscriptionsPage() {
                   return (
                     <section
                       key={`${order.id}-${index}`}
-                      className="rounded-xl border border-border bg-card p-5 text-card-foreground shadow-sm"
+                      className="rounded-sm border border-neutral-200 bg-white p-5 text-neutral-900 shadow-[0_8px_28px_rgba(0,0,0,0.05)]"
                     >
-                      <div className="flex flex-col justify-between gap-4 border-b border-border pb-5 sm:flex-row sm:items-start">
+                        <div className="flex flex-col justify-between gap-4 border-b border-neutral-200 pb-5 sm:flex-row sm:items-start">
                         <div>
                           <div className="mb-2 flex items-center gap-2">
                             <SubscriptionStatusBadge status={order.status} />
-                            <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                            <p className="text-xs uppercase tracking-[0.14em] text-neutral-500">
                               Subscription #{order.stripeSubscriptionID || order.id}
                             </p>
                           </div>
                           <h2 className="text-xl font-bold uppercase">
                             {product?.title || 'Subscription Box'}
                           </h2>
-                          <p className="mt-2 text-sm text-muted-foreground">Quantity: {item.quantity || 1}</p>
+                          <p className="mt-2 text-sm text-neutral-600">Quantity: {item.quantity || 1}</p>
                         </div>
                         <div className="text-left sm:text-right">
-                          <p className="text-2xl font-semibold text-primary">{formatMoney(amount)}</p>
-                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">{cadenceLabel}</p>
+                          <p className="text-2xl font-semibold text-[#e31e24]">{formatMoney(amount)}</p>
+                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-neutral-500">{cadenceLabel}</p>
                         </div>
                       </div>
 
-                      <div className="grid gap-4 border-b border-border py-5 md:grid-cols-3">
-                        <div className="rounded-lg border border-border bg-muted/40 p-4">
-                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                      <div className="grid gap-4 border-b border-neutral-200 py-5 md:grid-cols-3">
+                        <div className="rounded-sm border border-neutral-200 bg-neutral-50 p-4">
+                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-neutral-500">
                             <CalendarDays className="h-4 w-4" />
                             Upcoming Shipment
                           </p>
                           <p className="mt-2 text-sm font-semibold">{formatDate(fulfillment?.date)}</p>
                         </div>
-                        <div className="rounded-lg border border-border bg-muted/40 p-4">
-                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                        <div className="rounded-sm border border-neutral-200 bg-neutral-50 p-4">
+                          <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-neutral-500">
                             <Truck className="h-4 w-4" />
                             Delivery Address
                           </p>
@@ -192,11 +188,11 @@ export default async function SubscriptionsPage() {
                               : 'Not available'}
                           </p>
                         </div>
-                        <div className="rounded-lg border border-border bg-muted/40 p-4">
-                          <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">Delivery Frequency</p>
+                        <div className="rounded-sm border border-neutral-200 bg-neutral-50 p-4">
+                          <p className="text-xs uppercase tracking-[0.12em] text-neutral-500">Delivery Frequency</p>
                           <select
                             defaultValue={purchaseType}
-                            className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-card-foreground"
+                            className="mt-2 w-full rounded-sm border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-900"
                           >
                             <option value="weekly">Weekly</option>
                             <option value="monthly">Monthly</option>
@@ -207,27 +203,27 @@ export default async function SubscriptionsPage() {
                       <div className="mt-5 flex flex-wrap items-center gap-3">
                         <Link
                           href={`/orders/${order.id}`}
-                          className="rounded-md bg-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground hover:bg-primary/90"
+                          className="bg-[#e31e24] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:brightness-110"
                         >
                           Manage Subscription
                         </Link>
                         <button
                           type="button"
-                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-secondary-foreground hover:bg-secondary/80"
+                          className="inline-flex items-center gap-2 rounded-sm border border-neutral-200 bg-neutral-100 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800 hover:bg-neutral-200"
                         >
                           <PauseCircle className="h-3.5 w-3.5" />
                           Pause
                         </button>
                         <button
                           type="button"
-                          className="inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-secondary-foreground hover:bg-secondary/80"
+                          className="inline-flex items-center gap-2 rounded-sm border border-neutral-200 bg-neutral-100 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800 hover:bg-neutral-200"
                         >
                           <SkipForward className="h-3.5 w-3.5" />
                           Skip Next
                         </button>
                         <button
                           type="button"
-                          className="rounded-md border border-border bg-muted px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground hover:bg-muted/80"
+                          className="rounded-sm border border-neutral-200 bg-neutral-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-600 hover:bg-neutral-100"
                         >
                           Cancel
                         </button>
@@ -244,12 +240,12 @@ export default async function SubscriptionsPage() {
               {nextShipment ? (
                 <div className="space-y-3">
                   <ProductThumbnailRow product={nextShipment.product} fallbackLabel="Monthly Menu Box" />
-                  <p className="rounded-lg border border-border bg-muted/40 p-4 text-sm text-muted-foreground">
+                  <p className="rounded-sm border border-neutral-200 bg-neutral-50 p-4 text-sm text-neutral-600">
                     Scheduled for {formatDate((nextShipment.order.fulfillment as any)?.date)}.
                   </p>
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">No upcoming shipments.</p>
+                <p className="text-sm text-neutral-600">No upcoming shipments.</p>
               )}
             </DashboardCard>
 
@@ -259,8 +255,8 @@ export default async function SubscriptionsPage() {
                   amountLabel={nextShipment ? formatMoney(nextShipment.amount) : '$0.00'}
                   cadenceLabel={nextShipment?.purchaseType === 'monthly' ? 'Charged monthly' : 'Charged weekly'}
                 />
-                <div className="rounded-lg border border-border bg-muted/40 p-4">
-                  <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                <div className="rounded-sm border border-neutral-200 bg-neutral-50 p-4">
+                  <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-neutral-500">
                     <CreditCard className="h-4 w-4" />
                     Payment Method
                   </p>
@@ -286,9 +282,9 @@ export default async function SubscriptionsPage() {
         </DashboardCard>
       )}
 
-      <footer className="rounded-xl border border-border bg-muted/50 px-6 py-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Subscription Terms</p>
-        <p className="mt-2 text-sm text-muted-foreground">
+      <footer className="rounded-sm border border-neutral-200 bg-neutral-50 px-6 py-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500">Subscription Terms</p>
+        <p className="mt-2 text-sm text-neutral-600">
           Renewal and plan changes are subject to account terms. For custom requests, contact support.
         </p>
       </footer>

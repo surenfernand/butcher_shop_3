@@ -79,10 +79,10 @@ function StatusBadge({ status }: { status: Order['status'] }) {
 
   const cls =
     s === 'completed'
-      ? 'border-primary/30 bg-primary/10 text-primary'
+      ? 'border-[#e31e24]/35 bg-[#e31e24]/10 text-[#e31e24]'
       : s === 'processing'
-        ? 'border-border bg-muted text-card-foreground'
-        : 'border-border bg-muted text-muted-foreground'
+        ? 'border-neutral-200 bg-neutral-100 text-neutral-800'
+        : 'border-neutral-200 bg-neutral-100 text-neutral-500'
 
   return (
     <span
@@ -129,26 +129,22 @@ export default async function Orders() {
 
   return (
     <div className="w-full space-y-8">
-      <div className="rounded-lg border border-border bg-muted/40 px-6 py-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+      <div className="rounded-sm border border-neutral-200 bg-neutral-50 px-5 py-3">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600">
           Order support:{' '}
-          <a className="text-primary underline underline-offset-2" href="mailto:info@filetgourmet.ca">
+          <a className="font-semibold text-[#e31e24] underline underline-offset-2 hover:brightness-110" href="mailto:info@filetgourmet.ca">
             info@filetgourmet.ca
           </a>
         </p>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-7 text-card-foreground shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Order Management</p>
-        <h1 className="mt-3 text-4xl font-bold tracking-tight">Order History</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Track, review, and manage all your premium orders.
-        </p>
-      </div>
+      <p className="max-w-2xl text-sm text-neutral-600">
+        Track, review, and manage all your orders. Select an order for full details.
+      </p>
 
       <DashboardCard title="Your orders" subtitle="Detailed order records with status and pricing.">
         {(!orders || orders.length === 0) && (
-          <div className="rounded-lg border border-dashed border-border bg-muted/30 px-6 py-14 text-center text-muted-foreground">
+          <div className="rounded-sm border border-dashed border-neutral-200 bg-neutral-50 px-6 py-14 text-center text-neutral-600">
             You have no orders yet.
           </div>
         )}
@@ -157,26 +153,26 @@ export default async function Orders() {
           <div className="w-full overflow-x-auto">
             <table className="w-full min-w-[920px] border-separate border-spacing-0 text-left">
               <thead>
-                <tr className="bg-muted/70">
-                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-7">
+                <tr className="bg-neutral-50">
+                  <th className="border-y border-neutral-200 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e31e24] lg:px-7">
                     Order #
                   </th>
-                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-6">
+                  <th className="border-y border-neutral-200 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e31e24] lg:px-6">
                     Date
                   </th>
-                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-6">
+                  <th className="border-y border-neutral-200 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e31e24] lg:px-6">
                     Delivery method
                   </th>
-                  <th className="min-w-[220px] border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:min-w-[260px] lg:px-6">
+                  <th className="min-w-[220px] border-y border-neutral-200 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e31e24] lg:min-w-[260px] lg:px-6">
                     Items
                   </th>
-                  <th className="border-y border-border px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-6">
+                  <th className="border-y border-neutral-200 px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e31e24] lg:px-6">
                     Status
                   </th>
-                  <th className="border-y border-border px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.2em] text-primary lg:px-7">
+                  <th className="border-y border-neutral-200 px-5 py-4 text-right text-[11px] font-semibold uppercase tracking-[0.2em] text-[#e31e24] lg:px-7">
                     Total
                   </th>
-                  <th className="w-12 border-y border-border px-2 py-4 lg:w-14" aria-hidden />
+                  <th className="w-12 border-y border-neutral-200 px-2 py-4 lg:w-14" aria-hidden />
                 </tr>
               </thead>
 
@@ -191,51 +187,51 @@ export default async function Orders() {
                   return (
                     <tr
                       key={order.id}
-                      className="transition-colors hover:bg-accent/40"
+                      className="transition-colors hover:bg-neutral-50"
                     >
-                      <td className="border-b border-border px-5 py-5 align-middle lg:px-7">
+                      <td className="border-b border-neutral-200 px-5 py-5 align-middle lg:px-7">
                         <Link
                           href={href}
-                          className="font-medium text-card-foreground underline-offset-4 hover:text-primary"
+                          className="font-medium text-neutral-900 underline-offset-4 hover:text-[#e31e24]"
                         >
                           {formatOrderRef(order.id)}
                         </Link>
                       </td>
-                      <td className="whitespace-nowrap border-b border-border px-5 py-5 align-middle text-sm text-muted-foreground lg:px-6">
+                      <td className="whitespace-nowrap border-b border-neutral-200 px-5 py-5 align-middle text-sm text-neutral-600 lg:px-6">
                         {formatOrderDate(order.createdAt)}
                       </td>
-                      <td className="border-b border-border px-5 py-5 align-middle lg:px-6">
+                      <td className="border-b border-neutral-200 px-5 py-5 align-middle lg:px-6">
                         {isDelivery && (
-                          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                            <Truck className="size-4 shrink-0 text-primary" aria-hidden />
+                          <span className="inline-flex items-center gap-2 text-sm text-neutral-600">
+                            <Truck className="size-4 shrink-0 text-[#e31e24]" aria-hidden />
                             Delivery
                           </span>
                         )}
                         {isPickup && (
-                          <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                            <ShoppingBasket className="size-4 shrink-0 text-primary" aria-hidden />
+                          <span className="inline-flex items-center gap-2 text-sm text-neutral-600">
+                            <ShoppingBasket className="size-4 shrink-0 text-[#e31e24]" aria-hidden />
                             Pickup
                           </span>
                         )}
                         {!isDelivery && !isPickup && (
-                          <span className="text-sm text-muted-foreground">—</span>
+                          <span className="text-sm text-neutral-500">—</span>
                         )}
                       </td>
-                      <td className="max-w-[280px] border-b border-border px-5 py-5 align-middle lg:max-w-[320px] lg:px-6">
-                        <div className="text-sm font-medium text-card-foreground">{primary}</div>
-                        <div className="mt-1 text-xs text-muted-foreground">{secondary}</div>
+                      <td className="max-w-[280px] border-b border-neutral-200 px-5 py-5 align-middle lg:max-w-[320px] lg:px-6">
+                        <div className="text-sm font-medium text-neutral-900">{primary}</div>
+                        <div className="mt-1 text-xs text-neutral-500">{secondary}</div>
                       </td>
-                      <td className="border-b border-border px-5 py-5 align-middle lg:px-6">
+                      <td className="border-b border-neutral-200 px-5 py-5 align-middle lg:px-6">
                         <StatusBadge status={order.status} />
                       </td>
-                      <td className="whitespace-nowrap border-b border-border px-5 py-5 text-right align-middle text-base font-semibold text-primary lg:px-7">
+                      <td className="whitespace-nowrap border-b border-neutral-200 px-5 py-5 text-right align-middle text-base font-semibold text-[#e31e24] lg:px-7">
                         {formatMoney(order.amount)}
                       </td>
-                      <td className="border-b border-border px-2 py-5 align-middle lg:px-3">
+                      <td className="border-b border-neutral-200 px-2 py-5 align-middle lg:px-3">
                         <Link
                           href={href}
                           aria-label={`View order ${formatOrderRef(order.id)}`}
-                          className="flex justify-end text-muted-foreground transition-colors hover:text-primary"
+                          className="flex justify-end text-neutral-400 transition-colors hover:text-[#e31e24]"
                         >
                           <span className="sr-only">View order</span>
                           →
@@ -250,11 +246,11 @@ export default async function Orders() {
         )}
       </DashboardCard>
 
-      <footer className="rounded-xl border border-border bg-muted/50 px-6 py-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+      <footer className="rounded-sm border border-neutral-200 bg-neutral-50 px-6 py-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500">
           Need order assistance?
         </p>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm text-neutral-600">
           Contact support for invoice corrections, delivery updates, or account-specific help.
         </p>
       </footer>

@@ -18,10 +18,10 @@ export function ShopSortSelect() {
   const currentSort = searchParams.get('sort') || '-sortPriority'
 
   return (
-    <label className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+    <label className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-600">
       Sort by
       <select
-        className="rounded-full border border-input bg-background px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/25"
+        className="min-h-10 min-w-[200px] border border-neutral-200 bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-neutral-950 outline-none transition focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900/15"
         value={currentSort}
         onChange={(e) => {
           const params = new URLSearchParams(searchParams.toString())

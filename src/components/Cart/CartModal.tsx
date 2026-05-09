@@ -22,6 +22,8 @@ import { DeleteItemButton } from './DeleteItemButton'
 import { EditItemQuantityButton } from './EditItemQuantityButton'
 import { OpenCartButton } from './OpenCart'
 
+const brandRed = '#e31e24'
+
 export function CartModal() {
   const { cart, clearCart } = useCart()
   const [isOpen, setIsOpen] = useState(false)
@@ -176,18 +178,24 @@ export function CartModal() {
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger asChild>
-        <OpenCartButton quantity={totalQuantity} />
+        <OpenCartButton
+          quantity={totalQuantity}
+          className="relative !text-neutral-900 hover:!text-[#e31e24] [&_.lucide]:!text-current [&>span]:!min-h-[18px] [&>span]:!min-w-[18px] [&>span]:!border-0 [&>span]:!bg-[#e31e24] [&>span]:!text-[10px] [&>span]:!font-semibold [&>span]:!text-white"
+        />
       </SheetTrigger>
 
       <SheetContent
         side="right"
-        className="w-full max-w-[410px] border-border bg-card p-0 text-foreground"
+        className="w-full max-w-[410px] border-neutral-800 bg-neutral-950 p-0 text-neutral-50 [&>button]:right-7 [&>button]:top-8 [&>button]:rounded [&>button]:border [&>button]:border-[#e31e24] [&>button]:p-2 [&>button]:text-[#e31e24] [&>button]:opacity-100 [&>button]:ring-offset-neutral-950 [&>button]:hover:bg-[#e31e24]/15 [&>button]:focus:ring-[#e31e24]"
       >
         <div className="flex h-full flex-col">
-          <SheetHeader className="border-b border-border px-7 py-8 text-left">
+          <SheetHeader className="border-b border-neutral-800 px-7 py-8 pr-16 text-left">
             <div className="flex items-start justify-between">
               <div>
-                <SheetTitle className="text-left font-serif text-[2.1rem] font-bold uppercase tracking-tight text-primary">
+                <SheetTitle
+                  className="text-left font-serif text-[2.1rem] font-bold uppercase tracking-tight"
+                  style={{ color: brandRed }}
+                >
                   Cart
                 </SheetTitle>
               </div>
@@ -196,11 +204,11 @@ export function CartModal() {
 
           {!cart || cart?.items?.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-              <ShoppingCart className="h-14 w-14 text-primary" />
-              <p className="text-xl font-bold uppercase tracking-wide text-foreground">
-                Your cart is empty
+              <ShoppingCart className="h-14 w-14" style={{ color: brandRed }} strokeWidth={1.25} />
+              <p className="text-xl font-bold uppercase tracking-wide text-white">Your cart is empty</p>
+              <p className="text-sm font-medium" style={{ color: brandRed }}>
+                Add Items to view in Cart
               </p>
-              <p className="text-sm text-muted-foreground">Add Items to view in Cart</p>
             </div>
           ) : (
             <>
@@ -301,18 +309,21 @@ export function CartModal() {
                                 href={`/products/${(item.product as Product)?.slug}`}
                                 className="block"
                               >
-                                <h3 className="line-clamp-2 text-[1.05rem] font-extrabold uppercase leading-tight tracking-[0.02em] text-foreground">
+                                <h3 className="line-clamp-2 text-[1.05rem] font-extrabold uppercase leading-tight tracking-[0.02em] text-white">
                                   {product?.title}
                                 </h3>
                               </Link>
 
                               {(variantText || item.quantity) && (
-                                <p className="mt-2 text-[0.78rem] uppercase tracking-[0.08em] text-muted-foreground">
+                                <p className="mt-2 text-[0.78rem] uppercase tracking-[0.08em] text-neutral-400">
                                   {variantText ? `Weight: ${variantText}` : ''}
                                 </p>
                               )}
 
-                              <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-primary">
+                              <p
+                                className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.1em]"
+                                style={{ color: brandRed }}
+                              >
                                 {getPurchaseTypeLabel(purchaseType)}
                               </p>
                             </div>
@@ -321,28 +332,28 @@ export function CartModal() {
                           </div>
 
                           <div className="mt-5 flex items-end justify-between gap-3">
-                            <div className="flex h-8 items-center overflow-hidden rounded-md border border-border bg-background">
+                            <div className="flex h-8 items-center overflow-hidden rounded-md border border-neutral-700 bg-neutral-900">
                               <EditItemQuantityButton
                                 item={item}
                                 type="minus"
-                                className="h-8 w-8 border-r border-border text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                className="h-8 w-8 border-r border-neutral-700 text-neutral-400 hover:bg-[#e31e24]/10 hover:text-[#e31e24]"
                               />
 
-                              <span className="flex h-8 w-9 items-center justify-center text-sm font-medium text-foreground">
+                              <span className="flex h-8 w-9 items-center justify-center text-sm font-medium text-white">
                                 {item.quantity}
                               </span>
 
                               <EditItemQuantityButton
                                 item={item}
                                 type="plus"
-                                className="h-8 w-8 border-l border-border text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                className="h-8 w-8 border-l border-neutral-700 text-neutral-400 hover:bg-[#e31e24]/10 hover:text-[#e31e24]"
                               />
                             </div>
 
                             {typeof price === 'number' && (
                               <Price
                                 amount={price * (item.quantity || 1)}
-                                className="text-right text-[1.05rem] font-bold text-primary"
+                                className="text-right text-[1.05rem] font-bold text-[#e31e24]"
                               />
                             )}
                           </div>
@@ -353,19 +364,19 @@ export function CartModal() {
                 </ul>
               </div>
 
-              <div className="border-t border-border bg-muted/40 px-7 py-6">
+              <div className="border-t border-neutral-800 bg-neutral-900 px-7 py-6">
                 <div className="space-y-3 text-sm uppercase tracking-[0.14em]">
-                  <div className="flex items-center justify-between text-muted-foreground">
+                  <div className="flex items-center justify-between text-neutral-400">
                     <span>Subtotal</span>
                     {typeof cart?.subtotal === 'number' && (
-                      <Price amount={adjustedSubtotal} className="text-base font-semibold text-foreground" />
+                      <Price amount={adjustedSubtotal} className="text-base font-semibold text-white" />
                     )}
                   </div>
 
-                  <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-                    <span className="text-lg font-extrabold tracking-[0.14em] text-foreground">Total</span>
+                  <div className="mt-5 flex items-center justify-between border-t border-neutral-800 pt-4">
+                    <span className="text-lg font-extrabold tracking-[0.14em] text-white">Total</span>
                     {typeof cart?.subtotal === 'number' && (
-                      <Price amount={adjustedSubtotal} className="text-3xl font-black text-primary" />
+                      <Price amount={adjustedSubtotal} className="text-3xl font-black text-[#e31e24]" />
                     )}
                   </div>
                 </div>
@@ -373,7 +384,7 @@ export function CartModal() {
                 <div className="mt-7">
                   <Link
                     href="/checkout"
-                    className="flex h-14 w-full items-center justify-center rounded-full bg-primary px-5 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-primary-foreground shadow-sm transition hover:bg-primary/90"
+                    className="flex h-14 w-full items-center justify-center bg-[#e31e24] px-5 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-white shadow-sm transition hover:brightness-110"
                   >
                     Proceed to Checkout
                   </Link>

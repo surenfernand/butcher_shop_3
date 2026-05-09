@@ -5,13 +5,14 @@ import ProductGallery from '@/components/product/ProductGallery'
 import ProductInfoAccordion from '@/components/product/ProductInfoAccordion'
 import ProductReviews from '@/components/product/ProductReviews'
 import configPromise from '@payload-config'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
 type Args = {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export default async function ProductPage({ params }: Args) {
@@ -62,9 +63,10 @@ export default async function ProductPage({ params }: Args) {
   })
 
   return (
-    <main className="bg-background pb-20 pt-30 text-foreground">
+    <div className="bg-neutral-50 pb-20 pt-20 text-neutral-900">
       <div className="container">
         <Breadcrumbs
+          className="mb-10"
           items={[
             { label: 'Home', href: '/' },
             { label: 'Shop', href: '/shop' },
@@ -86,10 +88,15 @@ export default async function ProductPage({ params }: Args) {
         <ProductReviews product={product} />
 
         {relatedProducts.docs.length ? (
-          <section className="mt-20 border-t border-border pt-14">
+          <section className="mt-20 border-t border-neutral-200 bg-neutral-50 pt-14">
             <div className="mb-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">You May Also Like</p>
-              <h2 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-foreground">
+              <p
+                className="text-xs font-semibold uppercase tracking-[0.28em]"
+                style={{ color: '#e53935' }}
+              >
+                You May Also Like
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">
                 Related Products
               </h2>
             </div>
@@ -98,9 +105,17 @@ export default async function ProductPage({ params }: Args) {
                 <LuxuryProductCard key={relatedProduct.id} product={relatedProduct} />
               ))}
             </div>
+            <p className="mt-10 text-center">
+              <Link
+                href="/shop"
+                className="text-sm font-semibold uppercase tracking-[0.2em] text-neutral-600 transition hover:text-[#e53935]"
+              >
+                See all products
+              </Link>
+            </p>
           </section>
         ) : null}
       </div>
-    </main>
+    </div>
   )
 }

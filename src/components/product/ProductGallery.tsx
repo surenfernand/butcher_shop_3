@@ -4,6 +4,8 @@ import type { Media, Product } from '@/payload-types'
 import Image from 'next/image'
 import { useState } from 'react'
 
+import { cn } from '@/utilities/cn'
+
 type Props = {
   product: Product
 }
@@ -19,7 +21,7 @@ export default function ProductGallery({ product }: Props) {
 
   return (
     <div className="flex flex-col gap-4 md:gap-5">
-      <div className="relative aspect-[6/4.5] w-full overflow-hidden rounded-3xl border border-[#e8ddc9] bg-[#f5efe3] shadow-[0_22px_44px_rgba(36,29,20,0.12)]">
+      <div className="relative aspect-[6/4.5] w-full overflow-hidden rounded-sm border border-neutral-200 bg-neutral-100 shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
         {mainImage?.url ? (
           <Image
             src={mainImage.url}
@@ -27,10 +29,10 @@ export default function ProductGallery({ product }: Props) {
             fill
             sizes="(max-width: 1024px) 100vw, 58vw"
             priority
-            className="object-cover transition-transform duration-700 hover:scale-[1.04]"
+            className="object-cover transition-transform duration-700 hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full min-h-[280px] items-center justify-center text-xs font-medium uppercase tracking-[0.14em] text-[#8f7a52]">
+          <div className="flex h-full min-h-[280px] items-center justify-center text-xs font-medium uppercase tracking-[0.14em] text-neutral-500">
             Product main image placeholder
           </div>
         )}
@@ -47,13 +49,13 @@ export default function ProductGallery({ product }: Props) {
               type="button"
               disabled={!img?.url}
               onClick={() => img?.url && setActiveIndex(slotIndex)}
-              className={[
-                'relative aspect-square w-full overflow-hidden rounded-xl border bg-[#f2ecde] transition',
+              className={cn(
+                'relative aspect-square w-full overflow-hidden rounded-sm bg-neutral-100 transition',
                 img?.url ? 'cursor-pointer hover:opacity-95' : 'cursor-default',
                 isActive
-                  ? 'border-[#caa866] ring-2 ring-[#ddc79b]'
-                  : 'border-[#e8dfce] hover:border-[#caa866]',
-              ].join(' ')}
+                  ? 'border-2 border-[#e53935]'
+                  : 'border border-neutral-200 hover:border-neutral-400',
+              )}
               aria-label={img?.url ? `View image ${slotIndex + 1}` : 'Empty gallery slot'}
             >
               {img?.url ? (
@@ -65,7 +67,7 @@ export default function ProductGallery({ product }: Props) {
                   className="object-cover"
                 />
               ) : (
-                <div className="h-full w-full bg-[#f3ede2]" aria-hidden />
+                <div className="h-full w-full bg-neutral-200/60" aria-hidden />
               )}
             </button>
           )

@@ -564,7 +564,7 @@ export const seed = async ({
             link: {
               type: 'custom',
               label: 'Contact',
-              url: '/contact',
+              url: '/contact-us',
             },
           },
         ],

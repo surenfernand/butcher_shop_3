@@ -14,14 +14,14 @@ export function DashboardCard({ title, subtitle, action, children, className }: 
   return (
     <section
       className={cn(
-        'rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm',
+        'rounded-sm border border-neutral-200 bg-white p-6 text-neutral-900 shadow-[0_8px_28px_rgba(0,0,0,0.05)]',
         className,
       )}
     >
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold uppercase tracking-[0.14em]">{title}</h2>
-          {subtitle && <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>}
+          <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-neutral-900">{title}</h2>
+          {subtitle && <p className="mt-2 text-sm text-neutral-600">{subtitle}</p>}
         </div>
         {action}
       </div>

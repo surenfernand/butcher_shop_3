@@ -182,33 +182,32 @@ export default async function Order({ params, searchParams }: PageProps) {
 
 
   return (
-    <div className="min-h-screen px-6 py-10 text-foreground">
+    <div className="w-full space-y-10 text-neutral-800">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 flex items-center justify-between gap-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           {user ? (
             <Button
               asChild
               variant="ghost"
-              className="px-0 font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 hover:bg-transparent hover:text-primary"
+              className="px-0 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-500 hover:bg-transparent hover:text-[#e31e24]"
             >
               <Link href="/orders">
-                <ChevronLeftIcon className="size-4" />
+                <ChevronLeftIcon className="mr-1 inline size-4" />
                 All orders
               </Link>
             </Button>
           ) : (
             <div />
           )}
-
-
         </div>
 
-        <div className="mb-10">
-          <h1 className="mb-3 text-5xl font-black uppercase tracking-tight text-foreground">
-            Order #{order.id}
-          </h1>
+        <div className="border-b border-neutral-200 pb-8">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#e31e24]">Order</p>
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">
+            #{order.id}
+          </h2>
 
-          <p className="text-muted-foreground">
+          <p className="mt-3 text-sm text-neutral-600">
             Placed on{' '}
             <time dateTime={order.createdAt}>
               {formatDateTime({ date: order.createdAt, format: 'MMMM dd, yyyy' })}
@@ -218,8 +217,8 @@ export default async function Order({ params, searchParams }: PageProps) {
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
           <div className="space-y-6">
-            <section className="border border-border bg-card px-6 py-6 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-              <h2 className="mb-6 text-2xl font-black uppercase tracking-tight text-foreground">
+            <section className="rounded-sm border border-neutral-200 bg-white px-6 py-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+              <h2 className="mb-6 text-lg font-semibold uppercase tracking-[0.12em] text-neutral-900">
                 Order Items
               </h2>
 
@@ -254,7 +253,7 @@ export default async function Order({ params, searchParams }: PageProps) {
                     return (
                       <li
                         key={item.id}
-                        className="border-b border-border pb-6 last:border-b-0 last:pb-0"
+                        className="border-b border-neutral-200 pb-6 last:border-b-0 last:pb-0"
                       >
                         <ProductItem
                           product={product}
@@ -263,8 +262,8 @@ export default async function Order({ params, searchParams }: PageProps) {
                           lineSubtotalInCents={lineSubtotalInCents}
                         />
 
-                        <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                          <span className="rounded-full border border-border px-3 py-1 font-mono uppercase tracking-[0.12em] text-primary">
+                        <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-neutral-600">
+                          <span className="rounded-full border border-neutral-200 px-3 py-1 font-mono uppercase tracking-[0.12em] text-[#e31e24]">
                             {getPurchaseTypeLabel(linePurchaseType)}
                           </span>
 
@@ -276,32 +275,32 @@ export default async function Order({ params, searchParams }: PageProps) {
                 </ul>
               )}
 
-              <div className="mt-8 border-t border-border pt-6">
-                <div className="mb-3 flex justify-between text-muted-foreground">
+              <div className="mt-8 border-t border-neutral-200 pt-6">
+                <div className="mb-3 flex justify-between text-neutral-600">
                   <span>Subtotal</span>
-                  <Price amount={itemsSubtotal} className="text-foreground" />
+                  <Price amount={itemsSubtotal} className="text-neutral-900" />
                 </div>
 
-                <div className="mb-5 flex justify-between text-muted-foreground">
+                <div className="mb-5 flex justify-between text-neutral-600">
                   <span>Shipping</span>
-                  <Price amount={shippingTotal} className="text-foreground" />
+                  <Price amount={shippingTotal} className="text-neutral-900" />
                 </div>
 
-                <div className="flex justify-between border-t border-border pt-5">
-                  <span className="font-mono text-2xl font-bold uppercase tracking-[0.14em] text-primary">
+                <div className="flex justify-between border-t border-neutral-200 pt-5">
+                  <span className="text-xl font-semibold uppercase tracking-[0.12em] text-neutral-900">
                     Total
                   </span>
 
                   <Price
-                    className="text-2xl font-bold text-primary"
+                    className="text-2xl font-bold text-[#e31e24]"
                     amount={computedTotal}
                   />
                 </div>
               </div>
             </section>
 
-            <section className="border border-border bg-card px-6 py-6 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-              <h2 className="mb-6 text-2xl font-black uppercase tracking-tight text-foreground">
+            <section className="rounded-sm border border-neutral-200 bg-white px-6 py-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+              <h2 className="mb-6 text-lg font-semibold uppercase tracking-[0.12em] text-neutral-900">
                 Order Progress
               </h2>
 
@@ -313,25 +312,25 @@ export default async function Order({ params, searchParams }: PageProps) {
 
           <aside className="space-y-6">
             {order.shippingAddress && (
-              <section className="border border-border bg-card px-6 py-6 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-                <h2 className="mb-6 text-2xl font-black uppercase tracking-tight text-foreground">
+              <section className="rounded-sm border border-neutral-200 bg-white px-6 py-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+                <h2 className="mb-6 text-lg font-semibold uppercase tracking-[0.12em] text-neutral-900">
                   Shipping Address
                 </h2>
 
-                <div className="flex justify-between gap-4 border-t border-border pt-3">
+                <div className="flex justify-between gap-4 border-t border-neutral-200 pt-3">
                   {/* @ts-expect-error - some kind of type hell */}
                   <AddressItem address={order.shippingAddress} hideActions />
                 </div>
 
               
-                  <h2 className="mb-6 mt-3 text-2xl font-black uppercase tracking-tight text-foreground">
+                  <h2 className="mb-6 mt-8 text-lg font-semibold uppercase tracking-[0.12em] text-neutral-900">
                     Fulfillment
                   </h2>
 
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between gap-4">
-                      <span className="text-muted-foreground">Service</span>
-                      <span className="text-right font-medium text-foreground">
+                      <span className="text-neutral-500">Service</span>
+                      <span className="text-right font-medium text-neutral-900">
                         {fulfillment?.serviceType === 'delivery'
                           ? 'Delivery'
                           : fulfillment?.serviceType === 'pickup'
@@ -342,8 +341,8 @@ export default async function Order({ params, searchParams }: PageProps) {
 
                     {fulfillment?.branchName && (
                       <div className="flex justify-between gap-4">
-                        <span className="text-muted-foreground">Branch</span>
-                        <span className="text-right font-medium text-foreground">
+                        <span className="text-neutral-500">Branch</span>
+                        <span className="text-right font-medium text-neutral-900">
                           {fulfillment.branchName}
                         </span>
                       </div>
@@ -351,8 +350,8 @@ export default async function Order({ params, searchParams }: PageProps) {
 
                     {fulfillment?.date && (
                       <div className="flex justify-between gap-4">
-                        <span className="text-muted-foreground">Date</span>
-                        <span className="max-w-[200px] break-words text-right font-medium text-foreground sm:max-w-none">
+                        <span className="text-neutral-500">Date</span>
+                        <span className="max-w-[200px] break-words text-right font-medium text-neutral-900 sm:max-w-none">
                           {fulfillment.date}
                         </span>
                       </div>

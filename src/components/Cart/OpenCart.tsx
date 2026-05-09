@@ -16,18 +16,16 @@ export function OpenCartButton({
       variant="nav"
       size="clear"
       className={clsx(
-        'relative inline-flex h-5 w-5 items-center justify-center p-0 text-primary',
+        'relative inline-flex h-5 w-5 items-center justify-center p-0 text-[#e31e24]',
         className,
       )}
       {...rest}
     >
       <ShoppingCart className="h-4 w-4 lucide lucide-search" strokeWidth={1.5} />
 
-      {quantity ? (
-        <span className="absolute left-[10px] top-[-7px] flex h-4 min-w-4 items-center justify-center rounded-full border border-primary/40 bg-primary/15 px-1 text-[9px] font-semibold leading-none text-primary">
-          {quantity}
-        </span>
-      ) : null}
+      <span className="absolute left-[10px] top-[-7px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-0 bg-[#e31e24] px-1 text-[10px] font-semibold leading-none text-white">
+        {quantity ?? 0}
+      </span>
     </Button>
   )
 }

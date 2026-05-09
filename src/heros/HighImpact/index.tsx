@@ -56,8 +56,9 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
 
   return (
     <section
-      className="relative -mt-[10.4rem] min-h-screen overflow-hidden bg-black text-white"
+      className="relative min-h-screen overflow-hidden bg-black text-white"
       data-theme="dark"
+      style={{ marginTop: 'calc(-1 * var(--app-header-offset, 13rem))' }}
     >
       <div className="absolute inset-0">
         <div className="relative h-full min-h-screen w-full">
@@ -88,9 +89,9 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
           <div className="mx-auto flex max-w-4xl flex-col items-center pt-24 text-center md:pt-32">
             {(eyebrow || heading) && (
               <div className="mb-8 flex w-full flex-col items-center">
-                <div className="mb-5 h-px w-14 bg-[#d4af5f] md:w-16" aria-hidden />
+                <div className="mb-5 h-px w-14 bg-[#D32F2F] md:w-16" aria-hidden />
                 {eyebrow && (
-                  <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-[#d4af5f]">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-[#D32F2F]">
                     {eyebrow}
                   </p>
                 )}
@@ -130,7 +131,7 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
                           'inline-flex min-h-[48px] min-w-[min(100%,280px)] items-center justify-center px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] transition sm:min-w-[240px]',
                           isOutline
                             ? 'border border-white bg-transparent text-white hover:bg-white/10'
-                            : 'border border-[#d4af5f] bg-[#d4af5f] text-[#1a1a1a] hover:brightness-105',
+                            : 'border border-[#D32F2F] bg-[#D32F2F] text-white hover:brightness-105',
                         )}
                       >
                         {link.label}

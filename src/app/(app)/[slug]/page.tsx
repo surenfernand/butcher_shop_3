@@ -8,7 +8,10 @@ import { generateMeta } from '@/utilities/generateMeta'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
+import { aboutStaticData } from '@/endpoints/seed/about-static'
 import { homeStaticData } from '@/endpoints/seed/home-static'
+import { CarneshopAboutPage } from '@/components/about/CarneshopAboutPage'
+import { CarneshopContactPage } from '@/components/contact/CarneshopContactPage'
 import React from 'react'
 
 import type { Page } from '@/payload-types'
@@ -58,8 +61,29 @@ export default async function Page({ params, searchParams }: Args) {
     page = homeStaticData() as Page
   }
 
+  if (!page && slug === 'about') {
+    page = aboutStaticData() as Page
+  }
+
   if (!page) {
     return notFound()
+  }
+
+  if (slug === 'about') {
+    return (
+      <article className="pt-0">
+        <CarneshopAboutPage />
+      </article>
+    )
+  }
+
+  if (slug === 'contact-us') {
+    const footerGlobal = await getCachedGlobal('footer', 1)()
+    return (
+      <article className="pt-0">
+        <CarneshopContactPage page={page} footer={footerGlobal} />
+      </article>
+    )
   }
 
   const headerGlobal = await getCachedGlobal('header', 1)()
@@ -86,7 +110,7 @@ export default async function Page({ params, searchParams }: Args) {
 
   return (
     <article>
-      <div className="pt-20">
+      <div className="pt-0">
         <RenderHero {...hero} brandLogo={headerGlobal.logo} pageSlug={slug} />
         <RenderBlocks blocks={layout} searchParams={resolvedSearchParams} slug={slug} />
       </div>
@@ -103,6 +127,10 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 
   if (!page && slug === 'home') {
     page = homeStaticData() as Page
+  }
+
+  if (!page && slug === 'about') {
+    page = aboutStaticData() as Page
   }
 
   return generateMeta({ doc: page })
