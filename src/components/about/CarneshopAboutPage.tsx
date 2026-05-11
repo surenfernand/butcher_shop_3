@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { Check, Quote } from 'lucide-react'
 
+import { Reveal } from '@/components/motion/Reveal'
 import { Button } from '@/components/ui/button'
 
 const accent = '#e53935'
@@ -99,29 +100,33 @@ export function CarneshopAboutPage() {
         />
         <div className="absolute inset-0 bg-black/55" aria-hidden />
         <div className="relative z-[1] mx-auto flex max-w-7xl flex-col justify-center px-6 pb-14 pt-10 md:px-10 lg:px-12 lg:pb-20 lg:pt-14">
-          <nav aria-label="Breadcrumb" className="mb-4 text-sm text-white/85">
-            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <li>
-                <Link href="/" className="transition hover:text-white">
-                  Home
-                </Link>
-              </li>
-              <li className="text-white/50" aria-hidden>
-                /
-              </li>
-              <li className="font-medium text-white">About Us</li>
-            </ol>
-          </nav>
-          <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem]">
-            About Us
-          </h1>
+          <Reveal y={16}>
+            <nav aria-label="Breadcrumb" className="mb-4 text-sm text-white/85">
+              <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <li>
+                  <Link href="/" className="transition hover:text-white">
+                    Home
+                  </Link>
+                </li>
+                <li className="text-white/50" aria-hidden>
+                  /
+                </li>
+                <li className="font-medium text-white">About Us</li>
+              </ol>
+            </nav>
+          </Reveal>
+          <Reveal delay={0.1} y={22}>
+            <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.75rem]">
+              About Us
+            </h1>
+          </Reveal>
         </div>
       </section>
 
       {/* We provide best meat */}
       <section className="mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-20 lg:px-12">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-lg lg:aspect-auto lg:min-h-[420px]">
+          <Reveal className="relative aspect-[4/3] overflow-hidden rounded-sm shadow-lg lg:aspect-auto lg:min-h-[420px]">
             <Image
               src={photos.intro}
               alt="Premium cuts at our butcher counter"
@@ -129,59 +134,60 @@ export function CarneshopAboutPage() {
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-          </div>
-          <div>
-            <SectionLabel>About Us</SectionLabel>
-            <h2 className="mb-4 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">
-              We Provide Best Meat
-            </h2>
-            <p className="mb-6 leading-relaxed text-neutral-600">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-            </p>
-            <ul className="mb-8 space-y-3">
-              {['100% Organic Meat', 'Payment Securation'].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-neutral-800">
-                  <span
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white"
-                    style={{ backgroundColor: accent }}
-                  >
-                    <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
-                  </span>
-                  <span className="font-medium">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Button asChild className="rounded-sm px-8 font-semibold uppercase tracking-wider text-white shadow-md" style={{ backgroundColor: accent }}>
-              <Link href="/shop">View More</Link>
-            </Button>
-          </div>
+          </Reveal>
+          <Reveal delay={0.12} y={28}>
+            <div>
+              <SectionLabel>About Us</SectionLabel>
+              <h2 className="mb-4 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">
+                We Provide Best Meat
+              </h2>
+              <p className="mb-6 leading-relaxed text-neutral-600">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+              </p>
+              <ul className="mb-8 space-y-3">
+                {['100% Organic Meat', 'Payment Securation'].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-neutral-800">
+                    <span
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white"
+                      style={{ backgroundColor: accent }}
+                    >
+                      <Check className="h-4 w-4" strokeWidth={3} aria-hidden />
+                    </span>
+                    <span className="font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button asChild className="rounded-sm px-8 font-semibold uppercase tracking-wider text-white shadow-md" style={{ backgroundColor: accent }}>
+                <Link href="/shop">View More</Link>
+              </Button>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Services */}
       <section className="border-y border-neutral-200 bg-neutral-50 py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-6 md:px-10 lg:px-12">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
+          <Reveal className="mx-auto mb-12 max-w-2xl text-center">
             <SectionLabel>What we do</SectionLabel>
             <h2 className="text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">Services for You</h2>
-          </div>
+          </Reveal>
           <div className="grid gap-8 md:grid-cols-3">
-            {services.map((s) => (
-              <article
-                key={s.title}
-                className="flex flex-col border border-neutral-200 bg-white p-8 shadow-sm transition hover:shadow-md"
-              >
-                <h3 className="mb-3 text-xl font-semibold text-neutral-900">{s.title}</h3>
-                <p className="mb-6 flex-1 leading-relaxed text-neutral-600">{s.body}</p>
-                <Link
-                  href={s.href}
-                  className="inline-flex w-fit items-center text-sm font-semibold uppercase tracking-wider transition hover:underline"
-                  style={{ color: accent }}
-                >
-                  Read More
-                </Link>
-              </article>
+            {services.map((s, i) => (
+              <Reveal key={s.title} index={i} staggerSec={0.1} className="h-full">
+                <article className="flex h-full flex-col border border-neutral-200 bg-white p-8 shadow-sm transition hover:shadow-md">
+                  <h3 className="mb-3 text-xl font-semibold text-neutral-900">{s.title}</h3>
+                  <p className="mb-6 flex-1 leading-relaxed text-neutral-600">{s.body}</p>
+                  <Link
+                    href={s.href}
+                    className="inline-flex w-fit items-center text-sm font-semibold uppercase tracking-wider transition hover:underline"
+                    style={{ color: accent }}
+                  >
+                    Read More
+                  </Link>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -190,28 +196,30 @@ export function CarneshopAboutPage() {
       {/* About our firm */}
       <section id="benefits" className="mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-20 lg:px-12">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="order-2 lg:order-1">
-            <SectionLabel>About Us</SectionLabel>
-            <h2 className="mb-4 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">
-              About Our Firm&apos;s
-            </h2>
-            <p className="mb-6 leading-relaxed text-neutral-600">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-            </p>
-            <ul className="mb-8 space-y-3">
-              {benefits.map((item) => (
-                <li key={item} className="flex items-center gap-3 text-neutral-800">
-                  <Check className="h-5 w-5 shrink-0" style={{ color: accent }} strokeWidth={2.5} aria-hidden />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link href="/contact-us" className="text-sm font-semibold uppercase tracking-wider hover:underline" style={{ color: accent }}>
-              Learn more about our benefit
-            </Link>
-          </div>
-          <div className="relative order-1 aspect-[4/3] overflow-hidden rounded-sm shadow-lg lg:order-2 lg:aspect-auto lg:min-h-[400px]">
+          <Reveal className="order-2 lg:order-1" delay={0.12} y={28}>
+            <div>
+              <SectionLabel>About Us</SectionLabel>
+              <h2 className="mb-4 text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">
+                About Our Firm&apos;s
+              </h2>
+              <p className="mb-6 leading-relaxed text-neutral-600">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+              </p>
+              <ul className="mb-8 space-y-3">
+                {benefits.map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-neutral-800">
+                    <Check className="h-5 w-5 shrink-0" style={{ color: accent }} strokeWidth={2.5} aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/contact-us" className="text-sm font-semibold uppercase tracking-wider hover:underline" style={{ color: accent }}>
+                Learn more about our benefit
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal className="relative order-1 aspect-[4/3] overflow-hidden rounded-sm shadow-lg lg:order-2 lg:aspect-auto lg:min-h-[400px]">
             <Image
               src={photos.firm}
               alt="Butcher preparing quality meat"
@@ -219,7 +227,7 @@ export function CarneshopAboutPage() {
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -227,44 +235,45 @@ export function CarneshopAboutPage() {
       <section className="bg-neutral-950 py-12 md:py-14">
         <div className="mx-auto grid max-w-7xl gap-4 px-6 md:grid-cols-3 md:px-10 lg:px-12">
           {photos.meatStrip.map((src, i) => (
-            <figure key={src} className="group relative aspect-[4/3] overflow-hidden">
-              <Image src={src} alt={`Meat selection ${i + 1}`} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 pb-4 pt-16 text-center">
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/90">Meat</span>
-                <p className="mt-1 text-lg font-semibold text-white">Pork tenderloin</p>
-              </figcaption>
-            </figure>
+            <Reveal key={src} index={i} staggerSec={0.1}>
+              <figure className="group relative aspect-[4/3] overflow-hidden">
+                <Image src={src} alt={`Meat selection ${i + 1}`} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width: 768px) 100vw, 33vw" />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-4 pb-4 pt-16 text-center">
+                  <span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/90">Meat</span>
+                  <p className="mt-1 text-lg font-semibold text-white">Pork tenderloin</p>
+                </figcaption>
+              </figure>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-20 lg:px-12">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
+        <Reveal className="mx-auto mb-12 max-w-3xl text-center">
           <SectionLabel>Testimonials</SectionLabel>
           <h2 className="text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">Why People Believe in Us!</h2>
           <p className="mt-4 leading-relaxed text-neutral-600">
             Lorem magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
             commodo consequat. Duis aute irure dolor in reprehenderit.
           </p>
-        </div>
+        </Reveal>
         <div className="grid gap-8 md:grid-cols-2">
-          {testimonials.map((t) => (
-            <blockquote
-              key={t.name}
-              className="relative rounded-sm border border-neutral-200 bg-neutral-50 p-8 pt-12 shadow-sm md:p-10"
-            >
-              <Quote
-                className="absolute left-8 top-6 h-10 w-10 opacity-[0.12]"
-                style={{ color: accent }}
-                aria-hidden
-              />
-              <p className="relative z-[1] leading-relaxed text-neutral-700">&ldquo;{t.quote}&rdquo;</p>
-              <footer className="mt-8 border-t border-neutral-200 pt-6">
-                <p className="font-semibold text-neutral-900">{t.name}</p>
-                <p className="text-sm text-neutral-500">{t.role}</p>
-              </footer>
-            </blockquote>
+          {testimonials.map((t, i) => (
+            <Reveal key={t.name} index={i} staggerSec={0.12}>
+              <blockquote className="relative rounded-sm border border-neutral-200 bg-neutral-50 p-8 pt-12 shadow-sm md:p-10">
+                <Quote
+                  className="absolute left-8 top-6 h-10 w-10 opacity-[0.12]"
+                  style={{ color: accent }}
+                  aria-hidden
+                />
+                <p className="relative z-[1] leading-relaxed text-neutral-700">&ldquo;{t.quote}&rdquo;</p>
+                <footer className="mt-8 border-t border-neutral-200 pt-6">
+                  <p className="font-semibold text-neutral-900">{t.name}</p>
+                  <p className="text-sm text-neutral-500">{t.role}</p>
+                </footer>
+              </blockquote>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -272,36 +281,38 @@ export function CarneshopAboutPage() {
       {/* Stats */}
       <section className="py-14 text-white" style={{ backgroundColor: accent }}>
         <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:grid-cols-2 lg:grid-cols-4 md:px-10 lg:px-12">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
+          {stats.map((s, i) => (
+            <Reveal key={s.label} index={i} staggerSec={0.08} className="text-center">
               <p className="text-4xl font-bold tabular-nums md:text-5xl">{s.value}</p>
               <p className="mt-2 text-sm font-medium uppercase tracking-[0.2em] text-white/90">{s.label}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* Team */}
       <section className="mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-24 lg:px-12">
-        <div className="mx-auto mb-12 max-w-2xl text-center">
+        <Reveal className="mx-auto mb-12 max-w-2xl text-center">
           <SectionLabel>Meet Our Team</SectionLabel>
           <h2 className="text-3xl font-semibold tracking-tight text-neutral-900 md:text-4xl">Our Creative Team</h2>
-        </div>
+        </Reveal>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((member, i) => (
-            <article key={member.name} className="text-center">
-              <div className="relative mx-auto mb-5 aspect-square max-w-[280px] overflow-hidden rounded-sm shadow-md">
-                <Image
-                  src={photos.team[i % photos.team.length]}
-                  alt={member.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, 25vw"
-                />
-              </div>
-              <h3 className="text-lg font-semibold text-neutral-900">{member.name}</h3>
-              <p className="mt-1 text-sm text-neutral-500">{member.role}</p>
-            </article>
+            <Reveal key={member.name} index={i} staggerSec={0.09} className="text-center">
+              <article>
+                <div className="relative mx-auto mb-5 aspect-square max-w-[280px] overflow-hidden rounded-sm shadow-md">
+                  <Image
+                    src={photos.team[i % photos.team.length]}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 25vw"
+                  />
+                </div>
+                <h3 className="text-lg font-semibold text-neutral-900">{member.name}</h3>
+                <p className="mt-1 text-sm text-neutral-500">{member.role}</p>
+              </article>
+            </Reveal>
           ))}
         </div>
       </section>

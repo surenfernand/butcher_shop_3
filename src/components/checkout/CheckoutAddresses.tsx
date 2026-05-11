@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Address } from '@/payload-types'
+import { cn } from '@/utilities/cn'
 import { useAddresses } from '@payloadcms/plugin-ecommerce/client/react'
 import { useState } from 'react'
 
@@ -75,20 +76,23 @@ const AddressesModal: React.FC<Props> = ({ setAddress }) => {
           Select an address
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-neutral-200 bg-white text-neutral-900">
+      <DialogContent className="border-neutral-200 bg-white text-foreground sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="text-neutral-900">Select an address</DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col gap-12">
-          <ul className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8">
+          <ul className="flex flex-col gap-6">
             {addresses.map((address) => (
-              <li key={address.id} className="border-b border-neutral-200 pb-8 last:border-none">
+              <li key={address.id} className="border-b border-neutral-200 pb-6 last:border-none">
                 <AddressItem
                   address={address}
                   beforeActions={
                     <Button
-                      className="bg-[#e53935] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#c62828]"
+                      className={cn(
+                        'min-h-9 shrink-0 px-4 font-semibold uppercase tracking-[0.12em]',
+                        'bg-[#e53935] text-white hover:bg-[#c62828]',
+                      )}
                       onClick={(e) => {
                         e.preventDefault()
                         setAddress(address)
@@ -103,7 +107,9 @@ const AddressesModal: React.FC<Props> = ({ setAddress }) => {
             ))}
           </ul>
 
-          <CreateAddressModal />
+          <CreateAddressModal
+            triggerClassName="w-full border-transparent bg-[#e53935] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#c62828] hover:text-white"
+          />
         </div>
       </DialogContent>
     </Dialog>

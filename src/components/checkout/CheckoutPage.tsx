@@ -807,24 +807,7 @@ export const CheckoutPage: React.FC = () => {
           </div>
 
           <div className="my-8 h-px bg-border" />
-
-          <div className="mb-7 rounded-lg border border-neutral-200 bg-white text-neutral-900 p-4">
-            <Label className="mb-2 block text-xs uppercase tracking-[0.16em] text-neutral-600" htmlFor="promoCode">
-              Discount or Gift Card
-            </Label>
-            <div className="flex gap-2">
-              <Input
-                id="promoCode"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                placeholder="Enter code"
-                className="border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-600"
-              />
-              <Button type="button" variant="outline" className="border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-100">
-                Apply
-              </Button>
-            </div>
-          </div>
+ 
 
           <div className="space-y-5 font-sans text-sm uppercase tracking-wide">
             <div className="flex justify-between text-neutral-600">

@@ -5,7 +5,7 @@ import { SubscriptionStatusBadge } from '@/components/account/SubscriptionStatus
 import type { Order } from '@/payload-types'
 import { getPurchaseUnitPriceInCents } from '@/utilities/purchasePricing'
 import configPromise from '@payload-config'
-import { CalendarDays, CreditCard, PauseCircle, SkipForward, Truck } from 'lucide-react'
+import { CalendarDays, CreditCard, PauseCircle, Truck } from 'lucide-react'
 import { headers as getHeaders } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -169,7 +169,7 @@ export default async function SubscriptionsPage() {
                         </div>
                       </div>
 
-                      <div className="grid gap-4 border-b border-neutral-200 py-5 md:grid-cols-3">
+                      <div className="grid gap-4 border-b border-neutral-200 py-5 md:grid-cols-2">
                         <div className="rounded-sm border border-neutral-200 bg-neutral-50 p-4">
                           <p className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-neutral-500">
                             <CalendarDays className="h-4 w-4" />
@@ -188,16 +188,6 @@ export default async function SubscriptionsPage() {
                               : 'Not available'}
                           </p>
                         </div>
-                        <div className="rounded-sm border border-neutral-200 bg-neutral-50 p-4">
-                          <p className="text-xs uppercase tracking-[0.12em] text-neutral-500">Delivery Frequency</p>
-                          <select
-                            defaultValue={purchaseType}
-                            className="mt-2 w-full rounded-sm border border-neutral-200 bg-white px-3 py-2 text-sm text-neutral-900"
-                          >
-                            <option value="weekly">Weekly</option>
-                            <option value="monthly">Monthly</option>
-                          </select>
-                        </div>
                       </div>
 
                       <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -205,7 +195,7 @@ export default async function SubscriptionsPage() {
                           href={`/orders/${order.id}`}
                           className="bg-[#e31e24] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:brightness-110"
                         >
-                          Manage Subscription
+                          View Order
                         </Link>
                         <button
                           type="button"
@@ -213,13 +203,6 @@ export default async function SubscriptionsPage() {
                         >
                           <PauseCircle className="h-3.5 w-3.5" />
                           Pause
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex items-center gap-2 rounded-sm border border-neutral-200 bg-neutral-100 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-neutral-800 hover:bg-neutral-200"
-                        >
-                          <SkipForward className="h-3.5 w-3.5" />
-                          Skip Next
                         </button>
                         <button
                           type="button"
@@ -268,19 +251,7 @@ export default async function SubscriptionsPage() {
         </div>
       )}
 
-      {subscriptionItems.length > 0 && (
-        <DashboardCard title="Shipment/Product Summary" subtitle="All recurring products in this account.">
-          <div className="grid gap-3 md:grid-cols-2">
-            {subscriptionItems.map((subscription: any) => (
-              <ProductThumbnailRow
-                key={`thumb-${subscription.order.id}-${subscription.index}`}
-                product={subscription.product}
-                fallbackLabel="Subscription Product"
-              />
-            ))}
-          </div>
-        </DashboardCard>
-      )}
+    
 
       <footer className="rounded-sm border border-neutral-200 bg-neutral-50 px-6 py-6">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500">Subscription Terms</p>

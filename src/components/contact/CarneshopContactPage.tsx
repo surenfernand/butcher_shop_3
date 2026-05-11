@@ -7,6 +7,7 @@ import type {
 } from '@/payload-types'
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
+import { Reveal } from '@/components/motion/Reveal'
 import Link from 'next/link'
 import { Mail, MapPin, Phone } from 'lucide-react'
 import React from 'react'
@@ -71,7 +72,7 @@ export function CarneshopContactPage({ page, footer }: Props) {
     : []
 
   return (
-    <div className="bg-[#faf7f2] text-neutral-950">
+    <div className="bg-[#ffff] text-neutral-950">
       <section className="relative border-b border-black/10 bg-neutral-950 pt-28 pb-10 md:pt-32 md:pb-12">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
@@ -82,27 +83,32 @@ export function CarneshopContactPage({ page, footer }: Props) {
           aria-hidden
         />
         <div className="container relative">
-          <nav aria-label="Breadcrumb" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
-            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              <li>
-                <Link href="/" className="transition hover:text-white">
-                  Home
-                </Link>
-              </li>
-              <li className="text-white/35" aria-hidden>
-                /
-              </li>
-              <li className="font-medium text-white">{title}</li>
-            </ol>
-          </nav>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.5rem]">{title}</h1>
+          <Reveal>
+            <nav aria-label="Breadcrumb" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55">
+              <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <li>
+                  <Link href="/" className="transition hover:text-white">
+                    Home
+                  </Link>
+                </li>
+                <li className="text-white/35" aria-hidden>
+                  /
+                </li>
+                <li className="font-medium text-white">{title}</li>
+              </ol>
+            </nav>
+          </Reveal>
+          <Reveal index={1} y={20}>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl lg:text-[2.5rem]">{title}</h1>
+          </Reveal>
         </div>
       </section>
 
       <div className="container py-12 md:py-16">
         {/* Info row — Phone / Email / Address (Carneshop-style three columns) */}
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="border border-neutral-200/90 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+          <Reveal index={0}>
+            <div className="h-full border border-neutral-200/90 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_14px_36px_rgba(0,0,0,0.08)]">
             <div className="mb-4 flex items-center gap-3">
               <Phone className="h-5 w-5 shrink-0" style={{ color: brandRed }} aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-neutral-950">Phone Number</h2>
@@ -120,9 +126,11 @@ export function CarneshopContactPage({ page, footer }: Props) {
             ) : (
               <p className="text-sm text-neutral-500">Add a phone number in Footer settings.</p>
             )}
-          </div>
+            </div>
+          </Reveal>
 
-          <div className="border border-neutral-200/90 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+          <Reveal index={1}>
+            <div className="h-full border border-neutral-200/90 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_14px_36px_rgba(0,0,0,0.08)]">
             <div className="mb-4 flex items-center gap-3">
               <Mail className="h-5 w-5 shrink-0" style={{ color: brandRed }} aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-neutral-950">Email Address</h2>
@@ -140,9 +148,11 @@ export function CarneshopContactPage({ page, footer }: Props) {
             ) : (
               <p className="text-sm text-neutral-500">Add an email in Footer settings.</p>
             )}
-          </div>
+            </div>
+          </Reveal>
 
-          <div className="border border-neutral-200/90 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+          <Reveal index={2}>
+            <div className="h-full border border-neutral-200/90 bg-white p-6 shadow-[0_8px_28px_rgba(0,0,0,0.05)] transition-shadow duration-300 hover:shadow-[0_14px_36px_rgba(0,0,0,0.08)]">
             <div className="mb-4 flex items-center gap-3">
               <MapPin className="h-5 w-5 shrink-0" style={{ color: brandRed }} aria-hidden />
               <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-neutral-950">Office Address</h2>
@@ -152,11 +162,13 @@ export function CarneshopContactPage({ page, footer }: Props) {
             ) : (
               <p className="text-sm text-neutral-500">Add your address in Footer settings.</p>
             )}
-          </div>
+            </div>
+          </Reveal>
         </div>
 
         {/* Get in touch + form */}
-        <div className="mt-12 border border-neutral-200/90 bg-white p-8 shadow-[0_12px_36px_rgba(0,0,0,0.06)] md:p-10 lg:p-12">
+        <Reveal delay={0.06}>
+          <div className="mt-12 border border-neutral-200/90 bg-white p-8 shadow-[0_12px_36px_rgba(0,0,0,0.06)] md:p-10 lg:p-12">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: brandRed }}>
             Contact
           </p>
@@ -179,7 +191,8 @@ export function CarneshopContactPage({ page, footer }: Props) {
               inquiry form.
             </p>
           )}
-        </div>
+          </div>
+        </Reveal>
       </div>
     </div>
   )

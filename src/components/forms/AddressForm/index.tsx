@@ -19,6 +19,17 @@ import { Button } from '@/components/ui/button'
 import { deepMergeSimple } from 'payload/shared'
 import { FormError } from '@/components/forms/FormError'
 import { FormItem } from '@/components/forms/FormItem'
+import { DialogClose } from '@/components/ui/dialog'
+
+const labelClass = 'font-sans text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600'
+
+const inputClass =
+  'h-11 min-h-11 w-full min-w-0 rounded-md border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-600 focus-visible:ring-2 focus-visible:ring-[#e53935]/35'
+
+const selectTriggerClass =
+  'mb-0 h-11 w-full min-w-0 rounded-md border border-neutral-300 bg-white text-neutral-900 focus:ring-2 focus:ring-[#e53935]/35'
+
+const selectContentClass = 'rounded-md border border-neutral-200 bg-white text-neutral-900'
 
 type AddressFormValues = {
   title?: string | null
@@ -88,11 +99,11 @@ export const AddressForm: React.FC<Props> = ({
     [initialData, skipSubmission, callback, addressID, updateAddress, createAddress],
   )
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="box-border min-w-0 text-[#efe4cf]">
-      <div className="mb-8 grid gap-6 sm:mb-12">
+    <form onSubmit={handleSubmit(onSubmit)} className="box-border min-w-0 text-neutral-900">
+      <div className="mb-8 grid gap-6 sm:mb-10">
         <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-[minmax(0,8.75rem)_minmax(0,1fr)_minmax(0,1fr)] md:items-start">
           <FormItem className="min-w-0">
-            <Label htmlFor="title" className="text-sm font-semibold text-[#e7dac4]">
+            <Label htmlFor="title" className={labelClass}>
               Title
             </Label>
             <Select
@@ -100,15 +111,14 @@ export const AddressForm: React.FC<Props> = ({
               onValueChange={(value) => setValue('title', value, { shouldValidate: true })}
               defaultValue={initialData?.title || ''}
             >
-              <SelectTrigger
-                id="title"
-                className="mb-0 h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf]"
-              >
+              <SelectTrigger id="title" className={selectTriggerClass}>
                 <SelectValue placeholder="Mr." />
               </SelectTrigger>
-              <SelectContent className="border-[#5d5445] bg-[#252827] text-[#efe4cf]">
+              <SelectContent className={selectContentClass}>
                 {titles.map((title) => (
-                  <SelectItem key={title} value={title}>{title}</SelectItem>
+                  <SelectItem key={title} value={title}>
+                    {title}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -116,28 +126,28 @@ export const AddressForm: React.FC<Props> = ({
           </FormItem>
 
           <FormItem className="min-w-0">
-            <Label htmlFor="firstName" className="text-sm font-semibold text-[#e7dac4]">
+            <Label htmlFor="firstName" className={labelClass}>
               First Name
             </Label>
             <Input
               id="firstName"
               placeholder="John"
               autoComplete="given-name"
-              className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]"
+              className={inputClass}
               {...register('firstName', { required: 'First name is required.' })}
             />
             {errors.firstName && <FormError message={errors.firstName.message} />}
           </FormItem>
 
           <FormItem className="min-w-0">
-            <Label htmlFor="lastName" className="text-sm font-semibold text-[#e7dac4]">
+            <Label htmlFor="lastName" className={labelClass}>
               Last Name
             </Label>
             <Input
               id="lastName"
               placeholder="Doe"
               autoComplete="family-name"
-              className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]"
+              className={inputClass}
               {...register('lastName', { required: 'Last name is required.' })}
             />
             {errors.lastName && <FormError message={errors.lastName.message} />}
@@ -146,7 +156,7 @@ export const AddressForm: React.FC<Props> = ({
 
         <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2">
           <FormItem className="min-w-0">
-            <Label htmlFor="phone" className="text-sm font-semibold text-[#e7dac4]">
+            <Label htmlFor="phone" className={labelClass}>
               Phone
             </Label>
             <Input
@@ -154,21 +164,21 @@ export const AddressForm: React.FC<Props> = ({
               type="tel"
               placeholder="+1 (555) 000-0000"
               autoComplete="mobile tel"
-              className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]"
+              className={inputClass}
               {...register('phone')}
             />
             {errors.phone && <FormError message={errors.phone.message} />}
           </FormItem>
 
           <FormItem className="min-w-0">
-            <Label htmlFor="company" className="text-sm font-semibold text-[#e7dac4]">
+            <Label htmlFor="company" className={labelClass}>
               Company Optional
             </Label>
             <Input
               id="company"
               placeholder="Atelier Inc."
               autoComplete="organization"
-              className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]"
+              className={inputClass}
               {...register('company')}
             />
             {errors.company && <FormError message={errors.company.message} />}
@@ -176,28 +186,28 @@ export const AddressForm: React.FC<Props> = ({
         </div>
 
         <FormItem className="min-w-0">
-          <Label htmlFor="addressLine1" className="text-sm font-semibold text-[#e7dac4]">
+          <Label htmlFor="addressLine1" className={labelClass}>
             Address Line 1
           </Label>
           <Input
             id="addressLine1"
             placeholder="Street address, P.O. box"
             autoComplete="address-line1"
-            className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]"
+            className={inputClass}
             {...register('addressLine1', { required: 'Address line 1 is required.' })}
           />
           {errors.addressLine1 && <FormError message={errors.addressLine1.message} />}
         </FormItem>
 
         <FormItem className="min-w-0">
-          <Label htmlFor="addressLine2" className="text-sm font-semibold text-[#e7dac4]">
+          <Label htmlFor="addressLine2" className={labelClass}>
             Address Line 2 Optional
           </Label>
           <Input
             id="addressLine2"
             placeholder="Apartment, suite, unit, floor"
             autoComplete="address-line2"
-            className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]"
+            className={inputClass}
             {...register('addressLine2')}
           />
           {errors.addressLine2 && <FormError message={errors.addressLine2.message} />}
@@ -205,26 +215,47 @@ export const AddressForm: React.FC<Props> = ({
 
         <div className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-3">
           <FormItem className="min-w-0">
-            <Label htmlFor="city" className="text-sm font-semibold text-[#e7dac4]">City</Label>
-            <Input id="city" placeholder="New York" className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]" {...register('city', { required: 'City is required.' })} />
+            <Label htmlFor="city" className={labelClass}>
+              City
+            </Label>
+            <Input
+              id="city"
+              placeholder="New York"
+              className={inputClass}
+              {...register('city', { required: 'City is required.' })}
+            />
             {errors.city && <FormError message={errors.city.message} />}
           </FormItem>
 
           <FormItem className="min-w-0">
-            <Label htmlFor="state" className="text-sm font-semibold text-[#e7dac4]">State / Province</Label>
-            <Input id="state" placeholder="NY" className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]" {...register('state')} />
+            <Label htmlFor="state" className={labelClass}>
+              State / Province
+            </Label>
+            <Input
+              id="state"
+              placeholder="NY"
+              className={inputClass}
+              {...register('state')}
+            />
             {errors.state && <FormError message={errors.state.message} />}
           </FormItem>
 
           <FormItem className="min-w-0">
-            <Label htmlFor="postalCode" className="text-sm font-semibold text-[#e7dac4]">Zip Code</Label>
-            <Input id="postalCode" placeholder="10001" className="h-11 min-h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf] placeholder:text-[#6f6a60]" {...register('postalCode', { required: 'Postal code is required.' })} />
+            <Label htmlFor="postalCode" className={labelClass}>
+              Zip Code
+            </Label>
+            <Input
+              id="postalCode"
+              placeholder="10001"
+              className={inputClass}
+              {...register('postalCode', { required: 'Postal code is required.' })}
+            />
             {errors.postalCode && <FormError message={errors.postalCode.message} />}
           </FormItem>
         </div>
 
         <FormItem className="min-w-0">
-          <Label htmlFor="country" className="text-sm font-semibold text-[#e7dac4]">
+          <Label htmlFor="country" className={labelClass}>
             Country
           </Label>
           <Select
@@ -233,13 +264,10 @@ export const AddressForm: React.FC<Props> = ({
             required
             defaultValue={initialData?.country || ''}
           >
-            <SelectTrigger
-              id="country"
-              className="mb-0 h-11 w-full min-w-0 rounded-none border-[#5d5445] bg-[#252827] text-[#efe4cf]"
-            >
+            <SelectTrigger id="country" className={selectTriggerClass}>
               <SelectValue placeholder="United States" />
             </SelectTrigger>
-            <SelectContent className="border-[#5d5445] bg-[#252827] text-[#efe4cf]">
+            <SelectContent className={selectContentClass}>
               {supportedCountries.map((country) => {
                 const value = typeof country === 'string' ? country : country.value
                 const label =
@@ -249,7 +277,11 @@ export const AddressForm: React.FC<Props> = ({
                       ? country.label
                       : value
 
-                return <SelectItem key={value} value={value}>{label}</SelectItem>
+                return (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                )
               })}
             </SelectContent>
           </Select>
@@ -257,18 +289,20 @@ export const AddressForm: React.FC<Props> = ({
         </FormItem>
       </div>
 
-      <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button
-          type="button"
-          variant="ghost"
-          className="rounded-none text-[#efe4cf] hover:bg-transparent hover:text-[#f5c85b]"
-        >
-          ✕ Cancel
-        </Button>
+      <div className="flex min-w-0 flex-col gap-4 border-t border-neutral-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <DialogClose asChild>
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-md border-neutral-200 font-semibold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900"
+          >
+            Cancel
+          </Button>
+        </DialogClose>
 
         <Button
           type="submit"
-          className="h-14 w-full max-w-full rounded-none bg-[#f3c65f] text-sm font-medium uppercase tracking-[0.18em] text-[#1a1308] hover:bg-[#ffd778] sm:w-auto sm:min-w-[240px] sm:max-w-[300px]"
+          className="h-12 w-full rounded-md bg-[#e53935] px-8 font-sans font-black uppercase tracking-[0.18em] text-white hover:bg-[#c62828] sm:w-auto sm:min-w-[220px]"
         >
           Save Address
         </Button>

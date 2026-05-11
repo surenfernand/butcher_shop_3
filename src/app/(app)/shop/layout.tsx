@@ -23,7 +23,7 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
 
   return (
     <Suspense fallback={null}>
-      <div className="bg-[#faf7f2] text-neutral-950">
+      <div className="bg-[#ffff] text-neutral-950">
         {/* Inner-page header — Carneshop-style title band */}
         <section className="relative border-b border-black/10 bg-neutral-950 pt-8 pb-10 md:pt-10 md:pb-12">
           <div

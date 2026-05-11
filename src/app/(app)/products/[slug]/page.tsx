@@ -63,7 +63,7 @@ export default async function ProductPage({ params }: Args) {
   })
 
   return (
-    <div className="bg-neutral-50 pb-20 pt-20 text-neutral-900">
+    <div className="bg-neutral-50 pb-20 text-neutral-900">
       <div className="container">
         <Breadcrumbs
           className="mb-10"

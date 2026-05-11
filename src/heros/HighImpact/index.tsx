@@ -5,7 +5,8 @@ import { useHeaderTheme } from '@/providers/HeaderTheme'
 import { cn } from '@/utilities/cn'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
+import React, { useEffect, useMemo } from 'react'
 
 const HERO_FALLBACK_IMAGE = '/images/hero-butcher-craft.png'
 
@@ -54,6 +55,32 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
   const imageAlt =
     (media && typeof media === 'object' && media.alt) || 'Butcher preparing exceptional cuts'
 
+  const reduceMotion = useReducedMotion()
+  const heroItem = useMemo(
+    () => ({
+      hidden: { opacity: reduceMotion ? 1 : 0, y: reduceMotion ? 0 : 22 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] as const },
+      },
+    }),
+    [reduceMotion],
+  )
+
+  const heroContainer = useMemo(
+    () => ({
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: reduceMotion ? 0 : 0.11,
+          delayChildren: reduceMotion ? 0 : 0.28,
+        },
+      },
+    }),
+    [reduceMotion],
+  )
+
   return (
     <section
       className="relative min-h-screen overflow-hidden bg-black text-white"
@@ -86,32 +113,46 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
 
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="container w-full px-4 md:px-8">
-          <div className="mx-auto flex max-w-4xl flex-col items-center pt-24 text-center md:pt-32">
+          <motion.div
+            className="mx-auto flex max-w-4xl flex-col items-center pt-24 text-center md:pt-32"
+            variants={heroContainer}
+            initial="hidden"
+            animate="visible"
+          >
             {(eyebrow || heading) && (
-              <div className="mb-8 flex w-full flex-col items-center">
+              <motion.div className="mb-8 flex w-full flex-col items-center" variants={heroItem}>
                 <div className="mb-5 h-px w-14 bg-[#D32F2F] md:w-16" aria-hidden />
                 {eyebrow && (
                   <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-[#D32F2F]">
                     {eyebrow}
                   </p>
                 )}
-              </div>
+              </motion.div>
             )}
 
             {heading && (
-              <h1 className="text-4xl font-semibold leading-[1.15] tracking-tight text-white md:text-5xl lg:text-6xl">
+              <motion.h1
+                className="text-4xl font-semibold leading-[1.15] tracking-tight text-white md:text-5xl lg:text-6xl"
+                variants={heroItem}
+              >
                 {heading}
-              </h1>
+              </motion.h1>
             )}
 
             {description && (
-              <p className="mt-6 max-w-2xl text-pretty font-serif text-lg italic leading-relaxed text-white md:text-xl md:leading-relaxed">
+              <motion.p
+                className="mt-6 max-w-2xl text-pretty font-serif text-lg italic leading-relaxed text-white md:text-xl md:leading-relaxed"
+                variants={heroItem}
+              >
                 {description}
-              </p>
+              </motion.p>
             )}
 
             {Array.isArray(links) && links.length > 0 && (
-              <ul className="mt-10 flex w-full max-w-2xl flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center sm:justify-center">
+              <motion.ul
+                className="mt-10 flex w-full max-w-2xl flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center sm:justify-center"
+                variants={heroItem}
+              >
                 {links.map(({ link }, i) => {
                   if (!link) return null
                   const href = heroLinkHref(link as HeroLink)
@@ -139,9 +180,9 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
                     </li>
                   )
                 })}
-              </ul>
+              </motion.ul>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

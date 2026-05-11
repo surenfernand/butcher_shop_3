@@ -1,8 +1,10 @@
 import { Media } from '@/components/Media'
+import { Reveal } from '@/components/motion/Reveal'
 import { HighImpactHero } from '@/heros/HighImpact'
 import type { Footer, Header, Media as MediaType, Page, Product } from '@/payload-types'
 import { cn } from '@/utilities/cn'
 import { Award, Check, Clock, ShieldCheck, Star, Truck } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 type LuxuryHomePageProps = {
@@ -21,25 +23,29 @@ const defaultCategories = [
     title: 'Prime Beef',
     subtitle: 'Dry-aged steaks & roasts',
     href: '/shop',
-    gradient: 'from-[#D32F2F] via-[#6e1216] to-neutral-950',
+    imageSrc:
+      'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Heritage Pork',
     subtitle: 'Chops, ribs & specialty cuts',
     href: '/shop',
-    gradient: 'from-[#D32F2F] via-[#5c181c] to-neutral-950',
+    imageSrc:
+      'https://images.unsplash.com/photo-1588347818039-8eca19537898?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Poultry',
     subtitle: 'Air-chilled & prepared daily',
     href: '/shop',
-    gradient: 'from-amber-900 via-[#6b4c2a] to-neutral-950',
+    imageSrc:
+      'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=1200&q=80',
   },
   {
     title: 'Lamb & Game',
     subtitle: 'Seasonal selections',
     href: '/shop',
-    gradient: 'from-stone-800 via-[#3d3830] to-neutral-950',
+    imageSrc:
+      'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1200&q=80',
   },
 ]
 
@@ -64,13 +70,14 @@ function extractMedia(resource: unknown): MediaType | null {
   return null
 }
 
+/** `priceInUSD` is stored in cents (same as cart/checkout); convert before display. */
 function formatPrice(value: number | null | undefined) {
   if (typeof value !== 'number') return null
   return new Intl.NumberFormat('en-CA', {
     style: 'currency',
     currency: 'CAD',
     maximumFractionDigits: 2,
-  }).format(value)
+  }).format(value / 100)
 }
 
 function ProductCard({ product }: { product: Product }) {
@@ -183,42 +190,51 @@ export function LuxuryHomePage({
       <HighImpactHero {...page.hero} />
 
       {/* Promo strip — classic butcher banner */}
-      <div
+      <Reveal
         className="border-y border-black/10 py-3.5 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-white"
         style={{ backgroundColor: brandRed }}
+        y={12}
       >
         <span className="inline-block px-4">
           Same-week preparation · Vacuum-sealed for freshness · Visit our counter for custom cuts
         </span>
-      </div>
+      </Reveal>
 
       {/* Categories */}
       <section className="border-b border-neutral-200/80 bg-white py-16 md:py-22">
         <div className="container">
-          <SectionTitle eyebrow="Shop by category" title="Premium cuts for every occasion" />
+          <Reveal>
+            <SectionTitle eyebrow="Shop by category" title="Premium cuts for every occasion" />
+          </Reveal>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {defaultCategories.map((category) => (
-              <Link
-                key={category.title}
-                href={category.href}
-                className={cn(
-                  'group relative flex min-h-[200px] flex-col justify-end overflow-hidden rounded-sm border border-black/10 p-6 text-white shadow-[0_16px_40px_rgba(0,0,0,0.18)] transition hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(0,0,0,0.25)]',
-                  'bg-gradient-to-br',
-                  category.gradient,
-                )}
-              >
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"
-                  aria-hidden
-                />
-                <div className="relative z-10">
-                  <h3 className="text-xl font-semibold tracking-tight">{category.title}</h3>
-                  <p className="mt-1 text-sm text-white/85">{category.subtitle}</p>
-                  <span className="mt-4 inline-flex text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: brandRed }}>
-                    Shop now →
-                  </span>
-                </div>
-              </Link>
+            {defaultCategories.map((category, i) => (
+              <Reveal key={category.title} index={i} staggerSec={0.08}>
+                <Link
+                  href={category.href}
+                  className={cn(
+                    'relative group flex min-h-[200px] flex-col justify-end overflow-hidden rounded-sm border border-black/10 bg-neutral-900 p-6 text-white shadow-[0_16px_40px_rgba(0,0,0,0.18)] transition hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(0,0,0,0.25)]',
+                  )}
+                >
+                  <Image
+                    src={category.imageSrc}
+                    alt=""
+                    fill
+                    className="object-cover transition duration-500 ease-out group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20"
+                    aria-hidden
+                  />
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-semibold tracking-tight">{category.title}</h3>
+                    <p className="mt-1 text-sm text-white/85">{category.subtitle}</p>
+                    <span className="mt-4 inline-flex text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: brandRed }}>
+                      Shop now →
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -227,7 +243,9 @@ export function LuxuryHomePage({
       {/* Why choose us — dark band */}
       <section className="border-b border-black/20 bg-neutral-950 py-16 text-white md:py-22">
         <div className="container">
-          <SectionTitle eyebrow="The Carneshop difference" title="Quality you can see and taste" dark />
+          <Reveal>
+            <SectionTitle eyebrow="The Carneshop difference" title="Quality you can see and taste" dark />
+          </Reveal>
           <div className="mt-14 grid gap-10 md:grid-cols-3">
             {[
               {
@@ -245,17 +263,19 @@ export function LuxuryHomePage({
                 title: 'Cut to order',
                 body: 'Skilled butchers prepare many items fresh when you order — not days ahead.',
               },
-            ].map((item) => (
-              <article key={item.title} className="text-center md:text-left">
-                <div
-                  className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border md:mx-0"
-                  style={{ borderColor: brandRed }}
-                >
-                  <item.icon className="h-6 w-6" style={{ color: brandRed }} aria-hidden />
-                </div>
-                <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-400">{item.body}</p>
-              </article>
+            ].map((item, i) => (
+              <Reveal key={item.title} index={i} staggerSec={0.12}>
+                <article className="text-center md:text-left">
+                  <div
+                    className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border md:mx-0"
+                    style={{ borderColor: brandRed }}
+                  >
+                    <item.icon className="h-6 w-6" style={{ color: brandRed }} aria-hidden />
+                  </div>
+                  <h3 className="mt-6 text-lg font-semibold">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-neutral-400">{item.body}</p>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -265,19 +285,23 @@ export function LuxuryHomePage({
       <section className="border-b border-neutral-200/80 bg-white py-16 md:py-22">
         <div className="container">
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
-            <div className="max-w-xl text-left">
+            <Reveal className="max-w-xl text-left">
               <SectionTitle eyebrow="Butcher's picks" title="Featured this week" align="left" />
-            </div>
-            <Link
-              href="/shop"
-              className="inline-flex min-h-11 items-center border border-neutral-900 bg-transparent px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-950 transition hover:bg-neutral-950 hover:text-white"
-            >
-              View all products
-            </Link>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <Link
+                href="/shop"
+                className="inline-flex min-h-11 items-center border border-neutral-900 bg-transparent px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-950 transition hover:bg-neutral-950 hover:text-white"
+              >
+                View all products
+              </Link>
+            </Reveal>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProducts.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {featuredProducts.slice(0, 4).map((product, i) => (
+              <Reveal key={product.id} index={i} staggerSec={0.09}>
+                <ProductCard product={product} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -287,7 +311,8 @@ export function LuxuryHomePage({
       <section className="border-b border-neutral-200/80 bg-neutral-50 py-14 md:py-18">
         <div className="container">
           <div className="grid items-stretch gap-8 lg:grid-cols-[1fr_380px]">
-            <div className="flex flex-col justify-center border border-neutral-900/10 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.06)] md:p-10">
+            <Reveal>
+              <div className="flex h-full flex-col justify-center border border-neutral-900/10 bg-white p-8 shadow-[0_20px_50px_rgba(0,0,0,0.06)] md:p-10">
               <p className="text-[11px] font-semibold uppercase tracking-[0.26em]" style={{ color: brandRed }}>
                 Limited offer
               </p>
@@ -314,8 +339,10 @@ export function LuxuryHomePage({
               >
                 Shop meat boxes
               </Link>
-            </div>
-            <aside className="relative min-h-[280px] overflow-hidden rounded-sm border border-neutral-900/10 bg-neutral-900 shadow-[0_24px_60px_rgba(0,0,0,0.2)]">
+              </div>
+            </Reveal>
+            <Reveal delay={0.1} y={32}>
+              <aside className="relative min-h-[280px] overflow-hidden rounded-sm border border-neutral-900/10 bg-neutral-900 shadow-[0_24px_60px_rgba(0,0,0,0.2)]">
               {heroMedia ? (
                 <Media resource={heroMedia} className="h-full min-h-[280px] w-full" imgClassName="h-full w-full object-cover opacity-90" />
               ) : (
@@ -328,6 +355,7 @@ export function LuxuryHomePage({
                 Ask our butchers for custom trims and aging preferences.
               </p>
             </aside>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -335,7 +363,7 @@ export function LuxuryHomePage({
       {/* About */}
       <section className="border-b border-neutral-200/80 bg-white py-16 md:py-22">
         <div className="container grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="relative aspect-[5/4] overflow-hidden rounded-sm border border-neutral-200 bg-neutral-900 shadow-[0_28px_60px_rgba(0,0,0,0.12)]">
+          <Reveal className="relative aspect-[5/4] overflow-hidden rounded-sm border border-neutral-200 bg-neutral-900 shadow-[0_28px_60px_rgba(0,0,0,0.12)]">
             {heroMedia ? (
               <Media resource={heroMedia} className="h-full w-full" imgClassName="h-full w-full object-cover" />
             ) : (
@@ -343,7 +371,8 @@ export function LuxuryHomePage({
                 About image
               </div>
             )}
-          </div>
+          </Reveal>
+          <Reveal delay={0.08}>
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.26em]" style={{ color: brandRed }}>
               Our story
@@ -368,17 +397,20 @@ export function LuxuryHomePage({
               About us
             </Link>
           </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Reviews */}
       <section className="border-b border-neutral-200/80 bg-neutral-50 py-16 md:py-22">
         <div className="container">
-          <SectionTitle eyebrow="Testimonials" title="What our customers say" />
+          <Reveal>
+            <SectionTitle eyebrow="Testimonials" title="What our customers say" />
+          </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {reviewCards.map((review) => (
+            {reviewCards.map((review, i) => (
+              <Reveal key={review.name} index={i} staggerSec={0.1}>
               <article
-                key={review.name}
                 className="border border-neutral-200/90 bg-white p-7 shadow-[0_12px_36px_rgba(0,0,0,0.06)]"
               >
                 <div className="mb-4 flex gap-0.5" style={{ color: brandRed }}>
@@ -389,6 +421,7 @@ export function LuxuryHomePage({
                 <p className="text-sm leading-relaxed text-neutral-600">{review.body}</p>
                 <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-950">{review.name}</p>
               </article>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -403,7 +436,7 @@ export function LuxuryHomePage({
           }}
           aria-hidden
         />
-        <div className="container relative z-10 text-center">
+        <Reveal className="container relative z-10 text-center" y={20}>
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em]" style={{ color: brandRed }}>
             Newsletter
           </p>
@@ -443,12 +476,13 @@ export function LuxuryHomePage({
             </Link>{' '}
             for specific orders.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       {/* Contact + blog */}
       <section className="bg-white py-16 md:py-22">
         <div className="container grid gap-8 lg:grid-cols-2">
+          <Reveal index={0} staggerSec={0.12}>
           <article className="border border-neutral-200/90 bg-white p-8 shadow-[0_16px_44px_rgba(0,0,0,0.06)] md:p-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.26em]" style={{ color: brandRed }}>
               Visit & contact
@@ -466,7 +500,9 @@ export function LuxuryHomePage({
               Contact us
             </Link>
           </article>
+          </Reveal>
 
+          <Reveal index={1} staggerSec={0.12}>
           <article className="border border-neutral-200/90 bg-neutral-50 p-8 md:p-10">
             <p className="text-[11px] font-semibold uppercase tracking-[0.26em]" style={{ color: brandRed }}>
               From the blog
@@ -490,6 +526,7 @@ export function LuxuryHomePage({
               ))}
             </div>
           </article>
+          </Reveal>
         </div>
       </section>
 

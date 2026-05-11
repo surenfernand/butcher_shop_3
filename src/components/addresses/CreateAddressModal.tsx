@@ -1,5 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/utilities/cn'
 import React, { useState } from 'react'
 import {
   Dialog,
@@ -18,6 +19,8 @@ type Props = {
   initialData?: Partial<Omit<Address, 'country'>> & { country?: string }
   buttonText?: string
   modalTitle?: string
+  /** Merged into the open trigger `Button` (e.g. full width in a dialog). */
+  triggerClassName?: string
   callback?: (address: Partial<Address>) => void
   skipSubmission?: boolean
   disabled?: boolean
@@ -28,6 +31,7 @@ export const CreateAddressModal: React.FC<Props> = ({
   initialData,
   buttonText = 'Add a new address',
   modalTitle = 'Add a new address',
+  triggerClassName,
   callback,
   skipSubmission,
   disabled,
@@ -50,18 +54,27 @@ export const CreateAddressModal: React.FC<Props> = ({
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}  >
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild disabled={disabled}>
-        <Button variant={'outline'}>{buttonText}</Button>
+        <Button
+          variant="outline"
+          className={cn(
+            'border-neutral-200 font-semibold text-[#e53935] hover:bg-neutral-50 hover:text-neutral-900',
+            buttonText === 'Edit' && 'h-9 px-3 text-sm',
+            triggerClassName,
+          )}
+        >
+          {buttonText}
+        </Button>
       </DialogTrigger>
- 
-      <DialogContent className="box-border w-[calc(100vw-2rem)] max-w-3xl overflow-x-hidden border border-[#4b4235] bg-[#080b0a] p-0 text-[#efe4cf] shadow-2xl sm:max-w-3xl">
-        <div className="box-border px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
-          <DialogHeader className="mb-10">
-            <DialogTitle className="text-4xl font-semibold tracking-tight text-[#f5c85b]">
+
+      <DialogContent className="box-border w-[calc(100vw-2rem)] max-w-3xl overflow-x-hidden rounded-xl border border-neutral-200 bg-white p-0 text-neutral-900 shadow-[0_16px_48px_rgba(0,0,0,0.1)] sm:max-w-3xl">
+        <div className="box-border px-6 py-8 sm:px-10 sm:py-10 lg:px-12 lg:py-12">
+          <DialogHeader className="mb-8">
+            <DialogTitle className="font-sans text-2xl font-black uppercase tracking-tight text-neutral-900 md:text-3xl">
               {modalTitle}
             </DialogTitle>
-            <DialogDescription className="mt-3 text-base text-[#d8cbb7]">
+            <DialogDescription className="mt-2 font-sans text-sm text-neutral-600">
               This address will be connected to your account.
             </DialogDescription>
           </DialogHeader>

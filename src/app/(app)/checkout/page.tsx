@@ -7,7 +7,7 @@ import { CheckoutPage } from '@/components/checkout/CheckoutPage'
 
 export default function Checkout() {
   return (
-    <div className="pt-20">
+    <div className="-mt-[var(--app-header-offset)] bg-neutral-50 pt-[var(--app-header-offset)]">
       {!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && (
         <div>
           <Fragment>

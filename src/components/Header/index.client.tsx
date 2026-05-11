@@ -77,10 +77,7 @@ export function HeaderClient({ header, contact }: Props) {
 
   const contactInner = (
     <>
-      <div className="flex max-w-full items-start gap-2.5 text-left sm:max-w-[min(100%,20rem)]">
-        <MapPin className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
-        <span className="whitespace-pre-line leading-snug">{address}</span>
-      </div>
+    
       <a
         href={`mailto:${email}`}
         className="inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap transition hover:underline"

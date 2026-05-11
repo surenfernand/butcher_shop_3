@@ -6,6 +6,7 @@ import { getPurchaseUnitPriceInCents, PurchaseType } from '@/utilities/purchaseP
 import { batchResolveOrderLinesForPricing } from '@/utilities/resolveOrderLinePricingDocs'
 import configPromise from '@payload-config'
 import { headers as getHeaders } from 'next/headers'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -168,185 +169,202 @@ export default async function ThankYouPage({ params, searchParams }: PageProps) 
   const address = typedOrder.shippingAddress
 
   return (
-    <main className="min-h-screen text-[#e2e2e2]">
-      <section className="relative flex h-[520px] items-center justify-center overflow-hidden text-center">
-        <div className="absolute inset-0 bg-dark" />
+    <div className="min-h-screen bg-neutral-50 text-neutral-900">
+      <header className="border-b border-neutral-800 bg-[#1a1a1a]">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
+          <Link
+            className="text-xs uppercase tracking-[0.24em] text-white/75 transition hover:text-white"
+            href="/shop"
+          >
+            Continue Shopping
+          </Link>
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white">
+            Order Confirmed
+          </p>
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.12em] text-white/70">
+            <Check className="h-3.5 w-3.5 text-[#e53935]" aria-hidden />
+            Success
+          </div>
+        </div>
+      </header>
 
-        <div className="relative z-10 px-6">
-          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#D3A84B] text-2xl font-black text-black">
+      <main className="mx-auto max-w-7xl px-6 py-10 pb-20 md:px-10">
+        <section className="mb-10 rounded-xl border border-neutral-200 bg-white p-8 text-center shadow-[0_8px_24px_rgba(0,0,0,0.06)] md:p-10">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#e53935] text-2xl font-black text-white">
             ✓
           </div>
-
-          <h1 className="text-4xl font-black tracking-tight text-white md:text-5xl">
+          <h1 className="font-sans text-3xl font-black uppercase tracking-tight text-neutral-900 md:text-4xl">
             Thank You for Your Order
           </h1>
-
-          <p className="mt-5 text-lg text-[#d2c5b1]">
+          <p className="mt-4 font-sans text-lg text-neutral-600">
             Your order{' '}
-            <span className="font-bold text-[#D3A84B]">#{typedOrder.id}</span>{' '}
-            is being prepared.
+            <span className="font-bold text-[#e53935]">#{typedOrder.id}</span> is being prepared.
           </p>
-        </div>
-      </section>
+        </section>
 
-      <section className="relative z-20 mx-auto -mt-10 grid max-w-7xl grid-cols-1 gap-6 px-6 pb-20 lg:grid-cols-12">
-        <div className="lg:col-span-8">
-          <div className="border border-[#333535] bg-[#1e2020] p-8">
-            <div className="mb-8 flex items-end justify-between border-b border-[#333535] pb-4">
-              <h2 className="text-2xl font-bold uppercase tracking-[0.18em] text-[#D3A84B]">
-                Order Summary
-              </h2>
+        <section className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-8">
+            <div className="rounded-xl border border-neutral-200 bg-white p-8 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+              <div className="mb-8 flex flex-col gap-3 border-b border-neutral-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
+                <h2 className="font-sans text-xl font-black uppercase tracking-[0.18em] text-[#e53935]">
+                  Order Summary
+                </h2>
+                <p className="font-sans text-xs uppercase tracking-[0.18em] text-neutral-600">
+                  Placed {formatDate(typedOrder.createdAt)}
+                </p>
+              </div>
 
-              <p className="text-xs uppercase tracking-[0.18em] text-[#9a8f7e]">
-                Placed {formatDate(typedOrder.createdAt)}
-              </p>
-            </div>
+              <div className="space-y-6">
+                {linePricingDocs.map(({ item, product, variant }, index) => {
+                  if (!product) return null
 
-            <div className="space-y-6">
-              {linePricingDocs.map(({ item, product, variant }, index) => {
-                if (!product) return null
+                  const image = getOrderLineProductImage(product, variant)
+                  const unitPrice = getPurchaseUnitPriceInCents(
+                    product,
+                    variant,
+                    purchaseTypeForPricing,
+                  )
+                  const quantity = item.quantity || 1
+                  const lineTotal = unitPrice * quantity
 
-                const image = getOrderLineProductImage(product, variant)
-                const unitPrice = getPurchaseUnitPriceInCents(
-                  product,
-                  variant,
-                  purchaseTypeForPricing,
-                )
-                const quantity = item.quantity || 1
-                const lineTotal = unitPrice * quantity
+                  return (
+                    <div
+                      key={item.id || index}
+                      className="flex items-center gap-5 rounded-lg border border-neutral-200 bg-neutral-50/80 p-4"
+                    >
+                      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md border border-neutral-200 bg-neutral-100">
+                        {image ? (
+                          <Media fill imgClassName="object-cover" resource={image} />
+                        ) : null}
+                      </div>
 
-                return (
-                  <div key={item.id || index} className="flex items-center gap-5">
-                    <div className="relative h-24 w-24 overflow-hidden bg-[#333535]">
-                      {image ? (
-                        <Media fill imgClassName="object-cover" resource={image} />
-                      ) : null}
-                    </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-sans font-black uppercase text-neutral-900">
+                          {product.title}
+                        </h3>
 
-                    <div className="flex-1">
-                      <h3 className="font-bold uppercase text-white">{product.title}</h3>
+                        {purchaseTypeForPricing && purchaseTypeForPricing !== 'one_time' ? (
+                          <p className="mt-1 font-sans text-xs uppercase tracking-[0.18em] text-[#e53935]">
+                            {purchaseTypeForPricing === 'monthly'
+                              ? 'Monthly subscription'
+                              : 'Weekly subscription'}
+                          </p>
+                        ) : null}
 
-                      {purchaseTypeForPricing && purchaseTypeForPricing !== 'one_time' ? (
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#D3A84B]">
-                          {purchaseTypeForPricing === 'monthly'
-                            ? 'Monthly subscription'
-                            : 'Weekly subscription'}
+                        {variant?.title ? (
+                          <p className="mt-1 font-sans text-xs uppercase tracking-[0.18em] text-neutral-600">
+                            {variant.title}
+                          </p>
+                        ) : null}
+                      </div>
+
+                      <div className="shrink-0 text-right">
+                        <p className="font-sans font-black text-[#e53935]">{formatMoney(lineTotal)}</p>
+                        <p className="mt-1 font-sans text-xs uppercase text-neutral-600">
+                          Qty: {quantity}
                         </p>
-                      ) : null}
-
-                      {variant?.title ? (
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#9a8f7e]">
-                          {variant.title}
-                        </p>
-                      ) : null}
+                      </div>
                     </div>
+                  )
+                })}
+              </div>
 
-                    <div className="text-right">
-                      <p className="font-bold text-[#D3A84B]">{formatMoney(lineTotal)}</p>
-                      <p className="mt-1 text-xs uppercase text-[#9a8f7e]">Qty: {quantity}</p>
-                    </div>
-                  </div>
-                )
-              })}
+              <div className="mt-10 space-y-3 border-t border-neutral-200 pt-6 font-sans text-sm uppercase tracking-[0.12em]">
+                <div className="flex justify-between text-neutral-600">
+                  <span>Subtotal</span>
+                  <span className="text-neutral-900">{formatMoney(itemsSubtotal)}</span>
+                </div>
+
+                <div className="flex justify-between text-neutral-600">
+                  <span>Shipping</span>
+                  <span className="text-neutral-900">{formatMoney(shippingTotal)}</span>
+                </div>
+
+                <div className="flex justify-between text-neutral-600">
+                  <span>Tax</span>
+                  <span className="text-neutral-900">{formatMoney(estimatedTax)}</span>
+                </div>
+
+                <div className="my-4 h-px bg-border" />
+
+                <div className="flex justify-between text-lg font-black text-[#e53935]">
+                  <span className="uppercase">Total Amount</span>
+                  <span>{formatMoney(calculatedTotal)}</span>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-10 space-y-3 border-t border-[#333535] pt-6">
-              <div className="flex justify-between text-sm uppercase tracking-[0.12em] text-[#d2c5b1]">
-                <span>Subtotal</span>
-                <span>{formatMoney(itemsSubtotal)}</span>
-              </div>
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Link
+                href="/shop"
+                className="bg-[#e53935] py-4 text-center text-sm font-black uppercase tracking-[0.18em] text-white transition hover:bg-[#c62828]"
+              >
+                Return to Shop
+              </Link>
 
-              <div className="flex justify-between text-sm uppercase tracking-[0.12em] text-[#d2c5b1]">
-                <span>Shipping</span>
-                {/* <span>{shippingTotal > 0 ? formatMoney(shippingTotal) : '0.00'}</span> */}
-                <span>{formatMoney(shippingTotal)}</span>
-              </div>
-
-              <div className="flex justify-between text-sm uppercase tracking-[0.12em] text-[#d2c5b1]">
-                <span>Tax</span>
-                <span>{formatMoney(estimatedTax)}</span>
-              </div>
-
-              <div className="flex justify-between border-t border-[#333535] pt-4 text-2xl font-black">
-                <span className="uppercase text-[#D3A84B]">Total Amount</span>
-                <span>{formatMoney(calculatedTotal)}</span>
-              </div>
+              <Link
+                href={orderUrl}
+                className="border border-neutral-200 bg-white py-4 text-center text-sm font-black uppercase tracking-[0.18em] text-[#e53935] shadow-[0_4px_14px_rgba(0,0,0,0.04)] transition hover:border-[#e53935]/40 hover:bg-neutral-50"
+              >
+                View Order
+              </Link>
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Link
-              href="/shop"
-              className="bg-[#D3A84B] py-4 text-center text-sm font-black uppercase tracking-[0.18em] text-black"
-            >
-              Return to Shop
-            </Link>
+          <aside className="space-y-6 lg:col-span-4">
+            <div className="rounded-xl border border-neutral-200 bg-white p-7 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+              {typedOrder.fulfillment?.date ? (
+                <div className="mb-6">
+                  <p className="font-sans text-xs uppercase tracking-[0.18em] text-neutral-600">
+                    Estimated Arrival
+                  </p>
+                  <p className="mt-1 font-sans text-xl font-bold text-neutral-900">
+                    {formatDate(typedOrder.fulfillment.date)}
+                  </p>
+                </div>
+              ) : null}
 
-            <Link
-              href={orderUrl}
-              className="border border-[#D3A84B] py-4 text-center text-sm font-black uppercase tracking-[0.18em] text-[#D3A84B]"
-            >
-              View Order
-            </Link>
-          </div>
-        </div>
+              {address ? (
+                <div>
+                  <p className="mb-2 font-sans text-xs uppercase tracking-[0.18em] text-neutral-600">
+                    Shipping Address
+                  </p>
 
-        <aside className="space-y-6 lg:col-span-4">
-          <div className="border border-[#333535] bg-[#282a2b] p-7">
+                  <p className="leading-relaxed text-neutral-900">
+                    {[address.firstName, address.lastName].filter(Boolean).join(' ')}
+                    <br />
+                    {address.addressLine1}
+                    {address.addressLine2 ? (
+                      <>
+                        <br />
+                        {address.addressLine2}
+                      </>
+                    ) : null}
+                    <br />
+                    {[address.city, address.state, address.postalCode].filter(Boolean).join(', ')}
+                    <br />
+                    {address.country}
+                  </p>
+                </div>
+              ) : null}
+            </div>
 
-            {typedOrder.fulfillment?.date ? (
-              <div className="mb-6">
-                <p className="text-xs uppercase tracking-[0.18em] text-[#9a8f7e]">
-                  Estimated Arrival
-                </p>
-                <p className="mt-1 text-xl font-bold">
-                  {formatDate(typedOrder.fulfillment.date)}
-                </p>
-              </div>
-            ) : null}
-
-            {address ? (
-              <div>
-                <p className="mb-2 text-xs uppercase tracking-[0.18em] text-[#9a8f7e]">
-                  Shipping Address
-                </p>
-
-                <p className="leading-relaxed text-[#e2e2e2]">
-                  {[address.firstName, address.lastName].filter(Boolean).join(' ')}
-                  <br />
-                  {address.addressLine1}
-                  {address.addressLine2 ? (
-                    <>
-                      <br />
-                      {address.addressLine2}
-                    </>
-                  ) : null}
-                  <br />
-                  {[address.city, address.state, address.postalCode].filter(Boolean).join(', ')}
-                  <br />
-                  {address.country}
-                </p>
-              </div>
-            ) : null}
-          </div>
-
-          <div className="border border-[#D3A84B]/30 bg-black p-7">
-            <p className="text-lg italic leading-relaxed text-[#e2e2e2]">
-              “Every cut that leaves our atelier is a testament to heritage, craft, and the pursuit
-              of culinary perfection.”
-            </p>
-
-            <div className="mt-8 flex items-center gap-3">
-              <div className="h-px w-8 bg-[#D3A84B]" />
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#D3A84B]">
-                Artisan Curator
+            <div className="rounded-xl border border-neutral-200 border-l-4 border-l-[#e53935] bg-white p-7 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+              <p className="font-sans text-lg italic leading-relaxed text-neutral-700">
+                “Every cut that leaves our atelier is a testament to heritage, craft, and the pursuit
+                of culinary perfection.”
               </p>
+
+              <div className="mt-8 flex items-center gap-3">
+                <div className="h-px w-8 bg-[#e53935]" />
+                <p className="font-sans text-xs font-bold uppercase tracking-[0.18em] text-[#e53935]">
+                  Artisan Curator
+                </p>
+              </div>
             </div>
-          </div>
-
-
-        </aside>
-      </section>
-    </main>
+          </aside>
+        </section>
+      </main>
+    </div>
   )
 }
