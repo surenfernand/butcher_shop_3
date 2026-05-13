@@ -1,3 +1,4 @@
+import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Plugin } from 'payload'
@@ -14,7 +15,12 @@ import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
 import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
 import { isAdmin } from '@/access/isAdmin'
-import { isDocumentOwner } from '@/access/isDocumentOwner'
+import {
+  storefrontIsAdmin,
+  storefrontIsAuthenticated,
+  storefrontIsCustomer,
+  storefrontIsDocumentOwner,
+} from '@/access/storefrontEcommerceAccess'
 import multiLocationPlugin from './payload-multi-location-plugin/src'
 
 const generateTitle: GenerateTitle<Product | Page> = ({ doc }) => {
@@ -82,8 +88,10 @@ export const plugins: Plugin[] = [
       adminOnlyFieldAccess,
       adminOrPublishedStatus,
       customerOnlyFieldAccess,
-      isAdmin,
-      isDocumentOwner,
+      isAdmin: storefrontIsAdmin,
+      isDocumentOwner: storefrontIsDocumentOwner,
+      isAuthenticated: storefrontIsAuthenticated,
+      isCustomer: storefrontIsCustomer,
     },
     customers: {
       slug: 'users',
@@ -186,5 +194,33 @@ export const plugins: Plugin[] = [
     productSlug: 'products',
     orderSlug: 'orders',
     adminGroup: 'Shop',
-  })
+  }),
+  payloadBetterAuth({
+    users: {
+      adminRoles: ['admin'],
+      // Plugin hardcodes defaultValue "user" on the role field; the Postgres enum must include it.
+      roles: ['admin', 'customer', 'user'],
+    },
+    betterAuthOptions: {
+      // Generate a value with: openssl rand -base64 32
+      secret: process.env.BETTER_AUTH_SECRET || '',
+      baseURL:
+        process.env.BETTER_AUTH_URL ||
+        process.env.NEXT_PUBLIC_SERVER_URL ||
+        'http://localhost:3000',
+      emailAndPassword: {
+        enabled: true,
+      },
+      ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+        ? {
+            socialProviders: {
+              google: {
+                clientId: process.env.GOOGLE_CLIENT_ID,
+                clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+              },
+            },
+          }
+        : {}),
+    },
+  }) as unknown as Plugin,
 ]

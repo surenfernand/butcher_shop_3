@@ -25,11 +25,11 @@ export const Message: React.FC<{
     return (
       <div
         className={clsx(
-          'p-4 my-8 rounded-lg',
+          'my-8 rounded-lg border p-4 text-sm font-medium text-neutral-900',
           {
-            'bg-success ': Boolean(success),
-            ' bg-warning': Boolean(warning),
-            'bg-error': Boolean(error),
+            'border-emerald-200 bg-emerald-50': Boolean(success),
+            'border-amber-200 bg-amber-50': Boolean(warning),
+            'border-red-200 bg-red-50': Boolean(error),
           },
           className,
         )}

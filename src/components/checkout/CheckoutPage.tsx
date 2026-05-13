@@ -195,6 +195,10 @@ export const CheckoutPage: React.FC = () => {
     (email || user) && billingAddress && (billingAddressSameAsShipping || shippingAddress),
   )
 
+  /** Logged-in users never fill the guest email field; payment initiate still needs this when `req.user` is unset (Better Auth). */
+  const customerEmailForPayment =
+    (user?.email && String(user.email).trim()) || email.trim() || ''
+
   const hasPaymentForm = Boolean(paymentData?.['clientSecret'])
 
 
@@ -389,7 +393,7 @@ export const CheckoutPage: React.FC = () => {
 
         const paymentData = (await initiatePayment(paymentID, {
           additionalData: {
-            ...(email ? { customerEmail: email } : {}),
+            ...(customerEmailForPayment ? { customerEmail: customerEmailForPayment } : {}),
             billingAddress,
             shippingAddress: billingAddressSameAsShipping ? billingAddress : shippingAddress,
             fulfillment,
@@ -416,7 +420,7 @@ export const CheckoutPage: React.FC = () => {
       billingAddress,
       billingAddressSameAsShipping,
       cart?.items,
-      email,
+      customerEmailForPayment,
       initiatePayment,
       shippingAddress,
     ],
@@ -691,7 +695,7 @@ export const CheckoutPage: React.FC = () => {
                     >
                       <div className="flex flex-col gap-8">
                         <CheckoutForm
-                          customerEmail={email}
+                          customerEmail={customerEmailForPayment}
                           billingAddress={billingAddress}
                           setProcessingPayment={setProcessingPayment}
                           setPaymentElementComplete={setPaymentElementComplete}

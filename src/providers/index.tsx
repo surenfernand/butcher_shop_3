@@ -1,11 +1,33 @@
-import { AuthProvider } from '@/providers/Auth'
-import { EcommerceProvider } from '@payloadcms/plugin-ecommerce/client/react'
+'use client'
+
+import { AuthProvider, useAuth } from '@/providers/Auth'
+import { EcommerceProvider, useEcommerce } from '@payloadcms/plugin-ecommerce/client/react'
 import { stripeAdapterClient } from '@payloadcms/plugin-ecommerce/payments/stripe'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
 import { SonnerProvider } from '@/providers/Sonner'
+
+function EcommerceAuthSync() {
+  const { user: authUser } = useAuth()
+  const { user: ecUser, onLogin } = useEcommerce()
+  const busy = useRef(false)
+
+  useEffect(() => {
+    const authId = authUser?.id != null ? String(authUser.id) : ''
+    const ecId = ecUser?.id != null ? String(ecUser.id) : ''
+    if (!authId || ecId === authId || busy.current) return
+    busy.current = true
+    void onLogin()
+      .catch(() => {})
+      .finally(() => {
+        busy.current = false
+      })
+  }, [authUser?.id, ecUser?.id, onLogin])
+
+  return null
+}
 
 export const Providers: React.FC<{
   children: React.ReactNode
@@ -43,6 +65,7 @@ export const Providers: React.FC<{
               }),
             ]}
           >
+            <EcommerceAuthSync />
             {children}
           </EcommerceProvider>
         </HeaderThemeProvider>

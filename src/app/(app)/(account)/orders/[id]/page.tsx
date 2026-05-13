@@ -5,6 +5,7 @@ import { Price } from '@/components/Price'
 import { Button } from '@/components/ui/button'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getRequestUser } from '@/utilities/getRequestUser'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeftIcon } from 'lucide-react'
@@ -55,7 +56,7 @@ const getLinePurchaseType = (order: Order, item: NonNullable<Order['items']>[num
 export default async function Order({ params, searchParams }: PageProps) {
   const headers = await getHeaders()
   const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const { user } = await getRequestUser(headers)
 
   const { id } = await params
   const { email = '', accessToken = '' } = await searchParams

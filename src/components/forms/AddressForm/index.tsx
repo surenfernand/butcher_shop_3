@@ -20,6 +20,7 @@ import { deepMergeSimple } from 'payload/shared'
 import { FormError } from '@/components/forms/FormError'
 import { FormItem } from '@/components/forms/FormItem'
 import { DialogClose } from '@/components/ui/dialog'
+import { toast } from 'sonner'
 
 const labelClass = 'font-sans text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600'
 
@@ -90,6 +91,11 @@ export const AddressForm: React.FC<Props> = ({
         }
       } catch (error) {
         console.error('Address form submit failed:', error)
+        const message =
+          error instanceof Error ? error.message : 'Could not save address. Please try again.'
+        if (!callback) {
+          toast.error(message)
+        }
 
         if (callback) {
           callback(newData)

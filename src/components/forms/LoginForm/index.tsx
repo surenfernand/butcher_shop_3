@@ -38,6 +38,7 @@ export const LoginForm: React.FC = () => {
         await login({
           email: data.email,
           password: data.password,
+          remember: data.remember,
         })
 
         if (redirect?.current) router.push(redirect.current)
@@ -51,60 +52,70 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <Message className="mb-6 text-sm text-red-400" error={error} />
+      <Message className="my-0 mb-6 border-red-200 bg-red-50" error={error} />
 
-      <div className="flex flex-col gap-9">
+      <div className="flex flex-col gap-8">
         <FormItem>
-          <Label htmlFor="email" className="mb-3 block text-base font-normal text-muted-foreground">
-            Email Address
+          <Label
+            htmlFor="email"
+            className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-neutral-600"
+          >
+            Email address
           </Label>
           <Input
             id="email"
             type="email"
             autoComplete="email"
-            className="h-12 rounded-none border-0 border-b border-border bg-transparent px-0 py-2.5 text-foreground placeholder:text-muted-foreground shadow-none focus-visible:border-primary focus-visible:ring-0"
+            className="h-11 rounded-lg border border-neutral-200 bg-white px-3 text-neutral-900 shadow-none placeholder:text-neutral-400 focus-visible:border-[#D32F2F] focus-visible:ring-2 focus-visible:ring-[#D32F2F]/25"
             {...register('email', { required: 'Email is required.' })}
           />
           {errors.email && <FormError message={errors.email.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="password" className="mb-3 block text-base font-normal text-muted-foreground">
+          <Label
+            htmlFor="password"
+            className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-neutral-600"
+          >
             Password
           </Label>
           <Input
             id="password"
             type="password"
             autoComplete="current-password"
-            className="h-12 rounded-none border-0 border-b border-border bg-transparent px-0 py-2.5 text-foreground placeholder:text-muted-foreground shadow-none focus-visible:border-primary focus-visible:ring-0"
+            className="h-11 rounded-lg border border-neutral-200 bg-white px-3 text-neutral-900 shadow-none placeholder:text-neutral-400 focus-visible:border-[#D32F2F] focus-visible:ring-2 focus-visible:ring-[#D32F2F]/25"
             {...register('password', { required: 'Please provide a password.' })}
           />
           {errors.password && <FormError message={errors.password.message} />}
         </FormItem>
 
-        <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <label className="flex cursor-pointer items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-600">
+          <label className="flex cursor-pointer items-center gap-2.5">
             <input
               type="checkbox"
-              className="h-5 w-5 rounded border border-border accent-primary"
+              className="size-4 rounded border-neutral-300 text-[#D32F2F] focus:ring-[#D32F2F]/30"
               {...register('remember')}
             />
             <span>Remember me</span>
           </label>
 
-          <Link href={`/forgot-password${allParams}`} className="font-medium text-primary hover:underline">
+          <Link
+            href={`/forgot-password${allParams}`}
+            className="font-semibold text-[#D32F2F] hover:text-[#B71C1C] hover:underline"
+          >
             Forgot password?
           </Link>
         </div>
       </div>
 
       <Button
-        className="mt-5 w-full rounded-md px-5 py-6 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] transition-all duration-300 ease-out hover:scale-[1.02] active:scale-[0.98]"
+        className="mt-6 h-12 w-full rounded-lg bg-[#D32F2F] text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-sm transition-colors hover:bg-[#B71C1C] hover:scale-[1.01] active:scale-[0.99] disabled:hover:scale-100"
         disabled={isLoading}
         size="lg"
         type="submit"
+        variant="default"
       >
-        {isLoading ? 'Processing' : 'Sign In'}
+        {isLoading ? 'Signing in…' : 'Sign in'}
       </Button>
     </form>
   )

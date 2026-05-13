@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 
 import { DashboardCard } from '@/components/account/DashboardCard'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getRequestUser } from '@/utilities/getRequestUser'
 import configPromise from '@payload-config'
 import { headers as getHeaders } from 'next/headers'
 import { ShoppingBasket, Truck } from 'lucide-react'
@@ -96,7 +97,7 @@ function StatusBadge({ status }: { status: Order['status'] }) {
 export default async function Orders() {
   const headers = await getHeaders()
   const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const { user } = await getRequestUser(headers)
 
   let orders: Order[] | null = null
 

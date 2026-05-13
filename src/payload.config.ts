@@ -1,3 +1,4 @@
+import './ensurePayloadGlobalCache'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import {
     BoldFeature,
@@ -38,6 +39,9 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     components: {
+      graphics: {
+        Logo: '@/components/AdminAuthLogo#AdminAuthLogo',
+      },
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: ['@/components/BeforeLogin#BeforeLogin'],
@@ -63,6 +67,9 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    // Sync Drizzle schema → Postgres in dev so new plugin fields/tables (e.g. users.role, accounts) exist.
+    // For production, run migrations or a managed deploy step instead of relying on push.
+    push: process.env.NODE_ENV !== 'production',
   }),
   editor: lexicalEditor({
     features: () => {

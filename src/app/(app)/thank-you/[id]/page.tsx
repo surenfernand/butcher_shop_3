@@ -4,6 +4,7 @@ import { Media } from '@/components/Media'
 import { getOrderLineProductImage } from '@/utilities/getOrderLineProductImage'
 import { getPurchaseUnitPriceInCents, PurchaseType } from '@/utilities/purchasePricing'
 import { batchResolveOrderLinesForPricing } from '@/utilities/resolveOrderLinePricingDocs'
+import { getRequestUser } from '@/utilities/getRequestUser'
 import configPromise from '@payload-config'
 import { headers as getHeaders } from 'next/headers'
 import { Check } from 'lucide-react'
@@ -45,7 +46,7 @@ export default async function ThankYouPage({ params, searchParams }: PageProps) 
   const headers = await getHeaders()
   const payload = await getPayload({ config: configPromise })
 
-  const { user } = await payload.auth({ headers })
+  const { user } = await getRequestUser(headers)
 
   const { id } = await params
 

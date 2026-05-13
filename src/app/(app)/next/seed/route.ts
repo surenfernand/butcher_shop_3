@@ -4,6 +4,7 @@ import config from '@payload-config'
 import { headers } from 'next/headers'
 
 import { checkRole } from '@/access/utilities'
+import { getRequestUser } from '@/utilities/getRequestUser'
 
 export const maxDuration = 300 // This function can run for a maximum of 300 seconds
 
@@ -11,8 +12,7 @@ export async function POST(): Promise<Response> {
   const payload = await getPayload({ config })
   const requestHeaders = await headers()
 
-  // Authenticate by passing request headers
-  const { user } = await payload.auth({ headers: requestHeaders })
+  const { user } = await getRequestUser(requestHeaders)
 
   if (!user || !checkRole(['admin'], user)) {
     return new Response('Action forbidden.', { status: 403 })

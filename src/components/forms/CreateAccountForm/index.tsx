@@ -72,52 +72,50 @@ export const CreateAccountForm: React.FC = () => {
   )
 
   return (
-    <form className="w-full max-w-md py-4 text-[#d8d0c2]" onSubmit={handleSubmit(onSubmit)}>
-      <div className="prose prose-invert mb-8 text-[#b8ad9a]">
-        <p>
-          {`This is where new customers can signup and create a new account. To manage all users, `}
-          <Link
-            href="/admin/collections/users"
-            className="text-[#d8aa3f] underline-offset-4 hover:text-[#f0c86a]"
-          >
-            login to the admin dashboard
-          </Link>
-          .
-        </p>
-      </div>
+    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+ 
 
-      <Message error={error} />
+      <Message className="my-0 mb-6 border-red-200 bg-red-50" error={error} />
 
-      <div className="flex flex-col gap-8 mb-10">
+      <div className="mb-10 flex flex-col gap-8">
         <FormItem>
-          <Label htmlFor="email" className="mb-2 text-[#9f9584]">
-            Email Address
+          <Label
+            htmlFor="email"
+            className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-neutral-600"
+          >
+            Email address
           </Label>
           <Input
             id="email"
             {...register('email', { required: 'Email is required.' })}
             type="email"
-            className="border-0 border-b border-[#5f5546] rounded-none bg-transparent px-0 text-[#eee6d8] placeholder:text-[#7f7463] focus-visible:ring-0 focus-visible:border-[#d8aa3f]"
+            className="h-11 rounded-lg border border-neutral-200 bg-white px-3 text-neutral-900 shadow-none placeholder:text-neutral-400 focus-visible:border-[#D32F2F] focus-visible:ring-2 focus-visible:ring-[#D32F2F]/25"
           />
           {errors.email && <FormError message={errors.email.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="password" className="mb-2 text-[#9f9584]">
+          <Label
+            htmlFor="password"
+            className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-neutral-600"
+          >
             New password
           </Label>
           <Input
             id="password"
             {...register('password', { required: 'Password is required.' })}
             type="password"
-            className="border-0 border-b border-[#5f5546] rounded-none bg-transparent px-0 text-[#eee6d8] placeholder:text-[#7f7463] focus-visible:ring-0 focus-visible:border-[#d8aa3f]"
+            className="h-11 rounded-lg border border-neutral-200 bg-white px-3 text-neutral-900 shadow-none placeholder:text-neutral-400 focus-visible:border-[#D32F2F] focus-visible:ring-2 focus-visible:ring-[#D32F2F]/25"
           />
           {errors.password && <FormError message={errors.password.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="passwordConfirm" className="mb-2 text-[#9f9584]">
-            Confirm Password
+          <Label
+            htmlFor="passwordConfirm"
+            className="mb-2 block text-xs font-semibold uppercase tracking-[0.12em] text-neutral-600"
+          >
+            Confirm password
           </Label>
           <Input
             id="passwordConfirm"
@@ -126,7 +124,7 @@ export const CreateAccountForm: React.FC = () => {
               validate: (value) => value === password.current || 'The passwords do not match',
             })}
             type="password"
-            className="border-0 border-b border-[#5f5546] rounded-none bg-transparent px-0 text-[#eee6d8] placeholder:text-[#7f7463] focus-visible:ring-0 focus-visible:border-[#d8aa3f]"
+            className="h-11 rounded-lg border border-neutral-200 bg-white px-3 text-neutral-900 shadow-none placeholder:text-neutral-400 focus-visible:border-[#D32F2F] focus-visible:ring-2 focus-visible:ring-[#D32F2F]/25"
           />
           {errors.passwordConfirm && <FormError message={errors.passwordConfirm.message} />}
         </FormItem>
@@ -136,18 +134,19 @@ export const CreateAccountForm: React.FC = () => {
         disabled={loading}
         type="submit"
         variant="default"
-        className="w-full rounded-none border border-[#c8a24d] bg-[#c8a24d] px-5 py-6 text-center text-[11px] font-extrabold uppercase tracking-[0.28em] text-black transition-all duration-300 ease-out hover:bg-transparent hover:text-[#c8a24d] hover:scale-[1.03] active:scale-[0.97]"
+        className="h-12 w-full rounded-lg bg-[#D32F2F] text-sm font-semibold uppercase tracking-[0.14em] text-white shadow-sm transition-colors hover:bg-[#B71C1C] hover:scale-[1.01] active:scale-[0.99] disabled:hover:scale-100"
       >
-        {loading ? 'Processing' : 'Create Account'}
+        {loading ? 'Creating account…' : 'Create account'}
       </Button>
 
-      <div className="prose prose-invert mt-8 text-[#b8ad9a]">
-        <p>
-          {'Already have an account? '}
-          <Link href={`/login${allParams}`} className="text-[#d8aa3f] underline-offset-4 hover:text-[#f0c86a]">
-            Login
-          </Link>
-        </p>
+      <div className="mt-8 text-center text-sm text-neutral-600">
+        {'Already have an account? '}
+        <Link
+          href={`/login${allParams}`}
+          className="font-semibold text-[#D32F2F] underline underline-offset-4 hover:text-[#B71C1C]"
+        >
+          Sign in
+        </Link>
       </div>
     </form>
   )

@@ -1,3 +1,4 @@
+import { AdminButtons as AdminButtons_9c0294635421360d3981403ec167ddb7 } from '@payload-auth/better-auth-plugin/client'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -21,11 +22,17 @@ import { SlugField as SlugField_2b8867833a34864a02ddf429b0728a40 } from '@payloa
 import { VariantOptionsSelector as VariantOptionsSelector_b91672ccd6e8b071c11142ab941fedfb } from '@payloadcms/plugin-ecommerce/rsc'
 import { PriceCell as PriceCell_e27bf7b8cc50640dcdd584767b8eac3c } from '@payloadcms/plugin-ecommerce/client'
 import { PriceInput as PriceInput_b91672ccd6e8b071c11142ab941fedfb } from '@payloadcms/plugin-ecommerce/rsc'
+import { LogoutButton as LogoutButton_9c0294635421360d3981403ec167ddb7 } from '@payload-auth/better-auth-plugin/client'
+import { AdminAuthLogo as AdminAuthLogo_0345436894f2c7286b7cce20d0f5c5a3 } from '@/components/AdminAuthLogo'
+import { LoginRedirect as LoginRedirect_bb2485581754d24f093ee659abd291d6 } from '@payload-auth/better-auth-plugin/rsc'
 import { BeforeDashboard as BeforeDashboard_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { BeforeLogin as BeforeLogin_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
+import { Login as Login_bb2485581754d24f093ee659abd291d6 } from '@payload-auth/better-auth-plugin/rsc'
+import { CreateFirstAdmin as CreateFirstAdmin_bb2485581754d24f093ee659abd291d6 } from '@payload-auth/better-auth-plugin/rsc'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 export const importMap = {
+  "@payload-auth/better-auth-plugin/client#AdminButtons": AdminButtons_9c0294635421360d3981403ec167ddb7,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -49,7 +56,12 @@ export const importMap = {
   "@payloadcms/plugin-ecommerce/rsc#VariantOptionsSelector": VariantOptionsSelector_b91672ccd6e8b071c11142ab941fedfb,
   "@payloadcms/plugin-ecommerce/client#PriceCell": PriceCell_e27bf7b8cc50640dcdd584767b8eac3c,
   "@payloadcms/plugin-ecommerce/rsc#PriceInput": PriceInput_b91672ccd6e8b071c11142ab941fedfb,
+  "@payload-auth/better-auth-plugin/client#LogoutButton": LogoutButton_9c0294635421360d3981403ec167ddb7,
+  "@/components/AdminAuthLogo#AdminAuthLogo": AdminAuthLogo_0345436894f2c7286b7cce20d0f5c5a3,
+  "@payload-auth/better-auth-plugin/rsc#LoginRedirect": LoginRedirect_bb2485581754d24f093ee659abd291d6,
   "@/components/BeforeDashboard#BeforeDashboard": BeforeDashboard_1a7510af427896d367a49dbf838d2de6,
   "@/components/BeforeLogin#BeforeLogin": BeforeLogin_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@payload-auth/better-auth-plugin/rsc#Login": Login_bb2485581754d24f093ee659abd291d6,
+  "@payload-auth/better-auth-plugin/rsc#CreateFirstAdmin": CreateFirstAdmin_bb2485581754d24f093ee659abd291d6,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

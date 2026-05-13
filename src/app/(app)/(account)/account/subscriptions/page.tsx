@@ -4,6 +4,7 @@ import { ProductThumbnailRow } from '@/components/account/ProductThumbnailRow'
 import { SubscriptionStatusBadge } from '@/components/account/SubscriptionStatusBadge'
 import type { Order } from '@/payload-types'
 import { getPurchaseUnitPriceInCents } from '@/utilities/purchasePricing'
+import { getRequestUser } from '@/utilities/getRequestUser'
 import configPromise from '@payload-config'
 import { CalendarDays, CreditCard, PauseCircle, Truck } from 'lucide-react'
 import { headers as getHeaders } from 'next/headers'
@@ -63,7 +64,7 @@ const getLinePurchaseType = (order: Order, item: NonNullable<Order['items']>[num
 export default async function SubscriptionsPage() {
   const headers = await getHeaders()
   const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const { user } = await getRequestUser(headers)
 
   if (!user) {
     redirect(`/login?warning=${encodeURIComponent('Please login to access your subscriptions.')}`)

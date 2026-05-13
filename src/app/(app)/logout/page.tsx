@@ -1,16 +1,11 @@
 import type { Metadata } from 'next'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import React from 'react'
 
 import { LogoutPage } from './LogoutPage'
 
-export default async function Logout() {
-  return (
-    <div className="container max-w-lg my-16">
-      <LogoutPage />
-    </div>
-  )
+export default function Logout() {
+  return <LogoutPage />
 }
 
 export const metadata: Metadata = {

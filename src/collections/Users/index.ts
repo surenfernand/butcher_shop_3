@@ -2,21 +2,26 @@ import type { CollectionConfig } from 'payload'
 
 import { adminOnly } from '@/access/adminOnly'
 import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
-import { publicAccess } from '@/access/publicAccess'
 import { adminOrSelf } from '@/access/adminOrSelf'
+import { adminOrSelfOrBootstrapAdminRole } from '@/access/adminOrSelfOrBootstrapAdminRole'
+import { publicAccess } from '@/access/publicAccess'
+import { rolesFieldBootstrapOrAdmin } from '@/access/rolesFieldBootstrapOrAdmin'
 import { checkRole } from '@/access/utilities'
 
-import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
+import { beforeChangeBetterAuthRole } from './hooks/beforeChangeBetterAuthRole'
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  hooks: {
+    beforeChange: [beforeChangeBetterAuthRole],
+  },
   access: {
     admin: ({ req: { user } }) => checkRole(['admin'], user),
     create: publicAccess,
     delete: adminOnly,
     read: adminOrSelf,
     unlock: adminOnly,
-    update: adminOrSelf,
+    update: adminOrSelfOrBootstrapAdminRole,
   },
   admin: {
     group: 'Users',
@@ -28,22 +33,15 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
-      name: 'name',
-      type: 'text',
-    },
-    {
       name: 'roles',
       type: 'select',
       access: {
         create: adminOnlyFieldAccess,
         read: adminOnlyFieldAccess,
-        update: adminOnlyFieldAccess,
+        update: rolesFieldBootstrapOrAdmin,
       },
       defaultValue: ['customer'],
       hasMany: true,
-      hooks: {
-        beforeChange: [ensureFirstUserIsAdmin],
-      },
       options: [
         {
           label: 'admin',

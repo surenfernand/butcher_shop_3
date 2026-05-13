@@ -8,6 +8,7 @@ import { SettingsShortcutCard } from '@/components/account/SettingsShortcutCard'
 import { AccountForm } from '@/components/forms/AccountForm'
 import type { Address, Order } from '@/payload-types'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getRequestUser } from '@/utilities/getRequestUser'
 import configPromise from '@payload-config'
 import Link from 'next/link'
 import { headers as getHeaders } from 'next/headers.js'
@@ -17,7 +18,7 @@ import { getPayload } from 'payload'
 export default async function AccountPage() {
   const headers = await getHeaders()
   const payload = await getPayload({ config: configPromise })
-  const { user } = await payload.auth({ headers })
+  const { user } = await getRequestUser(headers)
 
   if (!user) {
     redirect(

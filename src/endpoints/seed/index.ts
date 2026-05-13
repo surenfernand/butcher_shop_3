@@ -157,7 +157,9 @@ export const seed = async ({
         email: 'customer@example.com',
         password: 'password',
         roles: ['customer'],
-      },
+        emailVerified: true,
+        role: 'customer',
+      } as never,
     }),
     payload.create({
       collection: 'media',

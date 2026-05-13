@@ -15,7 +15,7 @@ type ForgotPassword = (args: { email: string }) => Promise<void> // eslint-disab
 
 type Create = (args: { email: string; password: string; passwordConfirm: string }) => Promise<void> // eslint-disable-line no-unused-vars
 
-type Login = (args: { email: string; password: string }) => Promise<User> // eslint-disable-line no-unused-vars
+type Login = (args: { email: string; password: string; remember?: boolean }) => Promise<User> // eslint-disable-line no-unused-vars
 
 type Logout = () => Promise<void>
 
@@ -31,6 +31,12 @@ type AuthContext = {
 }
 
 const Context = createContext({} as AuthContext)
+
+/** Same-origin in the browser so session cookies match Better Auth (`/api/auth/*`). */
+function authFetchBase(): string {
+  if (typeof window !== 'undefined') return window.location.origin
+  return process.env.NEXT_PUBLIC_SERVER_URL ?? ''
+}
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>()
@@ -67,75 +73,111 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const login = useCallback<Login>(async (args) => {
+    const base = authFetchBase()
+    const jsonHeaders = { 'Content-Type': 'application/json' } as const
+
+    const res = await fetch(`${base}/api/auth/sign-in/email`, {
+      body: JSON.stringify({
+        email: args.email,
+        password: args.password,
+        // Better Auth: false = session cookie without long-lived persistence
+        rememberMe: args.remember !== false,
+      }),
+      credentials: 'include',
+      headers: jsonHeaders,
+      method: 'POST',
+    })
+
+    let body: { message?: string; user?: User; errors?: { message?: string }[] } = {}
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, {
-        body: JSON.stringify({
-          email: args.email,
-          password: args.password,
-        }),
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
-
-      if (res.ok) {
-        const { errors, user } = await res.json()
-        if (errors) throw new Error(errors[0].message)
-        setUser(user)
-        setStatus('loggedIn')
-        return user
-      }
-
-      throw new Error('Invalid login')
-    } catch (e) {
-      throw new Error('An error occurred while attempting to login.')
+      body = (await res.json()) as typeof body
+    } catch {
+      // non-JSON body
     }
+
+    if (!res.ok) {
+      const msg =
+        body.message ||
+        body.errors?.[0]?.message ||
+        (res.status === 403 ? 'Sign-in is not allowed. Check auth configuration.' : res.statusText)
+      throw new Error(msg || 'Invalid login')
+    }
+
+    const signedInUser = body.user
+    if (!signedInUser) {
+      throw new Error('Invalid login')
+    }
+
+    setUser(signedInUser)
+    setStatus('loggedIn')
+    return signedInUser
   }, [])
 
   const logout = useCallback<Logout>(async () => {
+    const base = authFetchBase()
+
+    const jsonHeaders = { 'Content-Type': 'application/json' } as const
+
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+      // Better Auth (see `src/app/api/auth/[...all]/route.ts`) — clears the session cookie.
+      const betterAuthRes = await fetch(`${base}/api/auth/sign-out`, {
+        body: JSON.stringify({}),
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: jsonHeaders,
         method: 'POST',
       })
 
-      if (res.ok) {
+      if (betterAuthRes.ok) {
         setUser(null)
         setStatus('loggedOut')
-      } else {
-        throw new Error('An error occurred while attempting to logout.')
+        return
       }
-    } catch (e) {
+
+      // Legacy Payload users REST (if still in use).
+      const payloadRes = await fetch(`${base}/api/users/logout`, {
+        credentials: 'include',
+        headers: jsonHeaders,
+        method: 'POST',
+      })
+
+      if (payloadRes.ok) {
+        setUser(null)
+        setStatus('loggedOut')
+        return
+      }
+
+      throw new Error('An error occurred while attempting to logout.')
+    } catch {
       throw new Error('An error occurred while attempting to logout.')
     }
   }, [])
 
   useEffect(() => {
     const fetchMe = async () => {
+      const base = authFetchBase()
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`, {
+        const res = await fetch(`${base}/api/auth/get-session`, {
           credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           method: 'GET',
         })
 
-        if (res.ok) {
-          const { user: meUser } = await res.json()
-          setUser(meUser || null)
-          setStatus(meUser ? 'loggedIn' : undefined)
-        } else {
-          throw new Error('An error occurred while fetching your account.')
+        if (!res.ok) {
+          throw new Error('Session request failed')
         }
-      } catch (e) {
+
+        const data = (await res.json()) as { user?: User | null } | null
+        const meUser = data?.user
+
+        if (meUser) {
+          setUser(meUser)
+          setStatus('loggedIn')
+        } else {
+          setUser(null)
+          setStatus(undefined)
+        }
+      } catch {
         setUser(null)
-        throw new Error('An error occurred while fetching your account.')
+        setStatus('loggedOut')
       }
     }
 

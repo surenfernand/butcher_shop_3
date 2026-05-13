@@ -118,17 +118,21 @@ export function HeaderClient({ header, contact }: Props) {
           {contactInner}
         </div>
 
-        {/* sm+: spacer aligns with main nav logo column; red panel uses diagonal clip */}
-        <div className="mx-auto hidden max-w-7xl sm:flex">
-          <div className={cn(LOGO_COLUMN, 'bg-white')} aria-hidden />
+        {/* sm+: logo column in max-w-7xl; red bleeds to viewport right (avoids gap past 7xl) */}
+        <div className="relative hidden min-h-[46px] w-full sm:block">
           <div
-            className="flex min-h-[46px] flex-1 flex-wrap items-center justify-center gap-x-8 gap-y-2.5 px-4 py-2.5 text-xs text-white md:px-6 md:text-[13px]"
+            className="pointer-events-none absolute inset-y-0 right-0 z-0 sm:left-[calc((100vw-min(100vw,80rem))/2+12rem)] md:left-[calc((100vw-min(100vw,80rem))/2+14rem)] lg:left-[calc((100vw-min(100vw,80rem))/2+16rem)]"
             style={{
               backgroundColor: BRAND_RED,
               clipPath: 'polygon(32px 0, 100% 0, 100% 100%, 0 100%)',
             }}
-          >
-            {contactInner}
+            aria-hidden
+          />
+          <div className="relative z-10 mx-auto flex max-w-7xl">
+            <div className={cn(LOGO_COLUMN, 'bg-white')} aria-hidden />
+            <div className="flex min-h-[46px] min-w-0 flex-1 flex-wrap items-center justify-center gap-x-8 gap-y-2.5 px-4 py-2.5 text-xs text-white md:px-6 md:text-[13px]">
+              {contactInner}
+            </div>
           </div>
         </div>
       </div>
