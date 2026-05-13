@@ -72,7 +72,7 @@ export function CarneshopContactPage({ page, footer }: Props) {
     : []
 
   return (
-    <div className="bg-[#ffff] text-neutral-950">
+    <div className="bg-[#ffff] text-neutral-950 mt-10">
       <section className="relative border-b border-black/10 bg-neutral-950 pt-28 pb-10 md:pt-32 md:pb-12">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
