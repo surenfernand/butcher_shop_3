@@ -3,6 +3,7 @@
 import type { Header, Page } from '@/payload-types'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import { cn } from '@/utilities/cn'
+import { normalizeCmsMediaUrl, shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'motion/react'
@@ -47,7 +48,8 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
     setHeaderTheme('dark')
   }, [setHeaderTheme])
 
-  const mediaUrl = media && typeof media === 'object' && media.url ? media.url : null
+  const mediaUrlRaw = media && typeof media === 'object' && media.url ? media.url : null
+  const mediaUrl = mediaUrlRaw ? normalizeCmsMediaUrl(mediaUrlRaw) : null
 
   const isVideo = media && typeof media === 'object' && media.mimeType?.startsWith('video')
 
@@ -100,6 +102,9 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
               fill
               sizes="100vw"
               priority
+              unoptimized={
+                typeof imageSrc === 'string' && shouldUseUnoptimizedImage(imageSrc)
+              }
               className="object-cover object-center"
             />
           )}

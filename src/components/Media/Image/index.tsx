@@ -10,7 +10,11 @@ import type { Props as MediaProps } from '../types'
 
 import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { cssVariables } from '@/cssVariables'
-import { normalizeCmsMediaUrl, shouldBypassMediaUrlForPlaceholder } from '@/utilities/mediaDisplay'
+import {
+  normalizeCmsMediaUrl,
+  shouldBypassMediaUrlForPlaceholder,
+  shouldUseUnoptimizedImage,
+} from '@/utilities/mediaDisplay'
 
 const { breakpoints } = cssVariables
 
@@ -75,6 +79,8 @@ export const Image: React.FC<MediaProps> = (props) => {
     if (!alt) alt = 'Image'
   }
 
+  const unoptimized = typeof src === 'string' && shouldUseUnoptimizedImage(src)
+
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
   const sizes = sizeFromProps
     ? sizeFromProps
@@ -99,6 +105,7 @@ export const Image: React.FC<MediaProps> = (props) => {
       quality={90}
       sizes={sizes}
       src={src}
+      unoptimized={unoptimized}
       width={!fill ? width || widthFromProps : undefined}
     />
   )

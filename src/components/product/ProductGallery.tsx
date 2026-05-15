@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { cn } from '@/utilities/cn'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 
 type Props = {
   product: Product
@@ -19,16 +20,18 @@ export default function ProductGallery({ product }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
 
   const mainImage = gallery[activeIndex] ?? gallery[0]
+  const mainSrc = resolveImageSrc(mainImage?.url, 'product')
 
   return (
     <div className="flex flex-col gap-4 md:gap-5">
       <div className="relative aspect-[6/4.5] w-full overflow-hidden rounded-sm border border-neutral-200 bg-neutral-100 shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
         <Image
-          src={resolveImageSrc(mainImage?.url, 'product')}
+          src={mainSrc}
           alt={mainImage?.alt || 'Product image'}
           fill
           sizes="(max-width: 1024px) 100vw, 58vw"
           priority
+          unoptimized={shouldUseUnoptimizedImage(mainSrc)}
           className="object-cover transition-transform duration-700 hover:scale-[1.03]"
         />
       </div>
@@ -37,6 +40,8 @@ export default function ProductGallery({ product }: Props) {
         {Array.from({ length: Math.max(4, gallery.length) }).map((_, slotIndex) => {
           const img = gallery[slotIndex]
           const isActive = activeIndex === slotIndex
+
+          const thumbSrc = resolveImageSrc(img?.url, 'product')
 
           return (
             <button
@@ -53,10 +58,11 @@ export default function ProductGallery({ product }: Props) {
               aria-label={img?.url ? `View image ${slotIndex + 1}` : `Gallery slot ${slotIndex + 1}`}
             >
               <Image
-                src={resolveImageSrc(img?.url, 'product')}
+                src={thumbSrc}
                 alt={img?.alt || `Product image ${slotIndex + 1}`}
                 fill
                 sizes="(max-width: 1024px) 25vw, 10vw"
+                unoptimized={shouldUseUnoptimizedImage(thumbSrc)}
                 className="object-cover"
               />
             </button>

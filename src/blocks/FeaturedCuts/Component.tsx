@@ -1,6 +1,7 @@
 import type { FeaturedCutsBlock as FeaturedCutsBlockProps } from '@/payload-types'
 import type { DefaultDocumentIDType } from 'payload'
 import { resolveImageSrc } from '@/constants/fallbackImage'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -49,6 +50,7 @@ export const FeaturedCutsBlock: React.FC<Props> = ({
             const media =
               typeof item.image === 'object' && item.image !== null ? item.image : undefined
             const imageUrl = media?.url
+            const cutSrc = resolveImageSrc(imageUrl, 'cuts')
 
             const p = item.product
             const productSlug =
@@ -64,9 +66,10 @@ export const FeaturedCutsBlock: React.FC<Props> = ({
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
                   <Image
-                    src={resolveImageSrc(imageUrl, 'cuts')}
+                    src={cutSrc}
                     alt={media?.alt || item.name || 'Product'}
                     fill
+                    unoptimized={shouldUseUnoptimizedImage(cutSrc)}
                     className="object-cover transition-[transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06] group-hover:brightness-[1.05] motion-reduce:group-hover:scale-100 motion-reduce:group-hover:brightness-100"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />

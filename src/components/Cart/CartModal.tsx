@@ -18,6 +18,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Product } from '@/payload-types'
 import { getPurchaseUnitPriceInCents } from '@/utilities/purchasePricing'
 import { resolveImageSrc } from '@/constants/fallbackImage'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import { CartTimerModal } from './CartTimerModal'
 import { DeleteItemButton } from './DeleteItemButton'
 import { EditItemQuantityButton } from './EditItemQuantityButton'
@@ -284,6 +285,8 @@ export function CartModal() {
                         .join(' ')
                       : ''
 
+                    const lineImageSrc = resolveImageSrc(image?.url, 'product')
+
                     return (
                       <li key={i} className="flex items-start gap-4">
                         <Link
@@ -295,7 +298,8 @@ export function CartModal() {
                               alt={image?.alt || product?.title || ''}
                               className="h-full w-full object-cover"
                               height={120}
-                              src={resolveImageSrc(image?.url, 'product')}
+                              src={lineImageSrc}
+                              unoptimized={shouldUseUnoptimizedImage(lineImageSrc)}
                               width={120}
                             />
                           </div>

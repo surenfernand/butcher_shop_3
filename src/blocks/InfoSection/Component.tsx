@@ -1,5 +1,6 @@
 import type { InfoSectionBlock as InfoSectionBlockProps, Media } from '@/payload-types'
 import { resolveImageSrc } from '@/constants/fallbackImage'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { DefaultDocumentIDType } from 'payload'
@@ -22,6 +23,7 @@ export const InfoSectionBlock: React.FC<Props> = ({
 }) => {
   const media = image as Media | undefined
   const imageUrl = media?.url
+  const infoSrc = resolveImageSrc(imageUrl, 'editorial')
 
   return (
     <section className={['py-20', className].filter(Boolean).join(' ')}>
@@ -29,10 +31,11 @@ export const InfoSectionBlock: React.FC<Props> = ({
         <div className="grid items-center gap-10 md:grid-cols-[1.35fr_0.95fr]">
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
             <Image
-              src={resolveImageSrc(imageUrl, 'editorial')}
+              src={infoSrc}
               alt={media?.alt || title || 'Info section image'}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
+              unoptimized={shouldUseUnoptimizedImage(infoSrc)}
               className="object-cover"
             />
           </div>

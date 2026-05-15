@@ -1,6 +1,7 @@
 import type { DefaultDocumentIDType } from 'payload'
 import type { Media } from '@/payload-types'
 import { resolveImageSrc } from '@/constants/fallbackImage'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -29,6 +30,7 @@ export const AboutStoryBlock: React.FC<Props> = ({
 }) => {
   const media = typeof image === 'object' && image ? image : null
   const imageUrl = media?.url
+  const storySrc = resolveImageSrc(imageUrl, 'editorial')
 
   return (
     <section className={['container py-20', className].filter(Boolean).join(' ')}>
@@ -51,10 +53,11 @@ export const AboutStoryBlock: React.FC<Props> = ({
 
         <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-muted">
           <Image
-            src={resolveImageSrc(imageUrl, 'editorial')}
+            src={storySrc}
             alt={media?.alt || title || 'About story image'}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
+            unoptimized={shouldUseUnoptimizedImage(storySrc)}
             className="object-cover"
           />
         </div>

@@ -4,6 +4,7 @@ import { HighImpactHero } from '@/heros/HighImpact'
 import type { Footer, Header, Media as MediaType, Page, Product } from '@/payload-types'
 import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { cn } from '@/utilities/cn'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import { Award, Check, Clock, ShieldCheck, Star, Truck } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -220,6 +221,7 @@ export function LuxuryHomePage({
                     src={category.imageSrc}
                     alt=""
                     fill
+                    unoptimized={shouldUseUnoptimizedImage(category.imageSrc)}
                     className="object-cover transition duration-500 ease-out group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />

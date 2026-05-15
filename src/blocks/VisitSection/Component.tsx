@@ -1,6 +1,7 @@
 import type { DefaultDocumentIDType } from 'payload'
 import type { Media } from '@/payload-types'
 import { resolveImageSrc } from '@/constants/fallbackImage'
+import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import Image from 'next/image'
 import React from 'react'
 
@@ -29,6 +30,7 @@ export const VisitSectionBlock: React.FC<Props> = ({
 }) => {
   const media = typeof mapImage === 'object' && mapImage ? mapImage : null
   const imageUrl = media?.url
+  const mapSrc = resolveImageSrc(imageUrl, 'location')
 
   return (
     <section className={['py-20', className].filter(Boolean).join(' ')}>
@@ -53,10 +55,11 @@ export const VisitSectionBlock: React.FC<Props> = ({
 
         <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-muted md:col-span-8">
           <Image
-            src={resolveImageSrc(imageUrl, 'location')}
+            src={mapSrc}
             alt={media?.alt || locationLabel || 'Location image'}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
+            unoptimized={shouldUseUnoptimizedImage(mapSrc)}
             className="object-cover opacity-90 transition duration-700 hover:opacity-100"
           />
 
