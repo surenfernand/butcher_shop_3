@@ -1,7 +1,16 @@
 import { normalizeCmsMediaUrl, shouldBypassMediaUrlForPlaceholder } from '@/utilities/mediaDisplay'
 
 /**
- * Curated Unsplash placeholders by UI context (host is in `next.config` `images.remotePatterns`).
+ * Stable `images.unsplash.com` URLs (allowed in `next.config` `images.remotePatterns`).
+ * Use `auto=format&fit=crop` so Next and browsers get a consistent CDN response.
+ */
+function unsplashPhoto(photoPath: string, width: number): string {
+  const id = photoPath.replace(/^\/+/, '')
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`
+}
+
+/**
+ * Curated online placeholders by UI context.
  */
 export type ImageFallbackContext =
   | 'product'
@@ -12,25 +21,29 @@ export type ImageFallbackContext =
   | 'cuts'
 
 const FALLBACKS: Record<ImageFallbackContext, string> = {
-  /** Shop grids, cart, checkout, PDP — prime steak product */
-  product:
-    'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1200&q=80&auto=format&fit=crop',
-  /** Full-width heroes and promo panels */
-  hero:
-    'https://images.unsplash.com/photo-1558030006-450675393462?w=1600&q=80&auto=format&fit=crop',
-  /** Header/footer when no CMS logo — knives / craft (reads well small) */
-  brandLogo:
-    'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80&auto=format&fit=crop',
-  /** Visit / location / map-style block */
-  location:
-    'https://images.unsplash.com/photo-1555396273-367ea4eb66db?w=1400&q=80&auto=format&fit=crop',
-  /** About, info sections, generic rich-text media */
-  editorial:
-    'https://images.unsplash.com/photo-1504674900240-798256f706ae?w=1200&q=80&auto=format&fit=crop',
-  /** Featured cuts / category cards */
-  cuts:
-    'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=1200&q=80&auto=format&fit=crop',
+  /** Shop grids, cart, checkout, PDP — raw steaks / prime cuts */
+  product: unsplashPhoto('photo-1607623814075-e51df1bdc82f', 1200),
+  /** Full-width heroes — wide butcher / grill spread */
+  hero: unsplashPhoto('photo-1544025162-d76694265947', 1920),
+  /** Header/footer when no CMS logo — knives & craft (reads small) */
+  brandLogo: unsplashPhoto('photo-1556910103-1c02745aae4d', 600),
+  /** Visit / location — market hall / dining atmosphere */
+  location: unsplashPhoto('photo-1555396273-367ea4eb66db', 1400),
+  /** About, info blocks — plated meal / craft food */
+  editorial: unsplashPhoto('photo-1504674900240-798256f706ae', 1200),
+  /** Featured cuts / category-style cards — steak on board */
+  cuts: unsplashPhoto('photo-1600891964092-4316c288032e', 1200),
 }
+
+/**
+ * Homepage “Shop by category” cards — distinct meat photography per category.
+ */
+export const homeCategoryPlaceholderImages = {
+  beef: unsplashPhoto('photo-1600891964092-4316c288032e', 1200),
+  pork: unsplashPhoto('photo-1588347818039-8eca19537898', 1200),
+  poultry: unsplashPhoto('photo-1604503468506-a8da13d82791', 1200),
+  lamb: unsplashPhoto('photo-1615937657715-bc7b4b7962c1', 1200),
+} as const
 
 export function fallbackUrlFor(context: ImageFallbackContext = 'product'): string {
   return FALLBACKS[context]

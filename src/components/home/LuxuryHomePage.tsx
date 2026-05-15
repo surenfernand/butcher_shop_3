@@ -2,7 +2,7 @@ import { Media } from '@/components/Media'
 import { Reveal } from '@/components/motion/Reveal'
 import { HighImpactHero } from '@/heros/HighImpact'
 import type { Footer, Header, Media as MediaType, Page, Product } from '@/payload-types'
-import { fallbackUrlFor } from '@/constants/fallbackImage'
+import { fallbackUrlFor, homeCategoryPlaceholderImages } from '@/constants/fallbackImage'
 import { cn } from '@/utilities/cn'
 import { shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import { Award, Check, Clock, ShieldCheck, Star, Truck } from 'lucide-react'
@@ -25,29 +25,25 @@ const defaultCategories = [
     title: 'Prime Beef',
     subtitle: 'Dry-aged steaks & roasts',
     href: '/shop',
-    imageSrc:
-      'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=1200&q=80',
+    imageSrc: homeCategoryPlaceholderImages.beef,
   },
   {
     title: 'Heritage Pork',
     subtitle: 'Chops, ribs & specialty cuts',
     href: '/shop',
-    imageSrc:
-      'https://images.unsplash.com/photo-1588347818039-8eca19537898?auto=format&fit=crop&w=1200&q=80',
+    imageSrc: homeCategoryPlaceholderImages.pork,
   },
   {
     title: 'Poultry',
     subtitle: 'Air-chilled & prepared daily',
     href: '/shop',
-    imageSrc:
-      'https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=1200&q=80',
+    imageSrc: homeCategoryPlaceholderImages.poultry,
   },
   {
     title: 'Lamb & Game',
     subtitle: 'Seasonal selections',
     href: '/shop',
-    imageSrc:
-      'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=1200&q=80',
+    imageSrc: homeCategoryPlaceholderImages.lamb,
   },
 ]
 
