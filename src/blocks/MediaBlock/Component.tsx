@@ -3,8 +3,9 @@ import type { StaticImageData } from 'next/image'
 import { cn } from '@/utilities/cn'
 import React from 'react'
 import { RichText } from '@/components/RichText'
-import type { MediaBlock as MediaBlockProps } from '@/payload-types'
+import type { Media as MediaType, MediaBlock as MediaBlockProps } from '@/payload-types'
 
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import { Media } from '../../components/Media'
 
 export const MediaBlock: React.FC<
@@ -29,8 +30,11 @@ export const MediaBlock: React.FC<
     disableInnerContainer,
   } = props
 
+  const mediaObject =
+    media && typeof media === 'object' && media !== null ? (media as MediaType) : undefined
+
   let caption
-  if (media && typeof media === 'object') caption = media.caption
+  if (mediaObject) caption = mediaObject.caption
 
   return (
     <div
@@ -44,8 +48,11 @@ export const MediaBlock: React.FC<
     >
       <Media
         imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-        resource={media}
-        src={staticImage}
+        resource={mediaObject}
+        src={
+          staticImage ??
+          (mediaObject ? undefined : FALLBACK_IMAGE_URL)
+        }
       />
       {caption && (
         <div

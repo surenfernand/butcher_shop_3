@@ -1,4 +1,5 @@
 import type { Media, Product } from '@/payload-types'
+import { resolveImageSrc } from '@/constants/fallbackImage'
 
 type Props = {
   product?: Product | null
@@ -16,17 +17,11 @@ export function ProductThumbnailRow({ product, fallbackLabel = 'Subscription Pro
   return (
     <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/40 p-3">
       <div className="relative h-14 w-14 overflow-hidden rounded-md border border-border bg-muted">
-        {image?.url ? (
-          <img
-            src={image.url}
-            alt={image.alt || product?.title || fallbackLabel}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
-            Image
-          </div>
-        )}
+        <img
+          src={resolveImageSrc(image?.url)}
+          alt={image?.alt || product?.title || fallbackLabel}
+          className="h-full w-full object-cover"
+        />
       </div>
       <div className="min-w-0">
         <p className="truncate text-sm font-semibold uppercase tracking-[0.08em]">

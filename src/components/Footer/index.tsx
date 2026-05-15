@@ -5,6 +5,7 @@ import { FooterMenu } from '@/components/Footer/menu'
 import { FooterSocialLink } from '@/components/Footer/FooterSocialLink'
 import type { Footer as FooterType } from '@/payload-types'
 import { Media } from '@/components/Media'
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Link from 'next/link'
@@ -32,15 +33,14 @@ export async function Footer() {
           <div className="max-w-md lg:pt-4">
             <Link
               href="/"
-              className="mb-6 flex items-center gap-3 opacity-95 transition-opacity hover:opacity-100"
+              className="mb-6 block opacity-95 transition-opacity hover:opacity-100"
             >
-              {footer.logo && typeof footer.logo === 'object' ? (
-                <Media resource={footer.logo} imgClassName="h-14 w-auto max-w-[220px] object-contain object-left" />
-              ) : (
-                <span className="text-xl font-semibold uppercase tracking-[0.12em] text-white">
-                  {footer.brandName || 'Butcher shop'}
-                </span>
-              )}
+              <span className="sr-only">{footer.brandName || 'Butcher shop'}</span>
+              <Media
+                resource={footer.logo && typeof footer.logo === 'object' ? footer.logo : undefined}
+                src={footer.logo && typeof footer.logo === 'object' ? undefined : FALLBACK_IMAGE_URL}
+                imgClassName="h-14 w-auto max-w-[220px] object-contain object-left"
+              />
             </Link>
 
             {footer.description ? (
