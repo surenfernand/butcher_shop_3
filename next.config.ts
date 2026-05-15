@@ -9,6 +9,9 @@ import { redirects } from './redirects'
 
 const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
+const s3Bucket = process.env.S3_BUCKET
+const s3Region = process.env.S3_REGION
+
 const nextConfig: NextConfig = {
   // Temporarily required on Windows until Next.js fixes Turbopack Sass resolution.
   // See: https://github.com/vercel/next.js/issues/86431
@@ -38,6 +41,18 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      ...(s3Bucket && s3Region
+        ? [
+            {
+              protocol: 'https' as const,
+              hostname: `${s3Bucket}.s3.${s3Region}.amazonaws.com`,
+            },
+            {
+              protocol: 'https' as const,
+              hostname: `s3.${s3Region}.amazonaws.com`,
+            },
+          ]
+        : []),
     ],
   },
   reactStrictMode: true,
@@ -54,6 +69,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(dirname),
   },
+  output: 'standalone',
 }
 
 export default withPayload(nextConfig)

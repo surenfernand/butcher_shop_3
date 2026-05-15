@@ -13,6 +13,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import 'dotenv/config'
 import path from 'path'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
@@ -109,7 +110,22 @@ export default buildConfig({
   //email: nodemailerAdapter(),
   endpoints: [],
   globals: [Header, Footer, ShopPage, ShopLuxuryPage, CartSettings],
-  plugins,
+  plugins: [
+    s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        region: process.env.S3_REGION!,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
+      },
+    }),
+    ...plugins,
+  ],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
