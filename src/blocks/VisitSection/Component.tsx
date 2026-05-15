@@ -53,7 +53,7 @@ export const VisitSectionBlock: React.FC<Props> = ({
 
         <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-muted md:col-span-8">
           <Image
-            src={resolveImageSrc(imageUrl)}
+            src={resolveImageSrc(imageUrl, 'location')}
             alt={media?.alt || locationLabel || 'Location image'}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

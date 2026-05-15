@@ -1,7 +1,7 @@
 import type { Order } from '@/payload-types'
 
 import { Media } from '@/components/Media'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { getOrderLineProductImage } from '@/utilities/getOrderLineProductImage'
 import { getPurchaseUnitPriceInCents, PurchaseType } from '@/utilities/purchasePricing'
 import { batchResolveOrderLinesForPricing } from '@/utilities/resolveOrderLinePricingDocs'
@@ -236,10 +236,11 @@ export default async function ThankYouPage({ params, searchParams }: PageProps) 
                     >
                       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md border border-neutral-200 bg-neutral-100">
                         <Media
+                          fallbackContext="product"
                           fill
                           imgClassName="object-cover"
                           resource={image ?? undefined}
-                          src={image ? undefined : FALLBACK_IMAGE_URL}
+                          src={image ? undefined : fallbackUrlFor('product')}
                         />
                       </div>
 

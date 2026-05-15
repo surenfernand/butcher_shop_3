@@ -5,7 +5,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import { RichText } from '@/components/RichText'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 
 export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
   return (
@@ -29,10 +29,11 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({ links, media, richTex
         <div>
           <Media
             className="-mx-4 md:-mx-8 2xl:-mx-16"
+            fallbackContext="hero"
             imgClassName=""
             priority
             resource={media && typeof media === 'object' ? media : undefined}
-            src={media && typeof media === 'object' ? undefined : FALLBACK_IMAGE_URL}
+            src={media && typeof media === 'object' ? undefined : fallbackUrlFor('hero')}
           />
           {media && typeof media === 'object' && media?.caption ? (
             <div className="mt-3">

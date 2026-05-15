@@ -5,7 +5,7 @@ import { FooterMenu } from '@/components/Footer/menu'
 import { FooterSocialLink } from '@/components/Footer/FooterSocialLink'
 import type { Footer as FooterType } from '@/payload-types'
 import { Media } from '@/components/Media'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import Link from 'next/link'
@@ -37,8 +37,9 @@ export async function Footer() {
             >
               <span className="sr-only">{footer.brandName || 'Butcher shop'}</span>
               <Media
+                fallbackContext="brandLogo"
                 resource={footer.logo && typeof footer.logo === 'object' ? footer.logo : undefined}
-                src={footer.logo && typeof footer.logo === 'object' ? undefined : FALLBACK_IMAGE_URL}
+                src={footer.logo && typeof footer.logo === 'object' ? undefined : fallbackUrlFor('brandLogo')}
                 imgClassName="h-14 w-auto max-w-[220px] object-contain object-left"
               />
             </Link>

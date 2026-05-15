@@ -29,7 +29,7 @@ export const InfoSectionBlock: React.FC<Props> = ({
         <div className="grid items-center gap-10 md:grid-cols-[1.35fr_0.95fr]">
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
             <Image
-              src={resolveImageSrc(imageUrl)}
+              src={resolveImageSrc(imageUrl, 'editorial')}
               alt={media?.alt || title || 'Info section image'}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

@@ -64,7 +64,7 @@ export const FeaturedCutsBlock: React.FC<Props> = ({
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
                   <Image
-                    src={resolveImageSrc(imageUrl)}
+                    src={resolveImageSrc(imageUrl, 'cuts')}
                     alt={media?.alt || item.name || 'Product'}
                     fill
                     className="object-cover transition-[transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06] group-hover:brightness-[1.05] motion-reduce:group-hover:scale-100 motion-reduce:group-hover:brightness-100"

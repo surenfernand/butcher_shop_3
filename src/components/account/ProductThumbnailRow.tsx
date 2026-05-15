@@ -18,7 +18,7 @@ export function ProductThumbnailRow({ product, fallbackLabel = 'Subscription Pro
     <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/40 p-3">
       <div className="relative h-14 w-14 overflow-hidden rounded-md border border-border bg-muted">
         <img
-          src={resolveImageSrc(image?.url)}
+          src={resolveImageSrc(image?.url, 'product')}
           alt={image?.alt || product?.title || fallbackLabel}
           className="h-full w-full object-cover"
         />

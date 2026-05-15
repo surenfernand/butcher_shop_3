@@ -8,7 +8,7 @@ import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { cssVariables } from '@/cssVariables'
 
 const { breakpoints } = cssVariables
@@ -16,6 +16,7 @@ const { breakpoints } = cssVariables
 export const Image: React.FC<MediaProps> = (props) => {
   const {
     alt: altFromProps,
+    fallbackContext,
     fill,
     height: heightFromProps,
     imgClassName,
@@ -58,7 +59,7 @@ export const Image: React.FC<MediaProps> = (props) => {
   }
 
   if (typeof src === 'string' && !src.trim() && resourceHadMissingUrl) {
-    src = FALLBACK_IMAGE_URL
+    src = fallbackUrlFor(fallbackContext ?? 'product')
     if (!alt) alt = 'Image'
   }
 

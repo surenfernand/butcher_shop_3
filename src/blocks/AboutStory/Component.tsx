@@ -51,7 +51,7 @@ export const AboutStoryBlock: React.FC<Props> = ({
 
         <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-muted">
           <Image
-            src={resolveImageSrc(imageUrl)}
+            src={resolveImageSrc(imageUrl, 'editorial')}
             alt={media?.alt || title || 'About story image'}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"

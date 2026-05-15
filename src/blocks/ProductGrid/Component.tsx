@@ -1,6 +1,6 @@
 import { Media } from '@/components/Media'
 import { Price } from '@/components/Price'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import config from '@payload-config'
 import Link from 'next/link'
 import { getPayload } from 'payload'
@@ -94,8 +94,9 @@ export const ProductGridBlock = async ({
                   >
                     <div className="relative h-[300px] overflow-hidden bg-black">
                       <Media
+                        fallbackContext="product"
                         resource={image ?? undefined}
-                        src={!image ? FALLBACK_IMAGE_URL : undefined}
+                        src={!image ? fallbackUrlFor('product') : undefined}
                         fill
                         imgClassName="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       />

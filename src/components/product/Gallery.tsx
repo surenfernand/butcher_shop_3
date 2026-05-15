@@ -4,7 +4,7 @@ import type { Media as MediaType, Product } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { GridTileImage } from '@/components/Grid/tile'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 
@@ -49,8 +49,9 @@ export const Gallery: React.FC<Props> = ({ gallery }) => {
     <div>
       <div className="relative w-full overflow-hidden mb-8">
         <Media
+          fallbackContext="product"
           resource={mainResource}
-          src={mainResource ? undefined : FALLBACK_IMAGE_URL}
+          src={mainResource ? undefined : fallbackUrlFor('product')}
           className="w-full"
           imgClassName="w-full rounded-lg"
         />

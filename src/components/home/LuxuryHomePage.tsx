@@ -2,7 +2,7 @@ import { Media } from '@/components/Media'
 import { Reveal } from '@/components/motion/Reveal'
 import { HighImpactHero } from '@/heros/HighImpact'
 import type { Footer, Header, Media as MediaType, Page, Product } from '@/payload-types'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { cn } from '@/utilities/cn'
 import { Award, Check, Clock, ShieldCheck, Star, Truck } from 'lucide-react'
 import Image from 'next/image'
@@ -90,8 +90,9 @@ function ProductCard({ product }: { product: Product }) {
       <Link href={`/products/${product.slug}`} className="block">
         <div className="relative aspect-[4/5] w-full bg-neutral-900">
           <Media
+            fallbackContext="product"
             resource={image ?? undefined}
-            src={image ? undefined : FALLBACK_IMAGE_URL}
+            src={image ? undefined : fallbackUrlFor('product')}
             className="h-full w-full"
             imgClassName="h-full w-full object-cover"
           />
@@ -344,8 +345,9 @@ export function LuxuryHomePage({
             <Reveal delay={0.1} y={32}>
               <aside className="relative min-h-[280px] overflow-hidden rounded-sm border border-neutral-900/10 bg-neutral-900 shadow-[0_24px_60px_rgba(0,0,0,0.2)]">
               <Media
+                fallbackContext="hero"
                 resource={heroMedia ?? undefined}
-                src={heroMedia ? undefined : FALLBACK_IMAGE_URL}
+                src={heroMedia ? undefined : fallbackUrlFor('hero')}
                 className="h-full min-h-[280px] w-full"
                 imgClassName="h-full w-full object-cover opacity-90"
               />
@@ -364,8 +366,9 @@ export function LuxuryHomePage({
         <div className="container grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal className="relative aspect-[5/4] overflow-hidden rounded-sm border border-neutral-200 bg-neutral-900 shadow-[0_28px_60px_rgba(0,0,0,0.12)]">
             <Media
+              fallbackContext="hero"
               resource={heroMedia ?? undefined}
-              src={heroMedia ? undefined : FALLBACK_IMAGE_URL}
+              src={heroMedia ? undefined : fallbackUrlFor('hero')}
               className="h-full w-full"
               imgClassName="h-full w-full object-cover"
             />

@@ -5,7 +5,7 @@ import React from 'react'
 import { RichText } from '@/components/RichText'
 import type { Media as MediaType, MediaBlock as MediaBlockProps } from '@/payload-types'
 
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { Media } from '../../components/Media'
 
 export const MediaBlock: React.FC<
@@ -47,11 +47,12 @@ export const MediaBlock: React.FC<
       )}
     >
       <Media
+        fallbackContext="editorial"
         imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
         resource={mediaObject}
         src={
           staticImage ??
-          (mediaObject ? undefined : FALLBACK_IMAGE_URL)
+          (mediaObject ? undefined : fallbackUrlFor('editorial'))
         }
       />
       {caption && (

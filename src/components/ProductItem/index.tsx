@@ -1,5 +1,5 @@
 import { Media } from '@/components/Media'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { Price } from '@/components/Price'
 import { Product, Variant } from '@/payload-types'
 import { getOrderLineProductImage } from '@/utilities/getOrderLineProductImage'
@@ -42,10 +42,11 @@ export const ProductItem: React.FC<Props> = ({
       <div className="flex items-stretch justify-stretch h-20 w-20 p-2 rounded-lg border">
         <div className="relative w-full h-full">
           <Media
+            fallbackContext="product"
             fill
             imgClassName="rounded-lg object-cover"
             resource={image ?? undefined}
-            src={image ? undefined : FALLBACK_IMAGE_URL}
+            src={image ? undefined : fallbackUrlFor('product')}
           />
         </div>
       </div>

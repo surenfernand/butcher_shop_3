@@ -12,7 +12,7 @@ import type { Header } from 'src/payload-types'
 import { MobileMenu } from './MobileMenu'
 
 import { Media } from '@/components/Media'
-import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 
 /** Carne Shop reference red */
 const BRAND_RED = '#D32F2F'
@@ -156,10 +156,11 @@ export function HeaderClient({ header, contact }: Props) {
           <div className={cn('flex min-w-0 items-center', LOGO_COLUMN)}>
             <Link href="/" className="inline-flex max-w-[min(100%,240px)] items-center">
               <Media
+                fallbackContext="brandLogo"
                 resource={
                   header.logo && typeof header.logo === 'object' ? header.logo : undefined
                 }
-                src={header.logo && typeof header.logo === 'object' ? undefined : FALLBACK_IMAGE_URL}
+                src={header.logo && typeof header.logo === 'object' ? undefined : fallbackUrlFor('brandLogo')}
                 imgClassName={cn(
                   'w-auto object-contain object-left transition-[height] duration-300 ease-out motion-reduce:transition-none',
                   compact ? 'h-9 md:h-10' : 'h-11 md:h-[3.35rem]',

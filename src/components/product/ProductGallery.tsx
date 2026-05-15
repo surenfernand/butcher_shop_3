@@ -24,7 +24,7 @@ export default function ProductGallery({ product }: Props) {
     <div className="flex flex-col gap-4 md:gap-5">
       <div className="relative aspect-[6/4.5] w-full overflow-hidden rounded-sm border border-neutral-200 bg-neutral-100 shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
         <Image
-          src={resolveImageSrc(mainImage?.url)}
+          src={resolveImageSrc(mainImage?.url, 'product')}
           alt={mainImage?.alt || 'Product image'}
           fill
           sizes="(max-width: 1024px) 100vw, 58vw"
@@ -53,7 +53,7 @@ export default function ProductGallery({ product }: Props) {
               aria-label={img?.url ? `View image ${slotIndex + 1}` : `Gallery slot ${slotIndex + 1}`}
             >
               <Image
-                src={resolveImageSrc(img?.url)}
+                src={resolveImageSrc(img?.url, 'product')}
                 alt={img?.alt || `Product image ${slotIndex + 1}`}
                 fill
                 sizes="(max-width: 1024px) 25vw, 10vw"
