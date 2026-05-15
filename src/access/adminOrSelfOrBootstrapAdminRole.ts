@@ -5,10 +5,8 @@ import { checkRole } from '@/access/utilities'
 /**
  * Normal updates: admin or own document (Payload session).
  *
- * The Better Auth plugin’s create-first-admin UI PATCHes `/api/users/:id` with `{ role: 'admin' }`
- * from the browser after email sign-up. That request only has Better Auth cookies, so `req.user`
- * is unset. Allow that single bootstrap while no user has `role: 'admin'` yet (same window as
- * the plugin’s create-first-admin screen).
+ * Bootstrap: allow a one-field `roles: ['admin']` PATCH on your own user id while no admin
+ * exists yet (same pattern as first-admin flows that run without `req.user`).
  */
 export const adminOrSelfOrBootstrapAdminRole: Access = async ({ req, id, data }) => {
   if (req.user) {
@@ -24,14 +22,15 @@ export const adminOrSelfOrBootstrapAdminRole: Access = async ({ req, id, data })
   if (!data || typeof data !== 'object') return false
 
   const patch = data as Record<string, unknown>
-  if (patch.role !== 'admin') return false
+  const roles = patch.roles
+  if (!Array.isArray(roles) || !roles.includes('admin')) return false
   for (const key of Object.keys(patch)) {
-    if (patch[key] !== undefined && key !== 'role') return false
+    if (patch[key] !== undefined && key !== 'roles') return false
   }
 
   const { totalDocs } = await req.payload.count({
     collection: 'users',
-    where: { role: { equals: 'admin' } },
+    where: { roles: { contains: 'admin' } },
   })
   if (totalDocs > 0) return false
 

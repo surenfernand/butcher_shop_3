@@ -6,7 +6,7 @@ import { checkRole } from '@/access/utilities'
 
 /**
  * `roles` is normally admin-only. Allow the same first-admin bootstrap as
- * `adminOrSelfOrBootstrapAdminRole` when the top-level patch sets `role: 'admin'`.
+ * `adminOrSelfOrBootstrapAdminRole` when the patch sets `roles` to include `admin`.
  */
 export const rolesFieldBootstrapOrAdmin: FieldAccess<User> = async ({ req, data, id }) => {
   if (req.user) {
@@ -14,11 +14,11 @@ export const rolesFieldBootstrapOrAdmin: FieldAccess<User> = async ({ req, data,
   }
 
   if (id === undefined || id === null) return false
-  if (!data || data.role !== 'admin') return false
+  if (!data || !Array.isArray(data.roles) || !data.roles.includes('admin')) return false
 
   const { totalDocs } = await req.payload.count({
     collection: 'users',
-    where: { role: { equals: 'admin' } },
+    where: { roles: { contains: 'admin' } },
   })
   return totalDocs === 0
 }

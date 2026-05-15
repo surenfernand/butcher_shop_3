@@ -68,7 +68,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
-    // Sync Drizzle schema → Postgres in dev so new plugin fields/tables (e.g. users.role, accounts) exist.
+    // Sync Drizzle schema → Postgres in dev. For production, run migrations instead of relying on push.
     // For production, run migrations or a managed deploy step instead of relying on push.
     push: process.env.NODE_ENV !== 'production',
   }),

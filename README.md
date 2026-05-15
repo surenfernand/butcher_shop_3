@@ -65,18 +65,9 @@ See the [Collections](https://payloadcms.com/docs/configuration/collections) doc
 
   For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
 
-- #### Better Auth (Payload Auth plugin)
+- #### Storefront authentication
 
-  This project includes [`@payload-auth/better-auth-plugin`](https://github.com/payload-auth/payload-auth) with [`better-auth`](https://www.better-auth.com/). It extends the existing `users` collection (same slug as the ecommerce plugin), wires Payload admin login through Better Auth’s session strategy, and exposes HTTP handlers under **`/api/auth/*`** via `src/app/api/auth/[...all]/route.ts`.
-
-  **Required environment variables** (see `.env.example`):
-
-  - `BETTER_AUTH_SECRET` — use `openssl rand -base64 32` to generate a strong secret.
-  - `BETTER_AUTH_URL` — public site origin (e.g. `http://localhost:3000` locally).
-
-  **Local development:** copy `.env.example` to `.env`, set the variables above together with `DATABASE_URL`, `PAYLOAD_SECRET`, and `NEXT_PUBLIC_SERVER_URL`, then run `pnpm dev` or `npm run dev`. After schema changes from the plugin, run your usual Payload migration or `push` workflow so new Better Auth tables/columns exist in Postgres.
-
-  **Where login is configured:** plugin options live in `src/plugins/index.ts` (`payloadBetterAuth({ ... })`). Email/password is enabled there; Google OAuth is added automatically when `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are both set. The storefront `AuthProvider` (`src/providers/Auth/index.tsx`) still calls classic Payload REST routes under `/api/users/*`; the plugin disables Payload’s local password strategy in favor of Better Auth, so **storefront sign-in should be migrated** to the Better Auth client and `/api/auth` endpoints when you are ready.
+  The storefront `AuthProvider` (`src/providers/Auth/index.tsx`) uses Payload's REST auth: `POST /api/users/login`, `GET /api/users/me`, and `POST /api/users/logout`, with the HTTP-only session cookie Payload sets on login.
 
 - #### Pages
 

@@ -32,7 +32,7 @@ type AuthContext = {
 
 const Context = createContext({} as AuthContext)
 
-/** Same-origin in the browser so session cookies match Better Auth (`/api/auth/*`). */
+/** Same-origin in the browser so auth cookies match Payload (`/api/users/*`). */
 function authFetchBase(): string {
   if (typeof window !== 'undefined') return window.location.origin
   return process.env.NEXT_PUBLIC_SERVER_URL ?? ''
@@ -76,12 +76,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const base = authFetchBase()
     const jsonHeaders = { 'Content-Type': 'application/json' } as const
 
-    const res = await fetch(`${base}/api/auth/sign-in/email`, {
+    const res = await fetch(`${base}/api/users/login`, {
       body: JSON.stringify({
         email: args.email,
         password: args.password,
-        // Better Auth: false = session cookie without long-lived persistence
-        rememberMe: args.remember !== false,
       }),
       credentials: 'include',
       headers: jsonHeaders,
@@ -119,28 +117,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const jsonHeaders = { 'Content-Type': 'application/json' } as const
 
     try {
-      // Better Auth (see `src/app/api/auth/[...all]/route.ts`) — clears the session cookie.
-      const betterAuthRes = await fetch(`${base}/api/auth/sign-out`, {
-        body: JSON.stringify({}),
+      const res = await fetch(`${base}/api/users/logout`, {
         credentials: 'include',
         headers: jsonHeaders,
         method: 'POST',
       })
 
-      if (betterAuthRes.ok) {
-        setUser(null)
-        setStatus('loggedOut')
-        return
-      }
-
-      // Legacy Payload users REST (if still in use).
-      const payloadRes = await fetch(`${base}/api/users/logout`, {
-        credentials: 'include',
-        headers: jsonHeaders,
-        method: 'POST',
-      })
-
-      if (payloadRes.ok) {
+      if (res.ok) {
         setUser(null)
         setStatus('loggedOut')
         return
@@ -156,7 +139,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const fetchMe = async () => {
       const base = authFetchBase()
       try {
-        const res = await fetch(`${base}/api/auth/get-session`, {
+        const res = await fetch(`${base}/api/users/me`, {
           credentials: 'include',
           method: 'GET',
         })

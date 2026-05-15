@@ -8,12 +8,12 @@ import { publicAccess } from '@/access/publicAccess'
 import { rolesFieldBootstrapOrAdmin } from '@/access/rolesFieldBootstrapOrAdmin'
 import { checkRole } from '@/access/utilities'
 
-import { beforeChangeBetterAuthRole } from './hooks/beforeChangeBetterAuthRole'
+import { beforeChangeUserBootstrap } from './hooks/beforeChangeUserBootstrap'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   hooks: {
-    beforeChange: [beforeChangeBetterAuthRole],
+    beforeChange: [beforeChangeUserBootstrap],
   },
   access: {
     admin: ({ req: { user } }) => checkRole(['admin'], user),
@@ -32,6 +32,11 @@ export const Users: CollectionConfig = {
     tokenExpiration: 1209600,
   },
   fields: [
+    {
+      name: 'name',
+      type: 'text',
+      label: 'Name',
+    },
     {
       name: 'roles',
       type: 'select',

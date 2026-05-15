@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Git
+.git/
+.github/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+test.env
+
+# Testing
+coverage/
+tests/
+playwright-report/
+test-results/
+playwright/.cache/
+
+# OS/Misc
+.DS_Store
+*.pem
+README.md
+
+# Tooling configs (optional to exclude, but keeps image clean)
+.vscode/
