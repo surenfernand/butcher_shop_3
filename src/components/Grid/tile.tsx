@@ -2,6 +2,7 @@ import type { Media as MediaType } from '@/payload-types'
 
 import { Label } from '@/components/Grid/Label'
 import { Media } from '@/components/Media'
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import clsx from 'clsx'
 import React from 'react'
 
@@ -13,7 +14,7 @@ type Props = {
     position?: 'bottom' | 'center'
     title: string
   }
-  media: MediaType
+  media?: MediaType | null
 }
 
 export const GridTileImage: React.FC<Props> = ({
@@ -33,17 +34,16 @@ export const GridTileImage: React.FC<Props> = ({
         },
       )}
     >
-      {props.media ? (
-        <Media
-          className={clsx('relative h-full w-full object-cover', {
-            'transition duration-300 ease-in-out group-hover:scale-105': isInteractive,
-          })}
-          height={80}
-          imgClassName="h-full w-full object-cover"
-          resource={props.media}
-          width={80}
-        />
-      ) : null}
+      <Media
+        className={clsx('relative h-full w-full object-cover', {
+          'transition duration-300 ease-in-out group-hover:scale-105': isInteractive,
+        })}
+        height={80}
+        imgClassName="h-full w-full object-cover"
+        resource={props.media ?? undefined}
+        src={props.media ? undefined : FALLBACK_IMAGE_URL}
+        width={80}
+      />
       {label ? <Label amount={label.amount} position={label.position} title={label.title} /> : null}
     </div>
   )

@@ -17,6 +17,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Product } from '@/payload-types'
 import { getPurchaseUnitPriceInCents } from '@/utilities/purchasePricing'
+import { resolveImageSrc } from '@/constants/fallbackImage'
 import { CartTimerModal } from './CartTimerModal'
 import { DeleteItemButton } from './DeleteItemButton'
 import { EditItemQuantityButton } from './EditItemQuantityButton'
@@ -290,15 +291,13 @@ export function CartModal() {
                           className="block shrink-0"
                         >
                           <div className="relative h-[104px] w-[104px] overflow-hidden border border-border bg-muted">
-                            {image?.url && (
-                              <Image
-                                alt={image?.alt || product?.title || ''}
-                                className="h-full w-full object-cover"
-                                height={120}
-                                src={image.url}
-                                width={120}
-                              />
-                            )}
+                            <Image
+                              alt={image?.alt || product?.title || ''}
+                              className="h-full w-full object-cover"
+                              height={120}
+                              src={resolveImageSrc(image?.url)}
+                              width={120}
+                            />
                           </div>
                         </Link>
 

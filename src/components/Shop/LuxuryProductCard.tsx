@@ -2,6 +2,7 @@ import type { Product } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { Price } from '@/components/Price'
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import clsx from 'clsx'
 import Link from 'next/link'
 import React from 'react'
@@ -56,19 +57,14 @@ export const LuxuryProductCard: React.FC<Props> = ({ product }) => {
             </div>
           ) : null}
 
-          {image ? (
-            <Media
-              className="relative aspect-square w-full"
-              imgClassName={clsx(
-                'h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]',
-              )}
-              resource={image as never}
-            />
-          ) : (
-            <div className="flex aspect-square items-center justify-center px-4 text-center text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-400">
-              Product image
-            </div>
-          )}
+          <Media
+            className="relative aspect-square w-full"
+            imgClassName={clsx(
+              'h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]',
+            )}
+            resource={image ?? undefined}
+            src={image ? undefined : FALLBACK_IMAGE_URL}
+          />
         </div>
 
         <div className="flex flex-1 flex-col border-t border-neutral-100 p-5">

@@ -1,5 +1,6 @@
 import type { DefaultDocumentIDType } from 'payload'
 import type { Media } from '@/payload-types'
+import { resolveImageSrc } from '@/constants/fallbackImage'
 import Image from 'next/image'
 import React from 'react'
 
@@ -51,19 +52,13 @@ export const VisitSectionBlock: React.FC<Props> = ({
         </div>
 
         <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-muted md:col-span-8">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={media?.alt || locationLabel || 'Location image'}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover opacity-90 transition duration-700 hover:opacity-100"
-            />
-          ) : (
-            <div className="flex h-full min-h-[420px] items-center justify-center px-10 text-center text-sm uppercase tracking-[0.2em] text-muted-foreground">
-              Upload a map or location image from the admin panel
-            </div>
-          )}
+          <Image
+            src={resolveImageSrc(imageUrl)}
+            alt={media?.alt || locationLabel || 'Location image'}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover opacity-90 transition duration-700 hover:opacity-100"
+          />
 
           {locationLabel && (
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-3xl uppercase tracking-[0.4em] text-muted-foreground/80">

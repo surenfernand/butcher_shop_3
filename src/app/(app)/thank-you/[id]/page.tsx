@@ -1,6 +1,7 @@
 import type { Order } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import { getOrderLineProductImage } from '@/utilities/getOrderLineProductImage'
 import { getPurchaseUnitPriceInCents, PurchaseType } from '@/utilities/purchasePricing'
 import { batchResolveOrderLinesForPricing } from '@/utilities/resolveOrderLinePricingDocs'
@@ -234,9 +235,12 @@ export default async function ThankYouPage({ params, searchParams }: PageProps) 
                       className="flex items-center gap-5 rounded-lg border border-neutral-200 bg-neutral-50/80 p-4"
                     >
                       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md border border-neutral-200 bg-neutral-100">
-                        {image ? (
-                          <Media fill imgClassName="object-cover" resource={image} />
-                        ) : null}
+                        <Media
+                          fill
+                          imgClassName="object-cover"
+                          resource={image ?? undefined}
+                          src={image ? undefined : FALLBACK_IMAGE_URL}
+                        />
                       </div>
 
                       <div className="min-w-0 flex-1">

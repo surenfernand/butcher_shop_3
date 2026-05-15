@@ -2,6 +2,7 @@ import { Media } from '@/components/Media'
 import { Reveal } from '@/components/motion/Reveal'
 import { HighImpactHero } from '@/heros/HighImpact'
 import type { Footer, Header, Media as MediaType, Page, Product } from '@/payload-types'
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import { cn } from '@/utilities/cn'
 import { Award, Check, Clock, ShieldCheck, Star, Truck } from 'lucide-react'
 import Image from 'next/image'
@@ -88,13 +89,12 @@ function ProductCard({ product }: { product: Product }) {
     <article className="group overflow-hidden rounded-sm border border-neutral-200/90 bg-white text-neutral-900 shadow-[0_12px_36px_rgba(0,0,0,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(0,0,0,0.12)]">
       <Link href={`/products/${product.slug}`} className="block">
         <div className="relative aspect-[4/5] w-full bg-neutral-900">
-          {image ? (
-            <Media resource={image} className="h-full w-full" imgClassName="h-full w-full object-cover" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-neutral-800 to-neutral-950 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-              Add product image
-            </div>
-          )}
+          <Media
+            resource={image ?? undefined}
+            src={image ? undefined : FALLBACK_IMAGE_URL}
+            className="h-full w-full"
+            imgClassName="h-full w-full object-cover"
+          />
           <div
             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-80 transition group-hover:opacity-90"
             aria-hidden
@@ -343,13 +343,12 @@ export function LuxuryHomePage({
             </Reveal>
             <Reveal delay={0.1} y={32}>
               <aside className="relative min-h-[280px] overflow-hidden rounded-sm border border-neutral-900/10 bg-neutral-900 shadow-[0_24px_60px_rgba(0,0,0,0.2)]">
-              {heroMedia ? (
-                <Media resource={heroMedia} className="h-full min-h-[280px] w-full" imgClassName="h-full w-full object-cover opacity-90" />
-              ) : (
-                <div className="flex h-full min-h-[280px] items-center justify-center bg-gradient-to-br from-neutral-800 to-neutral-950 px-6 text-center text-xs uppercase tracking-[0.2em] text-neutral-500">
-                  Hero image
-                </div>
-              )}
+              <Media
+                resource={heroMedia ?? undefined}
+                src={heroMedia ? undefined : FALLBACK_IMAGE_URL}
+                className="h-full min-h-[280px] w-full"
+                imgClassName="h-full w-full object-cover opacity-90"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent" aria-hidden />
               <p className="absolute bottom-6 left-6 right-6 text-sm font-medium text-white">
                 Ask our butchers for custom trims and aging preferences.
@@ -364,13 +363,12 @@ export function LuxuryHomePage({
       <section className="border-b border-neutral-200/80 bg-white py-16 md:py-22">
         <div className="container grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal className="relative aspect-[5/4] overflow-hidden rounded-sm border border-neutral-200 bg-neutral-900 shadow-[0_28px_60px_rgba(0,0,0,0.12)]">
-            {heroMedia ? (
-              <Media resource={heroMedia} className="h-full w-full" imgClassName="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-xs uppercase tracking-[0.18em] text-neutral-500">
-                About image
-              </div>
-            )}
+            <Media
+              resource={heroMedia ?? undefined}
+              src={heroMedia ? undefined : FALLBACK_IMAGE_URL}
+              className="h-full w-full"
+              imgClassName="h-full w-full object-cover"
+            />
           </Reveal>
           <Reveal delay={0.08}>
           <div>

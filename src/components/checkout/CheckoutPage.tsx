@@ -3,6 +3,7 @@
 import { Media } from '@/components/Media'
 import { Message } from '@/components/Message'
 import { Price } from '@/components/Price'
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -778,10 +779,13 @@ export const CheckoutPage: React.FC = () => {
                 return (
                   <div className="grid grid-cols-[80px_1fr_auto] items-center gap-4 rounded-lg border border-neutral-200 bg-white text-neutral-900 p-3" key={index}>
                     <div className="relative h-20 w-20 overflow-hidden rounded-md border border-neutral-200 bg-neutral-100">
-                      {image && typeof image !== 'string' && (
-                        <Media className="" fill imgClassName="object-cover" resource={image} />
-                      )}
-
+                      <Media
+                        className=""
+                        fill
+                        imgClassName="object-cover"
+                        resource={image && typeof image !== 'string' ? image : undefined}
+                        src={image && typeof image !== 'string' ? undefined : FALLBACK_IMAGE_URL}
+                      />
                     </div>
                     <div>
                       <p className="font-sans text-base font-black uppercase text-neutral-900">{title}</p>

@@ -1,5 +1,6 @@
 import type { FeaturedCutsBlock as FeaturedCutsBlockProps } from '@/payload-types'
 import type { DefaultDocumentIDType } from 'payload'
+import { resolveImageSrc } from '@/constants/fallbackImage'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -62,19 +63,13 @@ export const FeaturedCutsBlock: React.FC<Props> = ({
                 className="group flex flex-col bg-[#1a1a1a] text-center text-white transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.75)] motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none motion-reduce:transition-none"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-black/40">
-                  {imageUrl ? (
-                    <Image
-                      src={imageUrl}
-                      alt={media?.alt || item.name || 'Product'}
-                      fill
-                      className="object-cover transition-[transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06] group-hover:brightness-[1.05] motion-reduce:group-hover:scale-100 motion-reduce:group-hover:brightness-100"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center text-sm text-white/35 transition-colors duration-300 group-hover:text-white/50">
-                      Image
-                    </div>
-                  )}
+                  <Image
+                    src={resolveImageSrc(imageUrl)}
+                    alt={media?.alt || item.name || 'Product'}
+                    fill
+                    className="object-cover transition-[transform,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06] group-hover:brightness-[1.05] motion-reduce:group-hover:scale-100 motion-reduce:group-hover:brightness-100"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
 
                   {item.tag && (
                     <span className="absolute bottom-3 left-3 border border-[#c4a457]/60 bg-black/60 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#c4a457] backdrop-blur-sm transition-colors duration-300 group-hover:border-[#c4a457] group-hover:bg-black/70">

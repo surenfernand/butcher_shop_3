@@ -1,5 +1,6 @@
 import type { DefaultDocumentIDType } from 'payload'
 import type { Media } from '@/payload-types'
+import { resolveImageSrc } from '@/constants/fallbackImage'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -49,19 +50,13 @@ export const AboutStoryBlock: React.FC<Props> = ({
         </div>
 
         <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-border bg-muted">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={media?.alt || title || 'About story image'}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          ) : (
-            <div className="flex h-full min-h-[420px] items-center justify-center px-10 text-center text-sm uppercase tracking-[0.2em] text-muted-foreground">
-              Upload a story image from the admin panel
-            </div>
-          )}
+          <Image
+            src={resolveImageSrc(imageUrl)}
+            alt={media?.alt || title || 'About story image'}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover"
+          />
         </div>
       </div>
     </section>

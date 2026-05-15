@@ -1,4 +1,5 @@
 import type { Media, Product, ThreeItemGridBlock as ThreeItemGridBlockProps } from '@/payload-types'
+import { resolveImageSrc } from '@/constants/fallbackImage'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { DefaultDocumentIDType } from 'payload'
@@ -30,19 +31,13 @@ const ProductCard: React.FC<CardProps> = ({ item }) => {
       className="group block overflow-hidden bg-black"
     >
       <div className="relative aspect-[4/4] w-full">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={media?.alt || item.title || 'Product'}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-white/50">
-            No image
-          </div>
-        )}
+        <Image
+          src={resolveImageSrc(imageUrl)}
+          alt={media?.alt || item.title || 'Product'}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition duration-500 group-hover:scale-105"
+        />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       </div>

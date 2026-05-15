@@ -8,6 +8,7 @@ import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
+import { FALLBACK_IMAGE_URL } from '@/constants/fallbackImage'
 import { cssVariables } from '@/cssVariables'
 
 const { breakpoints } = cssVariables
@@ -32,12 +33,13 @@ export const Image: React.FC<MediaProps> = (props) => {
   let width: number | undefined | null
   let height: number | undefined | null
   let alt = altFromProps
-  let src: StaticImageData | string = srcFromProps || ''
+  let src: StaticImageData | string = (srcFromProps as StaticImageData | string | undefined) ?? ''
+
+  let resourceHadMissingUrl = false
 
   if (!src && resource && typeof resource === 'object') {
     const {
       alt: altFromResource,
-      filename: fullFilename,
       height: fullHeight,
       url,
       width: fullWidth,
@@ -47,10 +49,17 @@ export const Image: React.FC<MediaProps> = (props) => {
     height = heightFromProps ?? fullHeight
     alt = altFromResource
 
-    const filename = fullFilename
-
     // src = `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`
-    src = url?.startsWith('http') ? url : url || ''
+    const resolved = url?.startsWith('http') ? url : url || ''
+    if (!resolved || (typeof resolved === 'string' && !resolved.trim())) {
+      resourceHadMissingUrl = true
+    }
+    src = resolved
+  }
+
+  if (typeof src === 'string' && !src.trim() && resourceHadMissingUrl) {
+    src = FALLBACK_IMAGE_URL
+    if (!alt) alt = 'Image'
   }
 
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
