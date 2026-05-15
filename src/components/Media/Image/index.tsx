@@ -10,6 +10,7 @@ import type { Props as MediaProps } from '../types'
 
 import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { cssVariables } from '@/cssVariables'
+import { normalizeCmsMediaUrl, shouldBypassMediaUrlForPlaceholder } from '@/utilities/mediaDisplay'
 
 const { breakpoints } = cssVariables
 
@@ -50,12 +51,23 @@ export const Image: React.FC<MediaProps> = (props) => {
     height = heightFromProps ?? fullHeight
     alt = altFromResource
 
-    // src = `${process.env.NEXT_PUBLIC_SERVER_URL}${url}`
-    const resolved = url?.startsWith('http') ? url : url || ''
-    if (!resolved || (typeof resolved === 'string' && !resolved.trim())) {
+    let resolved = url?.startsWith('http') ? url : url || ''
+    if (resolved) resolved = normalizeCmsMediaUrl(resolved)
+    if (!resolved || !resolved.trim()) {
       resourceHadMissingUrl = true
+    } else if (shouldBypassMediaUrlForPlaceholder(resolved)) {
+      resourceHadMissingUrl = true
+      resolved = ''
     }
     src = resolved
+  }
+
+  if (typeof src === 'string' && src.trim()) {
+    src = normalizeCmsMediaUrl(src)
+    if (shouldBypassMediaUrlForPlaceholder(src)) {
+      src = fallbackUrlFor(fallbackContext ?? 'product')
+      if (!alt) alt = 'Image'
+    }
   }
 
   if (typeof src === 'string' && !src.trim() && resourceHadMissingUrl) {

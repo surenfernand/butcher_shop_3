@@ -36,6 +36,11 @@ import { plugins } from './plugins'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const s3Bucket = process.env.S3_BUCKET?.trim()
+const s3Region = process.env.S3_REGION?.trim()
+const s3Key = process.env.S3_ACCESS_KEY_ID?.trim()
+const s3Secret = process.env.S3_SECRET_ACCESS_KEY?.trim()
+const useS3Storage = Boolean(s3Bucket && s3Region && s3Key && s3Secret)
 
 export default buildConfig({
   admin: {
@@ -111,19 +116,23 @@ export default buildConfig({
   endpoints: [],
   globals: [Header, Footer, ShopPage, ShopLuxuryPage, CartSettings],
   plugins: [
-    s3Storage({
-      collections: {
-        media: true,
-      },
-      bucket: process.env.S3_BUCKET!,
-      config: {
-        region: process.env.S3_REGION!,
-        credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
-        },
-      },
-    }),
+    ...(useS3Storage
+      ? [
+          s3Storage({
+            collections: {
+              media: true,
+            },
+            bucket: s3Bucket!,
+            config: {
+              region: s3Region!,
+              credentials: {
+                accessKeyId: s3Key!,
+                secretAccessKey: s3Secret!,
+              },
+            },
+          }),
+        ]
+      : []),
     ...plugins,
   ],
   secret: process.env.PAYLOAD_SECRET || '',

@@ -1,3 +1,5 @@
+import { normalizeCmsMediaUrl, shouldBypassMediaUrlForPlaceholder } from '@/utilities/mediaDisplay'
+
 /**
  * Curated Unsplash placeholders by UI context (host is in `next.config` `images.remotePatterns`).
  */
@@ -37,14 +39,20 @@ export function fallbackUrlFor(context: ImageFallbackContext = 'product'): strin
 /** Default CMS/media fallback — same as `product` */
 export const FALLBACK_IMAGE_URL = FALLBACKS.product
 
-/** Use for `next/image` when CMS `url` is null/empty. Preserves non-empty relative URLs. */
+/** Use for `next/image` when CMS `url` is null/empty. Normalizes `/api/...` and optional S3 bypass. */
 export function resolveImageSrc(
   url: string | null | undefined,
   context: ImageFallbackContext = 'product',
 ): string {
   if (url != null && typeof url === 'string') {
     const t = url.trim()
-    if (t) return url
+    if (t) {
+      const normalized = normalizeCmsMediaUrl(t)
+      if (shouldBypassMediaUrlForPlaceholder(normalized)) {
+        return fallbackUrlFor(context)
+      }
+      return normalized
+    }
   }
   return fallbackUrlFor(context)
 }
