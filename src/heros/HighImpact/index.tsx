@@ -2,14 +2,13 @@
 
 import type { Header, Page } from '@/payload-types'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
+import { fallbackUrlFor } from '@/constants/fallbackImage'
 import { cn } from '@/utilities/cn'
 import { normalizeCmsMediaUrl, shouldUseUnoptimizedImage } from '@/utilities/mediaDisplay'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, useReducedMotion } from 'motion/react'
 import React, { useEffect, useMemo } from 'react'
-
-const HERO_FALLBACK_IMAGE = '/images/hero-butcher-craft.png'
 
 type HeroLink = NonNullable<NonNullable<Page['hero']['links']>[number]['link']>
 
@@ -53,7 +52,7 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
 
   const isVideo = media && typeof media === 'object' && media.mimeType?.startsWith('video')
 
-  const imageSrc = mediaUrl || HERO_FALLBACK_IMAGE
+  const imageSrc = mediaUrl || fallbackUrlFor('hero')
   const imageAlt =
     (media && typeof media === 'object' && media.alt) || 'Butcher preparing exceptional cuts'
 
