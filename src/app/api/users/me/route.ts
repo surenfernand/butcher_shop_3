@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   const { user: sessionUser } = await getRequestUser(await headers())
   if (!sessionUser?.id) {
-    return NextResponse.json({ user: null }, { status: 401 })
+    return NextResponse.json({ user: null }, { status: 200 })
   }
   const payload = await getPayloadWithBetterAuth()
   const user = await payload.findByID({
