@@ -40,6 +40,11 @@ const s3Bucket = process.env.S3_BUCKET?.trim()
 const s3Region = process.env.S3_REGION?.trim()
 const s3Key = process.env.S3_ACCESS_KEY_ID?.trim()
 const s3Secret = process.env.S3_SECRET_ACCESS_KEY?.trim()
+const s3Endpoint = process.env.S3_ENDPOINT?.trim()
+const s3ForcePathStyle =
+  process.env.S3_FORCE_PATH_STYLE === 'false'
+    ? false
+    : process.env.S3_FORCE_PATH_STYLE === 'true' || Boolean(s3Endpoint)
 const useS3Storage = Boolean(s3Bucket && s3Region && s3Key && s3Secret)
 
 export default buildConfig({
@@ -129,6 +134,12 @@ export default buildConfig({
                 accessKeyId: s3Key!,
                 secretAccessKey: s3Secret!,
               },
+              ...(s3Endpoint
+                ? {
+                    endpoint: s3Endpoint,
+                    forcePathStyle: s3ForcePathStyle,
+                  }
+                : {}),
             },
           }),
         ]

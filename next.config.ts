@@ -11,6 +11,16 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 
 const s3Bucket = process.env.S3_BUCKET
 const s3Region = process.env.S3_REGION
+const s3Endpoint = process.env.S3_ENDPOINT
+
+let s3EndpointHostname: string | undefined
+if (s3Endpoint) {
+  try {
+    s3EndpointHostname = new URL(s3Endpoint).hostname
+  } catch {
+    /* ignore invalid S3_ENDPOINT */
+  }
+}
 
 const nextConfig: NextConfig = {
   // Temporarily required on Windows until Next.js fixes Turbopack Sass resolution.
@@ -41,18 +51,25 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
-      ...(s3Bucket && s3Region
+      ...(s3EndpointHostname
         ? [
             {
               protocol: 'https' as const,
-              hostname: `${s3Bucket}.s3.${s3Region}.amazonaws.com`,
-            },
-            {
-              protocol: 'https' as const,
-              hostname: `s3.${s3Region}.amazonaws.com`,
+              hostname: s3EndpointHostname,
             },
           ]
-        : []),
+        : s3Bucket && s3Region
+          ? [
+              {
+                protocol: 'https' as const,
+                hostname: `${s3Bucket}.s3.${s3Region}.amazonaws.com`,
+              },
+              {
+                protocol: 'https' as const,
+                hostname: `s3.${s3Region}.amazonaws.com`,
+              },
+            ]
+          : []),
     ],
   },
   reactStrictMode: true,
