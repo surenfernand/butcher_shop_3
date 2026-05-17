@@ -50,7 +50,11 @@ export function useMediaPlaceholdersUntilS3(): boolean {
  * (so the UI stays usable before the bucket is connected). Local `/api/media/...` URLs are kept.
  */
 export function shouldBypassMediaUrlForPlaceholder(url: string): boolean {
-  if (!/amazonaws\.com|cloudfront\.net|digitaloceanspaces\.com|\bs3\./i.test(url)) {
+  if (
+    !/amazonaws\.com|cloudfront\.net|digitaloceanspaces\.com|empowerdigitaldata\.com|\bs3\./i.test(
+      url,
+    )
+  ) {
     return false
   }
   if (useMediaPlaceholdersUntilS3()) return true
@@ -58,7 +62,11 @@ export function shouldBypassMediaUrlForPlaceholder(url: string): boolean {
   return true
 }
 
-/** Next `/image` optimizer can fail on some hosts for Unsplash; skip optimizer for these URLs. */
+/** Skip Next `/image` optimizer for URLs that often fail or don't need resizing. */
 export function shouldUseUnoptimizedImage(src: string): boolean {
-  return /^https:\/\/(images\.)?unsplash\.com\//i.test(src.trim())
+  const s = src.trim()
+  if (/^https:\/\/(images\.)?unsplash\.com\//i.test(s)) return true
+  // Payload proxies S3 through `/api/media/file/...`; optimizer fetches that route server-side.
+  if (s.startsWith('/api/media/file/') || /\/api\/media\/file\//i.test(s)) return true
+  return false
 }
