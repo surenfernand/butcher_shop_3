@@ -49,6 +49,26 @@ export function fallbackUrlFor(context: ImageFallbackContext = 'product'): strin
   return FALLBACKS[context]
 }
 
+/** Intrinsic size for `next/image` when only a fallback URL is passed (no CMS `width`/`height`). */
+export function fallbackDimensionsFor(
+  context: ImageFallbackContext = 'product',
+): { width: number; height: number } {
+  const width = Number(new URL(FALLBACKS[context]).searchParams.get('w')) || 1200
+  return { width, height: Math.round((width * 2) / 3) }
+}
+
+/** Read `w` from Unsplash-style query strings (`?w=600`). */
+export function parseWidthFromImageUrl(url: string): number | undefined {
+  try {
+    const w = new URL(url).searchParams.get('w')
+    if (!w) return undefined
+    const width = parseInt(w, 10)
+    return width > 0 ? width : undefined
+  } catch {
+    return undefined
+  }
+}
+
 /** Default CMS/media fallback — same as `product` */
 export const FALLBACK_IMAGE_URL = FALLBACKS.product
 

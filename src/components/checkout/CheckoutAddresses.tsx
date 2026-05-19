@@ -107,9 +107,7 @@ const AddressesModal: React.FC<Props> = ({ setAddress }) => {
             ))}
           </ul>
 
-          <CreateAddressModal
-            triggerClassName="w-full border-transparent bg-[#e53935] font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#c62828] hover:text-white"
-          />
+          <CreateAddressModal triggerClassName="w-full" />
         </div>
       </DialogContent>
     </Dialog>

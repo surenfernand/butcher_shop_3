@@ -19,6 +19,14 @@ type FormData = {
   passwordConfirm: string
 }
 
+const labelClass = 'mb-2 block font-sans text-xs font-semibold uppercase tracking-[0.18em] text-neutral-600'
+
+const inputClass =
+  'h-11 rounded-md border border-neutral-300 bg-white text-neutral-900 placeholder:text-neutral-500 focus-visible:ring-2 focus-visible:ring-[#e53935]/35'
+
+const helperLinkClass =
+  'h-auto px-0 font-normal text-[#e53935] underline underline-offset-4 hover:text-[#c62828]'
+
 export const AccountForm: React.FC = () => {
   const { setUser, user } = useAuth()
   const [changePassword, setChangePassword] = useState(false)
@@ -84,11 +92,11 @@ export const AccountForm: React.FC = () => {
     <form className="max-w-xl" onSubmit={handleSubmit(onSubmit)}>
       {!changePassword ? (
         <Fragment>
-          <div className="mb-8 text-sm text-card-foreground">
+          <div className="mb-8 text-sm text-neutral-600">
             <p>
               {'Change your account details below, or '}
               <Button
-                className="px-0 text-inherit underline hover:cursor-pointer"
+                className={helperLinkClass}
                 onClick={() => setChangePassword(!changePassword)}
                 type="button"
                 variant="link"
@@ -101,10 +109,11 @@ export const AccountForm: React.FC = () => {
 
           <div className="flex flex-col gap-8 mb-8">
             <FormItem>
-              <Label htmlFor="email" className="mb-2">
+              <Label htmlFor="email" className={labelClass}>
                 Email Address
               </Label>
               <Input
+                className={inputClass}
                 id="email"
                 {...register('email', { required: 'Please provide an email.' })}
                 type="email"
@@ -113,10 +122,11 @@ export const AccountForm: React.FC = () => {
             </FormItem>
 
             <FormItem>
-              <Label htmlFor="name" className="mb-2">
+              <Label htmlFor="name" className={labelClass}>
                 Name
               </Label>
               <Input
+                className={inputClass}
                 id="name"
                 {...register('name', { required: 'Please provide a name.' })}
                 type="text"
@@ -127,11 +137,11 @@ export const AccountForm: React.FC = () => {
         </Fragment>
       ) : (
         <Fragment>
-          <div className="mb-8 text-sm text-card-foreground">
+          <div className="mb-8 text-sm text-neutral-600">
             <p>
               {'Change your password below, or '}
               <Button
-                className="px-0 text-inherit underline hover:cursor-pointer"
+                className={helperLinkClass}
                 onClick={() => setChangePassword(!changePassword)}
                 type="button"
                 variant="link"
@@ -144,10 +154,11 @@ export const AccountForm: React.FC = () => {
 
           <div className="flex flex-col gap-8 mb-8">
             <FormItem>
-              <Label htmlFor="password" className="mb-2">
+              <Label htmlFor="password" className={labelClass}>
                 New password
               </Label>
               <Input
+                className={inputClass}
                 id="password"
                 {...register('password', { required: 'Please provide a new password.' })}
                 type="password"
@@ -156,10 +167,11 @@ export const AccountForm: React.FC = () => {
             </FormItem>
 
             <FormItem>
-              <Label htmlFor="passwordConfirm" className="mb-2">
+              <Label htmlFor="passwordConfirm" className={labelClass}>
                 Confirm password
               </Label>
               <Input
+                className={inputClass}
                 id="passwordConfirm"
                 {...register('passwordConfirm', {
                   required: 'Please confirm your new password.',
@@ -172,7 +184,12 @@ export const AccountForm: React.FC = () => {
           </div>
         </Fragment>
       )}
-      <Button disabled={isLoading || isSubmitting || !isDirty} type="submit" variant="default">
+      <Button
+        className="bg-[#e53935] font-sans font-semibold uppercase tracking-[0.12em] text-white hover:bg-[#c62828] disabled:bg-neutral-200 disabled:text-neutral-500"
+        disabled={isLoading || isSubmitting || !isDirty}
+        type="submit"
+        variant="default"
+      >
         {isLoading || isSubmitting
           ? 'Processing'
           : changePassword

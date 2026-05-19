@@ -8,7 +8,11 @@ import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { fallbackUrlFor } from '@/constants/fallbackImage'
+import {
+  fallbackDimensionsFor,
+  fallbackUrlFor,
+  parseWidthFromImageUrl,
+} from '@/constants/fallbackImage'
 import { cssVariables } from '@/cssVariables'
 import {
   normalizeCmsMediaUrl,
@@ -36,10 +40,15 @@ export const Image: React.FC<MediaProps> = (props) => {
 
   const [isLoading, setIsLoading] = React.useState(true)
 
-  let width: number | undefined | null
-  let height: number | undefined | null
+  let width: number | undefined | null = widthFromProps
+  let height: number | undefined | null = heightFromProps
   let alt = altFromProps
   let src: StaticImageData | string = (srcFromProps as StaticImageData | string | undefined) ?? ''
+
+  if (srcFromProps && typeof srcFromProps === 'object' && 'width' in srcFromProps) {
+    width = width ?? srcFromProps.width
+    height = height ?? srcFromProps.height
+  }
 
   let resourceHadMissingUrl = false
 
@@ -81,6 +90,19 @@ export const Image: React.FC<MediaProps> = (props) => {
 
   const unoptimized = typeof src === 'string' && shouldUseUnoptimizedImage(src)
 
+  if (!fill && typeof src === 'string' && src.trim()) {
+    const parsedWidth = parseWidthFromImageUrl(src)
+    if (parsedWidth) {
+      width = width ?? parsedWidth
+      height = height ?? Math.round((parsedWidth * 2) / 3)
+    }
+    if (!width || !height) {
+      const dims = fallbackDimensionsFor(fallbackContext ?? 'product')
+      width = width ?? dims.width
+      height = height ?? dims.height
+    }
+  }
+
   // NOTE: this is used by the browser to determine which image to download at different screen sizes
   const sizes = sizeFromProps
     ? sizeFromProps
@@ -93,7 +115,7 @@ export const Image: React.FC<MediaProps> = (props) => {
       alt={alt || ''}
       className={cn(imgClassName)}
       fill={fill}
-      height={!fill ? height || heightFromProps : undefined}
+      height={!fill ? (height ?? undefined) : undefined}
       onClick={onClick}
       onLoad={() => {
         setIsLoading(false)
@@ -106,7 +128,7 @@ export const Image: React.FC<MediaProps> = (props) => {
       sizes={sizes}
       src={src}
       unoptimized={unoptimized}
-      width={!fill ? width || widthFromProps : undefined}
+      width={!fill ? (width ?? undefined) : undefined}
     />
   )
 }

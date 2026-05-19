@@ -154,32 +154,24 @@ export function HeaderClient({ header, contact }: Props) {
           )}
         >
           <div className={cn('flex min-w-0 items-center', LOGO_COLUMN)}>
-            <Link href="/" className="inline-flex max-w-[min(100%,240px)] items-center">
-              <span
-                className={cn(
-                  'relative block w-full',
+            <Link href="/" className="block w-full max-w-[min(100%,240px)]">
+              <Media
+                fallbackContext="brandLogo"
+                priority
+                size="min(240px, 100vw)"
+                resource={
+                  header.logo && typeof header.logo === 'object' ? header.logo : undefined
+                }
+                src={
+                  header.logo && typeof header.logo === 'object'
+                    ? undefined
+                    : fallbackUrlFor('brandLogo')
+                }
+                imgClassName={cn(
+                  'w-auto max-w-full object-contain object-left transition-opacity duration-300 ease-out motion-reduce:transition-none',
                   compact ? 'h-9 md:h-10' : 'h-11 md:h-[3.35rem]',
                 )}
-              >
-                <Media
-                  className="relative h-full w-full"
-                  fallbackContext="brandLogo"
-                  fill
-                  priority
-                  size="min(240px, 100vw)"
-                  resource={
-                    header.logo && typeof header.logo === 'object' ? header.logo : undefined
-                  }
-                  src={
-                    header.logo && typeof header.logo === 'object'
-                      ? undefined
-                      : fallbackUrlFor('brandLogo')
-                  }
-                  imgClassName={cn(
-                    'object-contain object-left transition-opacity duration-300 ease-out motion-reduce:transition-none',
-                  )}
-                />
-              </span>
+              />
             </Link>
           </div>
 

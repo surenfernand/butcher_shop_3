@@ -4,10 +4,11 @@ import type { Access, FieldAccess, PayloadRequest } from 'payload'
 import { isAdmin } from '@/access/isAdmin'
 import { isDocumentOwner } from '@/access/isDocumentOwner'
 import { checkRole } from '@/access/utilities'
-import { getRequestUser } from '@/utilities/getRequestUser'
+import { getRequestUser, isPayloadAuthInProgress } from '@/utilities/getRequestUser'
 
 async function attachStorefrontUser(req: PayloadRequest): Promise<void> {
   if (req.user) return
+  if (isPayloadAuthInProgress()) return
   const h = req.headers
   if (!h || typeof (h as Headers).get !== 'function') return
   const { user } = await getRequestUser(h as Headers)

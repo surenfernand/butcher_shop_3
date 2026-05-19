@@ -53,14 +53,17 @@ export const CreateAddressModal: React.FC<Props> = ({
     }
   }
 
+  const isEditTrigger = buttonText === 'Edit'
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild disabled={disabled}>
         <Button
-          variant="outline"
+          variant={isEditTrigger ? 'outline' : 'default'}
           className={cn(
-            'border-neutral-200 font-semibold text-[#e53935] hover:bg-neutral-50 hover:text-neutral-900',
-            buttonText === 'Edit' && 'h-9 px-3 text-sm',
+            isEditTrigger
+              ? 'h-9 border-neutral-200 bg-white px-3 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900'
+              : 'border-transparent bg-[#e53935] font-sans font-semibold uppercase tracking-[0.12em] text-white shadow-xs hover:bg-[#c62828] hover:text-white',
             triggerClassName,
           )}
         >
