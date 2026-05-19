@@ -38,7 +38,7 @@ export const Image: React.FC<MediaProps> = (props) => {
     width: widthFromProps,
   } = props
 
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [loadFailed, setLoadFailed] = React.useState(false)
 
   let width: number | undefined | null = widthFromProps
   let height: number | undefined | null = heightFromProps
@@ -90,6 +90,17 @@ export const Image: React.FC<MediaProps> = (props) => {
 
   const unoptimized = typeof src === 'string' && shouldUseUnoptimizedImage(src)
 
+  if (loadFailed && typeof src === 'string' && src.trim()) {
+    const fallback = fallbackUrlFor(fallbackContext ?? 'product')
+    if (src !== fallback) {
+      src = fallback
+      if (!alt) alt = 'Image'
+      const dims = fallbackDimensionsFor(fallbackContext ?? 'product')
+      width = width ?? dims.width
+      height = height ?? dims.height
+    }
+  }
+
   if (!fill && typeof src === 'string' && src.trim()) {
     const parsedWidth = parseWidthFromImageUrl(src)
     if (parsedWidth) {
@@ -112,13 +123,16 @@ export const Image: React.FC<MediaProps> = (props) => {
 
   return (
     <NextImage
+      key={typeof src === 'string' ? src : 'static'}
       alt={alt || ''}
       className={cn(imgClassName)}
       fill={fill}
       height={!fill ? (height ?? undefined) : undefined}
       onClick={onClick}
+      onError={() => {
+        if (!loadFailed) setLoadFailed(true)
+      }}
       onLoad={() => {
-        setIsLoading(false)
         if (typeof onLoadFromProps === 'function') {
           onLoadFromProps()
         }

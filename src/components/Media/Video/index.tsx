@@ -1,15 +1,27 @@
 'use client'
 
 import { cn } from '@/utilities/cn'
+import { normalizeCmsMediaUrl } from '@/utilities/mediaDisplay'
 import React, { useEffect, useRef } from 'react'
 
 import type { Props as MediaProps } from '../types'
+
+function resolveVideoSrc(resource: { filename?: string | null; url?: string | null }): string | null {
+  const raw = resource.url?.trim()
+  if (raw) {
+    return normalizeCmsMediaUrl(raw)
+  }
+  const filename = resource.filename?.trim()
+  if (filename) {
+    return normalizeCmsMediaUrl(`/api/media/file/${filename}`)
+  }
+  return null
+}
 
 export const Video: React.FC<MediaProps> = (props) => {
   const { onClick, resource, videoClassName } = props
 
   const videoRef = useRef<HTMLVideoElement>(null)
-  // const [showFallback] = useState<boolean>()
 
   useEffect(() => {
     const { current: video } = videoRef
@@ -22,11 +34,13 @@ export const Video: React.FC<MediaProps> = (props) => {
   }, [])
 
   if (resource && typeof resource === 'object') {
-    const { filename, url } = resource
-    const src =
-      url && (url.startsWith('http://') || url.startsWith('https://'))
-        ? url
-        : `${process.env.NEXT_PUBLIC_SERVER_URL}/media/${filename}`
+    const src = resolveVideoSrc(resource)
+    if (!src) return null
+
+    const mimeType =
+      'mimeType' in resource && typeof resource.mimeType === 'string'
+        ? resource.mimeType
+        : 'video/mp4'
 
     return (
       <video
@@ -39,7 +53,7 @@ export const Video: React.FC<MediaProps> = (props) => {
         playsInline
         ref={videoRef}
       >
-        <source src={src} />
+        <source src={src} type={mimeType} />
       </video>
     )
   }
